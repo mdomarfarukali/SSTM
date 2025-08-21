@@ -9,12 +9,12 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 // Import routes
 const authRoutes = require('./routes/auth');
-const productRoutes = require('./routes/product');
-const userRoutes = require('./routes/user');
-const orderRoutes = require('./routes/order');
-const paymentRoutes = require('./routes/payment');
-const uploadRoutes = require('./routes/upload');
-const dashboardRoutes = require('./routes/dashboard');
+// const productRoutes = require('./routes/product');
+// const userRoutes = require('./routes/user');
+// const orderRoutes = require('./routes/order');
+// const paymentRoutes = require('./routes/payment');
+// const uploadRoutes = require('./routes/upload');
+// const dashboardRoutes = require('./routes/dashboard');
 
 const app = express();
 
@@ -45,13 +45,13 @@ app.get('/', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/payment', paymentRoutes);
-app.use('/api/upload', uploadRoutes);
-app.use('/api/dashboard', dashboardRoutes);
- 
+// app.use('/api/products', productRoutes);
+// app.use('/api/users', userRoutes);
+// app.use('/api/orders', orderRoutes);
+// app.use('/api/payment', paymentRoutes);
+// app.use('/api/upload', uploadRoutes);
+// app.use('/api/dashboard', dashboardRoutes);
+
 // Database connection with improved configuration
 const connectDB = async () => {
   try {
@@ -67,6 +67,7 @@ const connectDB = async () => {
       retryReads: true
     };
 
+    // await mongoose.connect('mongodb://localhost:27017/ecommerce', mongoOptions);
     await mongoose.connect('mongodb://localhost:27017/ecommerce', mongoOptions);
     console.log('MongoDB Connected Successfully');
   } catch (error) {
