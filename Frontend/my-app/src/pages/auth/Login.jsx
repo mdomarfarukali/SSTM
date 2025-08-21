@@ -2,7 +2,7 @@ import React from "react";
 
 export default function LoginPage() {
   return (
-    <div className="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div className="bg-gray-100 flex items-center justify-center min-h-screen min-w-screen">
       {/* Login Card */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
