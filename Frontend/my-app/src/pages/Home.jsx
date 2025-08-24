@@ -18,7 +18,7 @@ function Home() {
             {/* Sign In Button */}
             <li>
               <Link
-                to="/signup"
+                to="/login"
                 className="flex items-center gap-2 bg-pink-400 text-white px-4 py-2 rounded-full hover:bg-pink-700 transition"
               >
                 <LogIn size={18} />
