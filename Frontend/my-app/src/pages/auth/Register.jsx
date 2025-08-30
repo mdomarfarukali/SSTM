@@ -32,14 +32,14 @@ const SignUpForm = () => {
         style={{ backgroundImage: "url('/jewell.png')" }}
       >
         {/* <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-100 via-white to-blue-100"> */}
-          <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md">
-            {/* Title */}
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-center text-gray-900">
+         <div class="backdrop-blur-md bg-white/30 p-10 rounded-2xl">
+  
+            
+            {/* Title */} 
+            <h2 className="text-2xl sm:text-3xl pb-10 font-extrabold text-center text-gray-900">
               Create Your Account
             </h2>
-            <p className="text-red-500 text-center text-xs sm:text-sm mt-2 mb-6">
-              All fields are required
-            </p>
+           
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -52,7 +52,7 @@ const SignUpForm = () => {
                   Full Name
                 </label>
                 <input
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 text-sm focus:ring-2 focus:ring-pink-400 focus:outline-none transition"
+                  className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2  focus:outline-none transition"
                   id="name"
                   type="text"
                   name="name"
@@ -72,7 +72,7 @@ const SignUpForm = () => {
                   Email Address
                 </label>
                 <input
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 text-sm focus:ring-2 focus:ring-pink-400 focus:outline-none transition"
+                  className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2  focus:outline-none transition"
                   id="email"
                   type="email"
                   name="email"
@@ -92,7 +92,7 @@ const SignUpForm = () => {
                   Password
                 </label>
                 <input
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 text-sm focus:ring-2 focus:ring-pink-400 focus:outline-none transition"
+                  className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2  focus:outline-none transition"
                   id="password"
                   type="password"
                   name="password"
@@ -112,7 +112,7 @@ const SignUpForm = () => {
                   Confirm Password
                 </label>
                 <input
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 text-sm focus:ring-2 focus:ring-pink-400 focus:outline-none transition"
+                  className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2  focus:outline-none transition"
                   id="confirmPassword"
                   type="password"
                   name="confirmPassword"
@@ -125,7 +125,7 @@ const SignUpForm = () => {
 
               {/* Submit Button */}
               <button
-                className="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-400 transition duration-200"
+                className="w-full py-3  text-white text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2  transition duration-200"
                 type="submit"
               >
                 Sign Up
