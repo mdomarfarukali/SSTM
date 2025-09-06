@@ -61,7 +61,72 @@ const SignUpForm = () => {
                   />
                 </div>
 
-                {/* Phone Number */}
+                {/* Email Address */}
+                <div>
+                  <label
+                    className="block text-gray-700 text-sm font-medium mb-1"
+                    htmlFor="email"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2 focus:outline-none transition"
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                  <p className="text-xs pb-4 text-gray-500 mt-1">
+                    
+                  </p>
+                </div>
+
+                {/* Password */}
+                <div>
+                  <label
+                    className="block text-gray-700 text-sm font-medium mb-1"
+                    htmlFor="password"
+                  >
+                    Password
+                  </label>
+                  <input
+                    className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2 focus:outline-none transition"
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-5">
+                {/* Date of Birth (moved up) */}
+                <div>
+                  <label
+                    className="block text-gray-700 text-sm font-medium mb-1"
+                    htmlFor="dob"
+                  >
+                    Date of Birth
+                  </label>
+                  <input
+                    className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2 focus:outline-none transition"
+                    id="dob"
+                    type="date"
+                    name="dob"
+                    value={formData.dob}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                {/* Phone Number (moved down) */}
                 <div>
                   <label
                     className="block text-gray-700 text-sm font-medium mb-1"
@@ -83,68 +148,6 @@ const SignUpForm = () => {
                   <p className="text-xs text-gray-500 mt-1">
                     Enter a 10-digit mobile number.
                   </p>
-                </div>
-
-                {/* Date of Birth */}
-                <div>
-                  <label
-                    className="block text-gray-700 text-sm font-medium mb-1"
-                    htmlFor="dob"
-                  >
-                    Date of Birth
-                  </label>
-                  <input
-                    className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2 focus:outline-none transition"
-                    id="dob"
-                    type="date"
-                    name="dob"
-                    value={formData.dob}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className="space-y-5">
-                {/* Email */}
-                <div>
-                  <label
-                    className="block text-gray-700 text-sm font-medium mb-1"
-                    htmlFor="email"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2 focus:outline-none transition"
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                {/* Password */}
-                <div>
-                  <label
-                    className="block text-gray-700 text-sm font-medium mb-1"
-                    htmlFor="password"
-                  >
-                    Password
-                  </label>
-                  <input
-                    className="w-full px-4 py-3 rounded-lg border border-b-black text-gray-900 text-sm focus:ring-2 focus:outline-none transition"
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                  />
                 </div>
 
                 {/* Confirm Password */}
