@@ -79,8 +79,7 @@ const SignUpForm = () => {
                     onChange={handleChange}
                     required
                   />
-                  <p className="text-xs pb-4 text-gray-500 mt-1">
-                    
+                  <p className="text-xs pb-4 text-gray-500 mt-1">  
                   </p>
                 </div>
 
