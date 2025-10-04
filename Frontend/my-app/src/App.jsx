@@ -11,6 +11,7 @@ import './App.css'
 import Home from './pages/Home';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Register';
+import AdminRoutes from "./pages/admin/AdminRoutes";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        {/* Admin Routes */}
+        <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
     </Router>
   );

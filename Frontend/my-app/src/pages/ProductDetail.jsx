@@ -1,14 +1,73 @@
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function ProductDetails() {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const res = await fetch(`/api/products/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch product");
+
+        const data = await res.json();
+        setProduct(data);
+      } catch (err) {
+        console.error(err);
+        setError("Product not found or server error.");
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-4 border-pink-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center">
+        <p className="text-red-500 text-xl font-semibold mb-4">{error}</p>
+        <Link
+          to="/"
+          className="px-6 py-3 bg-pink-600 text-white rounded-full hover:bg-pink-700 transition"
+        >
+          Go Back Home
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-pink-50 flex flex-col items-center">
       {/* Navbar */}
       <nav className="w-full flex justify-between items-center px-8 py-5 bg-white/80 backdrop-blur-md shadow-md fixed top-0 z-50">
         <h1 className="text-3xl font-serif text-pink-700">💎 DIVA</h1>
         <ul className="flex gap-8 text-gray-700 font-medium">
-          <li><Link to="/" className="hover:text-pink-600">Home</Link></li>
-          <li><a href="#collections" className="hover:text-pink-600">Collections</a></li>
+          <li>
+            <Link to="/" className="hover:text-pink-600">
+              Home
+            </Link>
+          </li>
+          <li>
+            <a href="#collections" className="hover:text-pink-600">
+              Collections
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -17,20 +76,18 @@ function ProductDetails() {
         {/* Product Image */}
         <div className="flex-1">
           <img
-            src="https://images.unsplash.com/photo-1600185365483-26d7c0e9d0e7?auto=format&fit=crop&w=800&q=60"
-            alt="Diamond Ring"
+            src={product?.image || "https://via.placeholder.com/600x600"}
+            alt={product?.name || "Product Image"}
             className="rounded-xl shadow-md w-full"
           />
         </div>
-        
+
         {/* Product Info */}
         <div className="flex-1 text-left">
-          <h2 className="text-4xl font-bold text-gray-800">Diamond Ring</h2>
-          <p className="text-pink-600 text-2xl font-semibold mt-2">$299</p>
-          <p className="text-gray-600 mt-4">
-            A handcrafted diamond ring that symbolizes eternal love.  
-            Made with 18k white gold and natural diamonds for unmatched brilliance.
-          </p>
+          <h2 className="text-4xl font-bold text-gray-800">{product?.name}</h2>
+          <p className="text-pink-600 text-2xl font-semibold mt-2">₹ {product?.price}</p>
+          <p className="text-gray-600 mt-4">{product?.description}</p>
+
           <div className="flex gap-4 mt-6">
             <button className="px-6 py-3 bg-pink-600 text-white font-semibold rounded-full shadow-lg hover:bg-pink-700 transition">
               Add to Cart
