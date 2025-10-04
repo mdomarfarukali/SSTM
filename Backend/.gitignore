@@ -16,4 +16,4 @@ node_modules/
 *.swp
 
 # Ignore OS generated files
-package-lock.json
+# package-lock.json
