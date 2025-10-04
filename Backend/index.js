@@ -19,7 +19,7 @@ import errorMiddleware from './middleware/errorMiddleware.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
-import productRoutes from './routes/product.js';
+import productRoutes from './routes/products.js';
 import userRoutes from './routes/user.js';
 import orderRoutes from './routes/order.js';
 import paymentRoutes from './routes/payment.js';
@@ -122,9 +122,7 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-module.exports = app;
-
-
+export default app;
 
 
 // import express from "express";

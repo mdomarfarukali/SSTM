@@ -99,3 +99,4 @@ userSchema.methods.getJwtToken = function() {
   });
 };
 
+export default mongoose.model('User', userSchema);

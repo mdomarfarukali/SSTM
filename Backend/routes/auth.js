@@ -13,9 +13,8 @@ import { registerUser, loginUser, logoutUser, forgotPassword, resetPassword, get
 // } = require('../controllers/authController');
 // const { isAuthenticatedUser } = require('../middleware/auth');
 import { isAuthenticatedUser } from '../middleware/auth.js';
-// const router = express.Router();
-import router from express.Router();
-// const router = express.Router();
+
+const router = express.Router();
 // const { 
 //   registerUser, 
 //   loginUser, 
