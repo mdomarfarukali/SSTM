@@ -30,4 +30,4 @@ dist-ssr
 .env
 
 # System generated files
-package-lock.json
+# package-lock.json
