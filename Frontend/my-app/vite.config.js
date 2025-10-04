@@ -12,9 +12,9 @@ export default defineConfig({
     host: '0.0.0.0',  // Allow access from network
     port: 5173,        // Allow the port (which you've entered) in Firewall Policy
     //API Acess from Backend
-    proxy: {
-      '/api': 'http://localhost:5000'
-    }
+    // proxy: {
+      // '/api': 'http://localhost:5000'
+    // }
 
   }
 })
