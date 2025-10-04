@@ -16,4 +16,6 @@ const errorHandler = (err, req, res, next) => {
 };
 
 // export default errorHandler;
-module.exports = errorHandler;
+// module.exports = errorHandler;
+export default errorHandler;
+// export { errorHandler as errorMiddleware };

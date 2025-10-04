@@ -1,20 +1,39 @@
-
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const errorMiddleware = require('./middleware/errorMiddleware');
+import dotenv from 'dotenv';
+dotenv.config();  // Load environment variables from .env file
+// import generateChecksum from '../components/ChecksumGenerate.js';  // Function to generate checksum for validation
+// import generateOrderId from '../components/OrderIDGenerate.js';  // Function to generate a unique order ID
+// import Order from "../models/order.js";  // Order model to save order details in the database
+// require('dotenv').config();
+import express from 'express';
+// const express = require('express');
+import mongoose from 'mongoose';
+// const mongoose = require('mongoose');
+import cors from 'cors';
+// const cors = require('cors');
+import cookieParser from 'cookie-parser';
+// const cookieParser = require('cookie-parser');
+import bodyParser from 'body-parser';
+// const bodyParser = require('body-parser');
+import errorMiddleware from './middleware/errorMiddleware.js';
+// const errorMiddleware = require('./middleware/errorMiddleware');
 
 // Import routes
-const authRoutes = require('./routes/auth');
+import authRoutes from './routes/auth.js';
+import productRoutes from './routes/product.js';
+import userRoutes from './routes/user.js';
+import orderRoutes from './routes/order.js';
+import paymentRoutes from './routes/payment.js';
+// import uploadRoutes from './routes/upload.js';
+// import dashboardRoutes from './routes/dashboard.js';
+
+// Import routes
+// const authRoutes = require('./routes/auth');
 // const productRoutes = require('./routes/product');
 // const userRoutes = require('./routes/user');
 // const orderRoutes = require('./routes/order');
-// const paymentRoutes = require('./routes/payment');
-// const uploadRoutes = require('./routes/upload');
-// const dashboardRoutes = require('./routes/dashboard');
+// // const paymentRoutes = require('./routes/payment');
+// // const uploadRoutes = require('./routes/upload');
+// // const dashboardRoutes = require('./routes/dashboard');
 
 const app = express();
 
@@ -45,10 +64,10 @@ app.get('/', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
-// app.use('/api/products', productRoutes);
-// app.use('/api/users', userRoutes);
-// app.use('/api/orders', orderRoutes);
-// app.use('/api/payment', paymentRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/payment', paymentRoutes);
 // app.use('/api/upload', uploadRoutes);
 // app.use('/api/dashboard', dashboardRoutes);
 
@@ -104,3 +123,30 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+
+
+
+// import express from "express";
+// import mongoose from "mongoose";
+// import cors from "cors";
+// import dotenv from "dotenv";
+
+// import productRoutes from "./routes/products.js";
+// import userRoutes from "./routes/users.js";
+// import orderRoutes from "./routes/orders.js";
+
+// dotenv.config();
+// const app = express();
+
+// app.use(cors());
+// app.use(express.json());
+
+// app.use("/api/products", productRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/api/orders", orderRoutes);
+
+// const PORT = process.env.PORT || 5000;
+// mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
+//   .catch((err) => console.log(err));

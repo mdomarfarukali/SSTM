@@ -1,12 +1,18 @@
-
-const User = require('../models/user');
-const ErrorHandler = require('../utils/errorHandler');
-const catchAsyncErrors = require('../middleware/catchAsyncErrors');
-const sendToken = require('../utils/jwtToken');
-const crypto = require('crypto');
+import User from '../models/user.js';
+// const User = require('../models/user');
+import ErrorHandler from '../utils/errorHandler.js';
+//const ErrorHandler = require('../utils/errorHandler');
+// import sendEmail from '../utils/sendEmail.js';
+// const sendEmail = require('../utils/sendEmail');
+import catchAsyncErrors from '../middleware/catchAsyncErrors.js';
+// const catchAsyncErrors = require('../middleware/catchAsyncErrors');
+import sendToken from '../utils/jwtToken.js';
+// const sendToken = require('../utils/jwtToken');
+import crypto from 'crypto';
+// const crypto = require('crypto');
 
 // Register a user => /api/auth/register
-exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+export const registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, firstName, lastName, email, phone, password } = req.body;
 
   // Create user with all available fields
@@ -24,7 +30,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Login user => /api/auth/login
-exports.loginUser = catchAsyncErrors(async (req, res, next) => {
+export const loginUser = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
 
   // Check if email and password are entered by user
@@ -50,7 +56,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Logout user => /api/auth/logout
-exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
+export const logoutUser = catchAsyncErrors(async (req, res, next) => {
   // Use the same cookie options as when setting it, but with immediate expiration
   res.cookie('token', null, {
     expires: new Date(Date.now()),
@@ -67,7 +73,7 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Forgot password => /api/auth/password/forgot
-exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
+export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
@@ -89,10 +95,10 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   // Create the reset URL
   const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
-  
+
   // Import the email service
   const emailService = require('../utils/emailService');
-  
+
   try {
     // Send the password reset email
     await emailService.sendPasswordResetEmail({
@@ -109,15 +115,15 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     // If email sending fails, reset the token fields
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
-    
+
     await user.save({ validateBeforeSave: false });
-    
+
     return next(new ErrorHandler('Email could not be sent', 500));
   }
 });
 
 // Reset password => /api/auth/password/reset/:token
-exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   // Hash URL token
   const resetPasswordToken = crypto
     .createHash('sha256')
@@ -151,7 +157,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Get current user profile => /api/auth/me
-exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
+export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
 
   res.status(200).json({
@@ -161,7 +167,7 @@ exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Update / Change password => /api/auth/password/update
-exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+export const updatePassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
 
   // Check previous user password
@@ -177,7 +183,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Update user profile => /api/auth/me/update
-exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+export const updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     email: req.body.email

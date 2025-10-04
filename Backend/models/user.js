@@ -1,8 +1,12 @@
 
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const validator = require('validator');
-const jwt = require('jsonwebtoken');
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcrypt');
+// const validator = require('validator');
+// const jwt = require('jsonwebtoken');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import validator from 'validator';
+import jwt from 'jsonwebtoken';
 
 const userSchema = new mongoose.Schema({
   name: {
