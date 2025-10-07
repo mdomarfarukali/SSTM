@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaHeart, FaTruck, FaShieldAlt } from "react-icons/fa"; 
@@ -283,6 +284,7 @@ function ProductDetails() {
             </div>
             
             {/* NOTE: You should include your <Footer /> component here */}
+
         </div>
     );
 }
