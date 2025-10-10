@@ -29,8 +29,8 @@ const UserAddresses = () => <div>User Address Book</div>;
 // import CODManagement from "./pages/admin/CODManagement";
 
 import AdminRoutes from "./pages/admin/AdminRoutes";
-import VendorLogin from "./pages/admin/vendorlogin";
-import VendorSignup from "./pages/admin/vendorlogin";
+import VendorLogin from "./pages/vendor/vendorlogin";
+import VendorSignup from "./pages/vendor/vendorlogin";
 function App() {
     return (
         // Context Providers should ideally wrap this Router (e.g., CartProvider, AuthProvider)
