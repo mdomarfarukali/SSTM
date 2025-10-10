@@ -13,7 +13,7 @@ import OrderSuccess from "./pages/OrderSuccess";
 
 // --- NEW USER ACCOUNT PAGES (Needed for Nested Routing) ---
 import UserDashboard from "./pages/UserDashboard"; // The main account layout/sidebar
-// import OrderHistory from "./pages/OrderHistory"; // The list of orders
+import OrderHistory from "./pages/OrderHistory"; // The list of orders
 import OrderDetails from "./pages/OrderDetails"; // Details for a single order
 // Placeholder component for user profile management
 const UserProfile = () => <div>User Profile Settings Form</div>;
@@ -36,22 +36,23 @@ function App() {
         <Router>
             <Routes>
 
+                <Route path="/" element={<Home />} />
                 {/* ======================================================= */}
                 {/* ⭐️ 1. USER FACING ROUTES (Wrapped in PageLayout) ⭐️ */}
                 {/* ======================================================= */}
 
                 {/* Home, Products, Product Detail (Direct Routes) */}
-                <Route element={<PageLayout />}>
+                {/* <Route element={<PageLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/products" element={<Products />} />
-                    <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/product/:id" element={<ProductDetail />} /> */}
 
                     {/* Cart Flow Routes */}
-                    <Route path="/cart" element={<Cart />} />
+                    {/* <Route path="/cart" element={<Cart />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/order-success" element={<OrderSuccess />} />
                     <Route path="/wishlist" element={<WishList />} />
-                </Route>
+                </Route> */}
 
 
                 {/* ======================================================= */}

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaRing, FaGem, FaChain, FaStar } from 'react-icons/fa';
+import { FaRing, FaGem, FaLink, FaStar } from 'react-icons/fa';
 
 const collections = [
     { name: "Rings", description: "Symbol of eternal love.", icon: FaRing, link: "/products?category=rings", image: "https://images.unsplash.com/photo-1600185365483-26d7c0e9d0e7?auto=format&fit=crop&w=400&q=80" },
-    { name: "Necklaces", description: "Elegant layering pieces.", icon: FaChain, link: "/products?category=necklaces", image: "https://images.unsplash.com/photo-1581579185538-1c1f3bfa91aa?auto=format&fit=crop&w=400&q=80" },
+    { name: "Necklaces", description: "Elegant layering pieces.", icon: FaLink, link: "/products?category=necklaces", image: "https://images.unsplash.com/photo-1581579185538-1c1f3bfa91aa?auto=format&fit=crop&w=400&q=80" },
     { name: "Earrings", description: "Frame your face with brilliance.", icon: FaGem, link: "/products?category=earrings", image: "https://images.unsplash.com/photo-1581579214941-3d1b636bcd3a?auto=format&fit=crop&w=400&q=80" },
     { name: "Best Sellers", description: "Shop the community favorites.", icon: FaStar, link: "/products?sort=best_sellers", image: "https://images.unsplash.com/photo-1620921822452-f476a26d7730?auto=format&fit=crop&w=400&q=80" },
 ];

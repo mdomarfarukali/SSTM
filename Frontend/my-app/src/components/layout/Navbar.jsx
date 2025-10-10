@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";import {
+import { motion, AnimatePresence } from "framer-motion"; import {
   LogIn,
   Home as HomeIcon,
   Layers,
@@ -109,78 +109,78 @@ export default function Navbar() {
         </div>
 
 
-// Inside your Navbar component
-<AnimatePresence>
-  {mobileOpen && (
-    <>
-      {/* Overlay */}
-      <motion.div
-        key="overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        exit={{ opacity: 0 }}
-        onClick={() => setMobileOpen(false)}
-        className="fixed inset-0 bg-black z-40"
-      ></motion.div>
+{/* // Inside your Navbar component */}
+        <AnimatePresence>
+          {mobileOpen && (
+            <>
+              {/* Overlay */}
+              <motion.div
+                key="overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileOpen(false)}
+                className="fixed inset-0 bg-black z-40"
+              ></motion.div>
 
-      {/* Sliding Menu */}
-      <motion.ul
-        key="mobileMenu"
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="md:hidden fixed top-0 right-0 h-full w-2/3 bg-pink-100 dark:bg-gray-800 flex flex-col gap-6 px-6 py-12 text-gray-700 dark:text-gray-200 font-medium shadow-lg z-50"
-      >
-        <li>
-          <Link
-            to="/"
-            onClick={() => setMobileOpen(false)}
-            className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
-          >
-            <HomeIcon size={20} /> Home
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/products"
-            onClick={() => setMobileOpen(false)}
-            className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
-          >
-            <Layers size={20} /> Products
-          </Link>
-        </li>
-        <li>
-          <a
-            href="#about"
-            onClick={() => setMobileOpen(false)}
-            className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
-          >
-            <Info size={20} /> About
-          </a>
-        </li>
-        <li>
-          <a
-            href="#contact"
-            onClick={() => setMobileOpen(false)}
-            className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
-          >
-            <Phone size={20} /> Contact
-          </a>
-        </li>
-        <li>
-          <Link
-            to="/login"
-            onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-2 justify-center bg-pink-400 text-white py-2 rounded-full hover:bg-pink-700 transition text-lg"
-          >
-            <LogIn size={18} /> Sign In
-          </Link>
-        </li>
-      </motion.ul>
-    </>
-  )}
-</AnimatePresence>
+              {/* Sliding Menu */}
+              <motion.ul
+                key="mobileMenu"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="md:hidden fixed top-0 right-0 h-full w-2/3 bg-pink-100 dark:bg-gray-800 flex flex-col gap-6 px-6 py-12 text-gray-700 dark:text-gray-200 font-medium shadow-lg z-50"
+              >
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => setMobileOpen(false)}
+                    className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
+                  >
+                    <HomeIcon size={20} /> Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/products"
+                    onClick={() => setMobileOpen(false)}
+                    className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
+                  >
+                    <Layers size={20} /> Products
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                    onClick={() => setMobileOpen(false)}
+                    className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
+                  >
+                    <Info size={20} /> About
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    onClick={() => setMobileOpen(false)}
+                    className="hover:text-pink-600 transition flex items-center gap-2 text-lg"
+                  >
+                    <Phone size={20} /> Contact
+                  </a>
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 justify-center bg-pink-400 text-white py-2 rounded-full hover:bg-pink-700 transition text-lg"
+                  >
+                    <LogIn size={18} /> Sign In
+                  </Link>
+                </li>
+              </motion.ul>
+            </>
+          )}
+        </AnimatePresence>
 
 
       </div>

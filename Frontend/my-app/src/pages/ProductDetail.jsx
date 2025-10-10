@@ -5,7 +5,7 @@ import { FaHeart, FaTruck, FaShieldAlt } from "react-icons/fa";
 // ⭐️ IMPORT BOTH CONTEXTS ⭐️
 import { useCartContext } from "../context/CartContext.jsx"; 
 import { useWishlistContext } from "../context/WishListContext.jsx"; // New import
-import { showToast } from "../utils/toastUtils"; 
+import { showToast } from "../utils/toastUtils.js"; // Adjusted import
 
 // =========================================================
 // Custom Hook for Data Fetching (Retained for efficiency)

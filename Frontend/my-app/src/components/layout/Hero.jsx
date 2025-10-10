@@ -2,11 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaGem } from 'react-icons/fa';
 
-const Hero = () => {
+function Hero() {
+
+    console.log("Hero component loaded");
+    console.log("Background image URL:", 'https://images.unsplash.com/photo-1549414002-3c1a7d656096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80');
+
     return (
-        <section 
+        <section
             className="relative h-[90vh] bg-pink-50 dark:bg-gray-900 overflow-hidden pt-20"
-            style={{ 
+            style={{
                 // Using a light, elegant image (replace with your own high-res image later)
                 backgroundImage: 'url("https://images.unsplash.com/photo-1549414002-3c1a7d656096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80")',
                 backgroundSize: 'cover',
@@ -36,7 +40,7 @@ const Hero = () => {
                     >
                         <FaGem /> Shop The Collection
                     </Link>
-                    
+
                     {/* Secondary CTA */}
                     <p className="mt-4 text-sm text-gray-200">
                         Free express shipping on all orders over $200.

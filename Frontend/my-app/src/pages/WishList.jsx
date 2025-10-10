@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaTimesCircle, FaArrowRight } from 'react-icons/fa';
-import { useWishListContext } from '../context/WishListContext';
+// import { useWishListContext } from '../context/WishListContext';
 import { useCartContext } from '../context/CartContext'; // Need cart context to move items
 
 function WishList() {
