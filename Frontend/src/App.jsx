@@ -4,6 +4,8 @@ import PageLayout from "./components/layout/PageLayout";
 
 // --- CORE USER PAGES ---
 import Home from "./pages/Home";
+import Login from './pages/auth/Login';
+
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
@@ -38,6 +40,7 @@ function App() {
             <Routes>
 
                 <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
                 {/* ======================================================= */}
                 {/* ⭐️ 1. USER FACING ROUTES (Wrapped in PageLayout) ⭐️ */}
                 {/* ======================================================= */}
