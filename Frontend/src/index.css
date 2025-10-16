@@ -1,28 +1,60 @@
 @import "tailwindcss";
 
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* ----------------------------------------------------
+ * 1. OKLCH COLOR VARIABLES
+ *
+ * Light theme is defined as the default.
+ * ---------------------------------------------------- */
+:root {
+  /* LIGHT MODE (DEFAULT) */
+  --bg-dark: oklch(0.92 0.055 297);
+  --bg: oklch(0.96 0.055 297);
+  --bg-light: oklch(1 0.055 297);
+  --text: oklch(0.15 0.11 297);
+  --text-muted: oklch(0.4 0.11 297);
+  --highlight: oklch(1 0.11 297);
+  --border: oklch(0.6 0.11 297);
+  --border-muted: oklch(0.7 0.11 297);
+  --primary: oklch(0.4 0.11 297);
+  --secondary: oklch(0.4 0.11 117);
+  --danger: oklch(0.5 0.11 30);
+  --warning: oklch(0.5 0.11 100);
+  --success: oklch(0.5 0.11 160);
+  --info: oklch(0.5 0.11 260);
+}
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* DARK MODE OVERRIDE */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-dark: oklch(0.1 0.055 297);
+    --bg: oklch(0.15 0.055 297);
+    --bg-light: oklch(0.2 0.055 297);
+    --text: oklch(0.96 0.1 297);
+    --text-muted: oklch(0.76 0.1 297);
+    --highlight: oklch(0.5 0.11 297);
+    --border: oklch(0.4 0.11 297);
+    --border-muted: oklch(0.3 0.11 297);
+    --primary: oklch(0.76 0.11 297);
+    --secondary: oklch(0.76 0.11 117);
+    --danger: oklch(0.7 0.11 30);
+    --warning: oklch(0.7 0.11 100);
+    --success: oklch(0.7 0.11 160);
+    --info: oklch(0.7 0.11 260);
+  }
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
-
+/* ----------------------------------------------------
+ * 2. GLOBAL STYLES (Use variables consistently)
+ * ---------------------------------------------------- */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Use variables for colorscheme dependent styles */
+  color-scheme: light dark; /* Allows browser to manage native elements */
+  color: var(--text);
+  background-color: var(--bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -32,17 +64,15 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--primary);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--secondary);
 }
 
 body {
   margin: 0;
-  /* display: flex; */
-  /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
 }
@@ -54,37 +84,40 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid #17f046;
+  border: 1px solid var(--border);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #ffffff;
+  background-color: var(--bg-light); /* Use a slightly lighter/darker background for buttons */
+  color: var(--text);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #17f046;
+  border-color: var(--primary);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px auto var(--primary);
 }
 
+/* ----------------------------------------------------
+ * 3. Media Query for Light Mode Specific Overrides
+ * (This is now simplified since the colors are defined
+ * in the main :root block)
+ * ---------------------------------------------------- */
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+  /* No color overrides needed here as light theme is the default in :root */
   a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #ffffff;
-    border: 1px solid #17f046;
+    color: var(--primary); /* You might still want to adjust hover behavior */
   }
 }
 
+
+/* ----------------------------------------------------
+ * 4. Animations
+ * ---------------------------------------------------- */
 @keyframes sparkle {
   0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
   50% { transform: translateY(-10px) scale(1.3); opacity: 1; }
