@@ -37,15 +37,18 @@ const userSchema = new mongoose.Schema({
   },
   city: {
     type: String,
-    maxLength: [50, 'City name cannot exceed 50 characters']
+    maxLength: [50, 'City name cannot exceed 50 characters'],
+    default: 'Los Angeles'
   },
   state: {
     type: String,
-    maxLength: [50, 'State name cannot exceed 50 characters']
+    maxLength: [50, 'State name cannot exceed 50 characters'],
+    default: 'California'
   },
   postalCode: {
     type: String,
-    maxLength: [10, 'Postal code cannot exceed 10 characters']
+    maxLength: [10, 'Postal code cannot exceed 10 characters'],
+    default: '90025'
   },
   country: {
     type: String,
