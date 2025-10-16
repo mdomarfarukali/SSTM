@@ -1,0 +1,58 @@
+/* ===========================
+   🌞 LIGHT MODE (DEFAULT)
+=========================== */
+.bg-brand-dark { background-color: oklch(0.92 0.055 297); }
+.bg-brand { background-color: oklch(0.96 0.055 297); }
+.bg-brand-light { background-color: oklch(1 0.055 297); }
+
+.text-brand { color: oklch(0.15 0.11 297); }
+.text-brand-muted { color: oklch(0.4 0.11 297); }
+
+.text-brand-highlight { color: oklch(1 0.11 297); }
+.border-brand { border-color: oklch(0.6 0.11 297); }
+.border-brand-muted { border-color: oklch(0.7 0.11 297); }
+
+.bg-brand-primary { background-color: oklch(0.4 0.11 297); }
+.bg-brand-secondary { background-color: oklch(0.4 0.11 117); }
+.bg-brand-danger { background-color: oklch(0.5 0.11 30); }
+.bg-brand-warning { background-color: oklch(0.5 0.11 100); }
+.bg-brand-success { background-color: oklch(0.5 0.11 160); }
+.bg-brand-info { background-color: oklch(0.5 0.11 260); }
+
+.text-brand-primary { color: oklch(0.4 0.11 297); }
+.text-brand-secondary { color: oklch(0.4 0.11 117); }
+.text-brand-danger { color: oklch(0.5 0.11 30); }
+.text-brand-warning { color: oklch(0.5 0.11 100); }
+.text-brand-success { color: oklch(0.5 0.11 160); }
+.text-brand-info { color: oklch(0.5 0.11 260); }
+
+
+/* ===========================
+   🌚 DARK MODE OVERRIDE
+=========================== */
+@media (prefers-color-scheme: dark) {
+  .bg-brand-dark { background-color: oklch(0.1 0.055 297); }
+  .bg-brand { background-color: oklch(0.15 0.055 297); }
+  .bg-brand-light { background-color: oklch(0.2 0.055 297); }
+
+  .text-brand { color: oklch(0.96 0.1 297); }
+  .text-brand-muted { color: oklch(0.76 0.1 297); }
+
+  .text-brand-highlight { color: oklch(0.5 0.11 297); }
+  .border-brand { border-color: oklch(0.4 0.11 297); }
+  .border-brand-muted { border-color: oklch(0.3 0.11 297); }
+
+  .bg-brand-primary { background-color: oklch(0.76 0.11 297); }
+  .bg-brand-secondary { background-color: oklch(0.76 0.11 117); }
+  .bg-brand-danger { background-color: oklch(0.7 0.11 30); }
+  .bg-brand-warning { background-color: oklch(0.7 0.11 100); }
+  .bg-brand-success { background-color: oklch(0.7 0.11 160); }
+  .bg-brand-info { background-color: oklch(0.7 0.11 260); }
+
+  .text-brand-primary { color: oklch(0.76 0.11 297); }
+  .text-brand-secondary { color: oklch(0.76 0.11 117); }
+  .text-brand-danger { color: oklch(0.7 0.11 30); }
+  .text-brand-warning { color: oklch(0.7 0.11 100); }
+  .text-brand-success { color: oklch(0.7 0.11 160); }
+  .text-brand-info { color: oklch(0.7 0.11 260); }
+}
