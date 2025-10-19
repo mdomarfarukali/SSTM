@@ -40,7 +40,14 @@ function App() {
             <Routes>
 
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
+                {/* <Route path="/login" element={<Login />} /> */}
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
+                <Route path="/wishlist" element={<WishList />} />
+
                 {/* ======================================================= */}
                 {/* ⭐️ 1. USER FACING ROUTES (Wrapped in PageLayout) ⭐️ */}
                 {/* ======================================================= */}
@@ -48,6 +55,7 @@ function App() {
                 {/* Home, Products, Product Detail (Direct Routes) */}
                 {/* <Route element={<PageLayout />}>
                     <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/product/:id" element={<ProductDetail />} /> */}
 
@@ -82,8 +90,8 @@ function App() {
                 {/* ⭐️ 3. ADMIN ROUTES (Wrapped in AdminLayout) ⭐️ */}
                 {/* ======================================================= */}
                 {/* <Route path="/admin" element={<AdminLayout />}> */}
-                    {/* Default admin view */}
-                    {/* <Route index element={<Dashboard />} />
+                {/* Default admin view */}
+                {/* <Route index element={<Dashboard />} />
 
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="orders" element={<OrderManagement />} />
