@@ -7,7 +7,7 @@ import ChatButton from "../components/common/ChatButton";
 
 export default function Home() {
   return (
-    <div className="bg-white dark:bg-gray-900 transition-colors duration-500">
+    <div className=" transition-colors duration-500">
       <Navbar />
       <Hero />
       <FeaturedCollections />

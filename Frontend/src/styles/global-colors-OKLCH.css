@@ -7,8 +7,8 @@
 
 .text-brand { color: oklch(0.15 0.11 297); }
 .text-brand-muted { color: oklch(0.4 0.11 297); }
+.text-brand-highlight { color: oklch(.99 0.11 297); }
 
-.text-brand-highlight { color: oklch(1 0.11 297); }
 .border-brand { border-color: oklch(0.6 0.11 297); }
 .border-brand-muted { border-color: oklch(0.7 0.11 297); }
 
@@ -26,6 +26,8 @@
 .text-brand-success { color: oklch(0.5 0.11 160); }
 .text-brand-info { color: oklch(0.5 0.11 260); }
 
+.ring-brand-primary { 
+  --tw-ring-color: oklch(0.7 0.11 297);}
 
 /* ===========================
    🌚 DARK MODE OVERRIDE
@@ -55,4 +57,7 @@
   .text-brand-warning { color: oklch(0.7 0.11 100); }
   .text-brand-success { color: oklch(0.7 0.11 160); }
   .text-brand-info { color: oklch(0.7 0.11 260); }
+   .ring-brand-primary { 
+    --tw-ring-color: oklch(0.76 0.11 297); /* Uses the dark mode primary color */
+  }
 }
