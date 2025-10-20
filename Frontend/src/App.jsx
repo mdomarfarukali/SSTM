@@ -12,6 +12,10 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import WishList from "./pages/WishList";
 import OrderSuccess from "./pages/OrderSuccess";
+import About from "./pages/About";
+import FAQs from "./pages/FAQs";
+import ShippingReturns from "./pages/ShippingReturns";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 // --- NEW USER ACCOUNT PAGES (Needed for Nested Routing) ---
 import UserDashboard from "./pages/UserDashboard"; // The main account layout/sidebar
@@ -64,6 +68,11 @@ function App() {
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/order-success" element={<OrderSuccess />} />
                     <Route path="/wishlist" element={<WishList />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/faqs" element={<FAQs />} />
+                    <Route path="/shipping-returns" element={<ShippingReturns />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
                 </Route>
 
 

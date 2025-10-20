@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer className="bg-gray-900 ">
@@ -18,10 +19,10 @@ export default function Footer() {
               Quick Links
             </h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-brand-muted ">Home</a></li>
-              <li><a href="#" className="text-brand-muted ">Collections</a></li>
-              <li><a href="#" className="text-brand-muted ">About Us</a></li>
-              <li><a href="#" className="text-brand-muted ">Contact</a></li>
+              <li><Link to="/" className="text-brand-muted ">Home</Link></li>
+              <li><Link to="/products" className="text-brand-muted ">Collections</Link></li>
+              <li><Link to="/about" className="text-brand-muted ">About Us</Link></li>
+              <li><Link to="/contact" className="text-brand-muted ">Contact</Link></li>
             </ul>
           </div>
 
@@ -31,10 +32,10 @@ export default function Footer() {
               Customer Support
             </h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-brand-muted ">FAQs</a></li>
-              <li><a href="#" className="text-brand-muted ">Shipping & Returns</a></li>
-              <li><a href="#" className="text-brand-muted ">Privacy Policy</a></li>
-              <li><a href="#" className="text-brand-muted">Terms & Conditions</a></li>
+              <li><Link to="/faqs" className="text-brand-muted ">FAQs</Link></li>
+              <li><Link to="/shipping-returns" className="text-brand-muted ">Shipping & Returns</Link></li>
+              <li><Link to="/privacy-policy" className="text-brand-muted ">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions" className="text-brand-muted">Terms & Condition</Link></li>
             </ul>
           </div>
         </div>
