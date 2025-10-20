@@ -11,9 +11,9 @@ const collections = [
 
 const FeaturedCollections = () => {
     return (
-        <section className="py-16 bg-white dark:bg-gray-900 transition-colors duration-500">
+        <section className="py-16 bg-brand-dark transition-colors duration-500">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-4xl font-serif font-bold text-center text-gray-800 dark:text-white mb-12">
+                <h2 className="text-4xl font-serif font-bold text-center text-brand-secondary mb-12">
                     Shop By Category
                 </h2>
 
@@ -32,8 +32,8 @@ const FeaturedCollections = () => {
                             
                             {/* Text Overlay */}
                             <div className="absolute inset-0 bg-black bg-opacity-40 transition-opacity duration-300"></div>
-                            <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                                <collection.icon className="w-8 h-8 text-pink-400 mb-2" />
+                            <div className="absolute inset-0 flex flex-col justify-end p-6 text-brand-primary">
+                                <collection.icon className="w-8 h-8 text-brand-primary mb-2" />
                                 <h3 className="text-3xl font-extrabold font-serif">{collection.name}</h3>
                                 <p className="text-lg mt-1">{collection.description}</p>
                             </div>
