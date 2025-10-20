@@ -32,10 +32,10 @@ export default function Footer() {
               Customer Support
             </h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-brand-muted ">FAQs</a></li>
-              <li><a href="#" className="text-brand-muted ">Shipping & Returns</a></li>
-              <li><a href="#" className="text-brand-muted ">Privacy Policy</a></li>
-              <li><a href="#" className="text-brand-muted">Terms & Conditions</a></li>
+              <li><Link to="/faqs" className="text-brand-muted ">FAQs</Link></li>
+              <li><Link to="/shipping-returns" className="text-brand-muted ">Shipping & Returns</Link></li>
+              <li><Link to="/privacy-policy" className="text-brand-muted ">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions" className="text-brand-muted">Terms & Condition</Link></li>
             </ul>
           </div>
         </div>
