@@ -59,14 +59,14 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <a href="#about" className="text-brand-primary hover:text-brand-secondary transition">
+                            <Link to="/about" className="text-brand-primary hover:text-brand-secondary transition">
                                 <Info size={20} />
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#contact" className="text-brand-primary hover:text-brand-secondary transition">
+                            <Link to="/contact" className="text-brand-primary hover:text-brand-secondary transition">
                                 <Phone size={20} />
-                            </a>
+                            </Link>
                         </li>
 
                         {/* Sign In */}
