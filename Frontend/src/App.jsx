@@ -39,32 +39,32 @@ function App() {
         <Router>
             <Routes>
 
-                <Route path="/" element={<Home />} />
+                {/* <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
-                <Route path="/wishlist" element={<WishList />} />
+                <Route path="/wishlist" element={<WishList />} /> */}
 
                 {/* ======================================================= */}
                 {/* ⭐️ 1. USER FACING ROUTES (Wrapped in PageLayout) ⭐️ */}
                 {/* ======================================================= */}
 
                 {/* Home, Products, Product Detail (Direct Routes) */}
-                {/* <Route element={<PageLayout />}>
+                <Route element={<PageLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/products" element={<Products />} />
-                    <Route path="/product/:id" element={<ProductDetail />} /> */}
+                    <Route path="/product/:id" element={<ProductDetail />} />
 
                     {/* Cart Flow Routes */}
-                    {/* <Route path="/cart" element={<Cart />} />
+                    <Route path="/cart" element={<Cart />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/order-success" element={<OrderSuccess />} />
                     <Route path="/wishlist" element={<WishList />} />
-                </Route> */}
+                </Route>
 
 
                 {/* ======================================================= */}

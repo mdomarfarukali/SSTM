@@ -1,4 +1,4 @@
-
+import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -9,7 +9,10 @@ export default function PageLayout({ children }) {
       <Navbar />
 
       {/* Main content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        {/* {children} */}
+        <Outlet /> {/* 👈 This renders nested route content */}
+      </main>
 
       {/* Footer always at bottom */}
       <Footer />
