@@ -7,13 +7,15 @@ import ChatButton from "../components/common/ChatButton";
 
 export default function Home() {
   return (
-    <div className=" transition-colors duration-500">
-      <Navbar />
-      <Hero />
-      <FeaturedCollections />
-      <Footer />
-      <ChatButton />
-    </div>
+    <>
+      {/* <div className=" transition-colors duration-500"> */}
+        {/* <Navbar /> */}
+        <Hero />
+        <FeaturedCollections />
+        {/* <Footer /> */}
+        <ChatButton />
+      {/* </div> */}
+    </>
   );
 }
 
