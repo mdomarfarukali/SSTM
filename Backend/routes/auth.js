@@ -1,6 +1,15 @@
 import express from 'express';
 // const express = require('express');
-import { registerUser, loginUser, logoutUser, forgotPassword, resetPassword, getUserProfile, updatePassword, updateProfile } from '../controllers/authController.js';
+import { 
+    registerUser, 
+    loginUser, 
+    logoutUser, 
+    forgotPassword, 
+    resetPassword, 
+    getUserProfile, 
+    updatePassword, 
+    updateProfile 
+} from '../controllers/authController.js';
 // const { 
 //   registerUser, 
 //   loginUser, 
