@@ -1,15 +1,7 @@
 // src/pages/Products.jsx
 import React from "react";
-// Import the new ProductCard component
 import ProductCard from "../components/ProductCard"; 
-// We no longer need 'motion' here since it's inside ProductCard
 
-// NOTE: Use your actual Navbar and Footer components here
-// import Navbar from "../components/layout/Navbar"; 
-// import Footer from "../components/layout/Footer"; 
-
-
-// NOTE: In a real application, this data will be fetched from an API
 const products = [
   { 
     id: 1, 
@@ -37,30 +29,32 @@ const products = [
   // ADD MORE PRODUCTS HERE...
 ];
 
-
 const Products = () => {
   return (
-    // Changed bg-gradient to ensure dark mode compatibility if applied globally
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-500 pt-20">
-      {/* <Navbar /> */} 
+    <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">
+      {/* <Navbar /> */}
 
       <div className="container mx-auto px-4 py-8">
         
         {/* Title Section */}
         <div className="text-center mb-16 pt-8">
-          <h1 className="text-5xl font-serif font-bold text-gray-800 dark:text-white mb-4">Our Exclusive Collection</h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">Discover handcrafted jewelry made with love and precision.</p>
+          <h1 className="text-5xl font-serif font-bold text-brand mb-4">
+            Our Exclusive Collection
+          </h1>
+          <p className="text-brand-muted text-lg">
+            Discover handcrafted jewelry made with love and precision.
+          </p>
         </div>
 
         {/* Layout with space for a sidebar (Filter) */}
         <div className="flex flex-col lg:flex-row gap-10">
             
-          {/* Optional: Filter Sidebar Placeholder (Uncomment when you build FilterSidebar.jsx) */}
+          {/* Optional: Filter Sidebar Placeholder */}
           {/*
           <aside className="w-full lg:w-1/4">
-            <div className="p-6 rounded-xl bg-gray-50 dark:bg-gray-800 shadow-md">
-                <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Filter By</h3>
-                <p className="text-gray-500">Filters go here (e.g., Price, Material, Stone)</p>
+            <div className="p-6 rounded-xl bg-brand-dark shadow-md">
+                <h3 className="text-2xl font-semibold text-brand mb-4">Filter By</h3>
+                <p className="text-brand-muted">Filters go here (e.g., Price, Material, Stone)</p>
             </div>
           </aside>
           */}

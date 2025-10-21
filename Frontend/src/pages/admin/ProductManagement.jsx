@@ -10,48 +10,48 @@ const ProductManagement = () => {
   ];
 
   return (
-    <div className="p-6 bg-white min-h-screen">
+    <div className="p-6 bg-admin-light min-h-screen">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Product Management</h1>
-        <button className="flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition">
+        <h1 className="text-2xl font-bold text-admin">Product Management</h1>
+        <button className="flex items-center gap-2 px-4 py-2 bg-admin-primary text-admin-light rounded-lg hover:bg-admin-primary-hover transition">
           <Plus size={18} /> Add Product
         </button>
       </div>
 
       {/* Product Table */}
-      <div className="overflow-x-auto bg-white rounded-2xl shadow">
-        <table className="w-full text-sm text-left border">
-          <thead className="bg-pink-100 text-gray-700">
+      <div className="overflow-x-auto bg-admin rounded-2xl shadow">
+        <table className="w-full text-sm text-left border border-admin-border">
+          <thead className="bg-admin-secondary text-admin-light">
             <tr>
-              <th className="px-4 py-2 border">ID</th>
-              <th className="px-4 py-2 border">Name</th>
-              <th className="px-4 py-2 border">Price</th>
-              <th className="px-4 py-2 border">Stock</th>
-              <th className="px-4 py-2 border">Status</th>
-              <th className="px-4 py-2 border">Actions</th>
+              <th className="px-4 py-2 border border-admin-border">ID</th>
+              <th className="px-4 py-2 border border-admin-border">Name</th>
+              <th className="px-4 py-2 border border-admin-border">Price</th>
+              <th className="px-4 py-2 border border-admin-border">Stock</th>
+              <th className="px-4 py-2 border border-admin-border">Status</th>
+              <th className="px-4 py-2 border border-admin-border">Actions</th>
             </tr>
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.id} className="hover:bg-pink-50">
-                <td className="px-4 py-2 border">{product.id}</td>
-                <td className="px-4 py-2 border">{product.name}</td>
-                <td className="px-4 py-2 border">{product.price}</td>
-                <td className="px-4 py-2 border">{product.stock}</td>
+              <tr key={product.id} className="hover:bg-admin-secondary-light transition">
+                <td className="px-4 py-2 border border-admin-border text-admin">{product.id}</td>
+                <td className="px-4 py-2 border border-admin-border text-admin">{product.name}</td>
+                <td className="px-4 py-2 border border-admin-border text-admin">{product.price}</td>
+                <td className="px-4 py-2 border border-admin-border text-admin">{product.stock}</td>
                 <td
-                  className={`px-4 py-2 border font-medium ${
+                  className={`px-4 py-2 border border-admin-border font-medium ${
                     product.status === "Active"
-                      ? "text-green-600"
-                      : "text-red-600"
+                      ? "text-admin-success"
+                      : "text-admin-danger"
                   }`}
                 >
                   {product.status}
                 </td>
-                <td className="px-4 py-2 border flex gap-3">
-                  <button className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition">
+                <td className="px-4 py-2 border border-admin-border flex gap-3">
+                  <button className="p-2 bg-admin-info text-admin-light rounded-lg hover:bg-admin-info-hover transition">
                     <Edit size={16} />
                   </button>
-                  <button className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition">
+                  <button className="p-2 bg-admin-danger text-admin-light rounded-lg hover:bg-admin-danger-hover transition">
                     <Trash2 size={16} />
                   </button>
                 </td>
@@ -65,3 +65,4 @@ const ProductManagement = () => {
 };
 
 export default ProductManagement;
+
