@@ -16,7 +16,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import FAQs from "./pages/FAQs";
 import ShippingReturns from "./pages/ShippingReturns";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
+import PrivacyPolicy_ from "./pages/PrivacyPolicy_";
 import TermsCondition from "./pages/TermsCondition";
 
 // --- NEW USER ACCOUNT PAGES (Needed for Nested Routing) ---
@@ -74,7 +74,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/faqs" element={<FAQs />} />
                     <Route path="/shipping-returns" element={<ShippingReturns />} />
-                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy_ />} />
                     <Route path="/terms-condition" element={<TermsCondition />} />
 
                 </Route>

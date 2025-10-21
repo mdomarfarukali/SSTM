@@ -3,8 +3,11 @@ export default function About() {
     <div className="bg-gradient-to-b from-pink-50 to-white dark:from-gray-900 dark:to-gray-950 min-h-screen px-6 md:px-16 py-20 font-serif">
       {/* 💖 Header Section */}
       <section className="text-center mb-20">
+        <br></br>
+        <br></br>
         <h1 className="text-5xl md:text-6xl font-extrabold text-pink-700 dark:text-pink-300 mb-4 tracking-wide">
           About <span className="text-pink-500">DIVA</span>
+          <img src="/DIVA_Cut-removebg-preview.png" alt="DIVA Logo" className="w-25 h-25 inline-block mr-2 mb-1" />
         </h1>
         <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
           <span className="font-semibold">DIVA Jewellery</span> embodies timeless luxury and
@@ -34,7 +37,7 @@ export default function About() {
         </div>
 
         <img
-          src="/images/about-jewellery.jpg"
+          src="/2.jpg"
           alt="Jewellery Collection"
           className="rounded-3xl shadow-2xl w-full border-4 border-pink-100 dark:border-gray-700 hover:scale-[1.02] transition-transform duration-500"
         />
@@ -50,21 +53,21 @@ export default function About() {
           {/* Founder Card */}
           {[
             {
-              name: "Md. Omar Faruk",
+              name: "Md. Omar Faruk Ali",
               title: "Managing Director & Founder",
-              img: "/images/omar.jpg",
-              desc: "Omar leads DIVA with a vision to blend classic craftsmanship with modern luxury, ensuring the brand embodies grace and trust in every creation.",
+              img: "/avatar.svg",
+              desc: "Omar Faruk leads DIVA with a vision to blend classic craftsmanship with modern luxury, ensuring the brand embodies grace and trust in every creation.",
             },
             {
               name: "Tamanna Parvin",
               title: "Co-Founder & Lead Designer",
-              img: "/images/tamanna.jpg",
+              img: "/avatar.svg",
               desc: "Tamanna channels creativity into each collection, designing timeless jewels that capture the essence of femininity and sophistication.",
             },
             {
               name: "Sohana Parvin",
               title: "Creative Director & Co-Founder",
-              img: "/images/sohana.jpg",
+              img: "/avatar.svg",
               desc: "Sohana curates DIVA’s artistic vision — shaping the aesthetics, storytelling, and brand experience that define elegance.",
             },
           ].map((founder, index) => (

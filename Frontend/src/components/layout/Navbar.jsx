@@ -8,11 +8,16 @@ import {
     Info,
     Phone,
     ShoppingCart,
-    Sun,
-    Moon,
+    // Sun,
+    // Moon,
     Menu,
     X,
 } from "lucide-react";
+
+import ThemeToggle from "../common/ThemeToggle";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import lightLogo from "/DIVA_LightCut-removebg-preview.png";
+import darkLogo from "/DIVA_Cut-removebg-preview.png";
 
 export default function Navbar() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -20,13 +25,20 @@ export default function Navbar() {
     const [cartCount] = useState(2);
     const [mobileOpen, setMobileOpen] = useState(false);
 
+    const { theme } = useTheme();
+
     return (
         <nav className={dark ? "dark" : ""}>
             <div className="fixed top-0 inset-x-0 bg-brand-dark shadow-md z-50">
                 <div className="mx-auto flex flex-col md:flex-row justify-between items-center px-6 py-4 gap-3 md:gap-0">
                     {/* Logo */}
                     <Link to="/" className="text-3xl font-serif text-brand-primary font-bold">
-                        💎 DIVA
+                        <img
+                            src={theme === "dark" ? darkLogo : lightLogo}
+                            alt="DIVA Logo"
+                            className="w-10 h-10 inline-block mr-2 mb-1"
+                        />
+                        DIVA
                     </Link>
 
                     {/* Search Bar */}
@@ -84,9 +96,9 @@ export default function Navbar() {
                         <li className="relative">
                             <Link
                                 to="/cart"
-                            // className="flex items-center justify-center bg-pink-400 text-white p-2 rounded-full hover:bg-pink-700 transition"
+                                className="flex items-center justify-center bg-brand-light text-white p-2 rounded-full hover:bg-brand transition"
                             >
-                                <ShoppingCart size={22} className="cursor-pointer" />
+                                <ShoppingCart size={22} className="cursor-pointer text-brand border-brand" />
                                 {cartCount > 0 && (
                                     // text-white is assumed to be `text-brand-highlight`
                                     <span className="absolute -top-2 -right-2 bg-brand-primary text-brand-highlight text-xs px-1.5 py-0.5 rounded-full">
@@ -96,14 +108,15 @@ export default function Navbar() {
                             </Link>
                         </li>
                         {/* Dark Mode Toggle removed */}
-                        <li>
+                        {/* <li>
                             <button
                                 onClick={() => setDark(!dark)}
                                 className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition"
                             >
                                 {dark ? <Sun size={18} /> : <Moon size={18} />}
                             </button>
-                        </li>
+                        </li> */}
+                        <ThemeToggle />
                     </ul>
 
                     {/* Mobile Menu Button (uses generic gray classes that are responsive) */}

@@ -4,15 +4,16 @@ import { FaGem } from 'react-icons/fa';
 
 function Hero() {
 
-    console.log("Hero component loaded");
-    console.log("Background image URL:", 'https://images.unsplash.com/photo-1549414002-3c1a7d656096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80');
+    // console.log("Hero component loaded");
+    // console.log("Background image URL:", 'https://images.unsplash.com/photo-1549414002-3c1a7d656096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80');
 
     return (
         <section
             className="relative h-[90vh] bg-brand overflow-hidden pt-20"
             style={{
                 // Using a light, elegant image (replace with your own high-res image later)
-                backgroundImage: 'url("https://images.unsplash.com/photo-1549414002-3c1a7d656096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80")',
+                // backgroundImage: 'url("https://images.unsplash.com/photo-1549414002-3c1a7d656096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80")',
+                backgroundImage: 'url("../../assets/5.jpg")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center 40%',
             }}

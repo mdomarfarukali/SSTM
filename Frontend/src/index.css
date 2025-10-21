@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@import "./styles/global-colors-OKLCH.css";
+@import "./styles/global-manual-OKLCH.css";
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

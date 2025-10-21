@@ -1,14 +1,28 @@
 import { Link } from "react-router-dom";
+
+import { useTheme } from "../../context/ThemeContext.jsx";
+import lightLogo from "/DIVA_LightCut-removebg-preview.png";
+import darkLogo from "/DIVA_Cut-removebg-preview.png";
+
 export default function Footer() {
+  const { theme } = useTheme();
+
   return (
-    <footer className="bg-gray-900 ">
+    <footer className="bg-brand-dark text-brand-primary py-12">
       <div className="container mx-auto px-6 lg:px-12 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand Info */}
           <div>
-            <h3 className="text-2xl text-brand-highlight font-bold mb-4">💎 DIVA</h3>
+            <h3 className="text-2xl text-brand font-bold mb-4">
+              <img
+                src={theme === "dark" ? darkLogo : lightLogo}
+                alt="DIVA Logo"
+                className="w-10 h-10 inline-block mr-2 mb-1"
+              />
+              DIVA
+            </h3>
             <p className="text-brand-muted">
-              Crafting memories with elegance and shine.  
+              Crafting memories with elegance and shine.
               Jewellery that defines timeless beauty.
             </p>
           </div>

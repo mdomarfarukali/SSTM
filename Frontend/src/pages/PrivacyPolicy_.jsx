@@ -1,7 +1,7 @@
 import React from "react";
 import { Shield, Gift, Settings, Cookie, CheckCircle, Lock } from "lucide-react";
 
-export default function PrivacyPolicy() {
+export default function PrivacyPolicy_() {
   return (
     <div className="bg-pink-50 dark:bg-gray-900 min-h-screen px-6 md:px-16 py-32">
       {/* Page Heading */}
