@@ -41,15 +41,14 @@ export default function VendorAuthPage() {
 
   return (
     <div
-      className="min-h-screen w-screen bg-cover bg-center bg-no-repeat flex flex-col md:flex-row items-center justify-between px-6 md:px-16"
-      style={{ backgroundImage: "url('/jewell.png')" }}
+      className="min-h-screen w-screen bg-admin-light flex flex-col md:flex-row items-center justify-between px-6 md:px-16"
     >
       {/* Left side - Branding */}
       <div className="flex flex-col items-start text-left space-y-4 mb-8 md:mb-0">
-        <h1 className="text-6xl font-serif font-bold text-yellow-700 drop-shadow-lg">
+        <h1 className="text-6xl font-serif font-bold text-admin-primary drop-shadow-lg">
           DIVA Vendors
         </h1>
-        <p className="text-xl italic text-white drop-shadow-md">
+        <p className="text-xl italic text-admin-muted drop-shadow-md">
           Partner with us, grow with us
         </p>
       </div>
@@ -57,12 +56,12 @@ export default function VendorAuthPage() {
       {/* Right side - Auth Card */}
       <div
         className="relative z-20 w-full max-w-md p-6 
-        bg-white/20 backdrop-blur-xl 
-        rounded-2xl shadow-2xl border border-yellow-300/50 
-        transition-transform transform hover:scale-105 hover:shadow-yellow-400/40"
+        bg-admin/20 backdrop-blur-xl 
+        rounded-2xl shadow-2xl border border-admin-border 
+        transition-transform transform hover:scale-105 hover:shadow-admin-primary/40"
       >
         <div className="text-center">
-          <h1 className="text-3xl font-serif font-bold text-yellow-700 drop-shadow">
+          <h1 className="text-3xl font-serif font-bold text-admin-primary drop-shadow">
             {isLogin ? "VENDOR LOGIN" : "VENDOR SIGN UP"}
           </h1>
         </div>
@@ -71,81 +70,68 @@ export default function VendorAuthPage() {
         {isLogin ? (
           <form onSubmit={handleLogin} className="mt-5 space-y-6">
             <div>
-              <label
-                htmlFor="vendorId"
-                className="block mb-2 text-sm font-semibold text-gray-200"
-              >
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Vendor ID
               </label>
               <input
-                id="vendorId"
                 type="text"
                 value={vendorId}
                 onChange={(e) => setVendorId(e.target.value)}
                 placeholder="Enter Vendor ID"
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block mb-2 text-sm font-semibold text-gray-200"
-              >
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Password
               </label>
               <input
-                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center text-gray-200">
+              <label className="flex items-center text-admin-muted">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="mr-2 accent-yellow-600"
+                  className="mr-2 accent-admin-primary"
                 />
                 Remember Me
               </label>
-              <a
-                href="#"
-                className="text-yellow-200 font-semibold hover:underline"
-              >
+              <a href="#" className="text-admin-primary font-semibold hover:underline">
                 Forgot Password?
               </a>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 text-lg font-semibold text-white 
-                bg-gradient-to-r from-yellow-600 to-yellow-800 
-                hover:from-yellow-700 hover:to-yellow-900 
-                rounded-lg shadow-lg"
+              className="w-full py-3 text-lg font-semibold text-admin-light 
+                bg-admin-primary rounded-lg shadow-lg hover:bg-admin-primary-hover transition"
             >
               Log In
             </button>
 
-            <p className="text-center text-sm text-gray-200 mt-3">
+            <p className="text-center text-sm text-admin-muted mt-3">
               New here?{" "}
               <span
                 onClick={() => setIsLogin(false)}
-                className="text-yellow-200 font-semibold hover:underline cursor-pointer"
+                className="text-admin-primary font-semibold hover:underline cursor-pointer"
               >
                 Create an Account
               </span>
@@ -155,7 +141,7 @@ export default function VendorAuthPage() {
           /* Signup Form */
           <form onSubmit={handleSignup} className="mt-5 space-y-5">
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-200">
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Vendor ID
               </label>
               <input
@@ -163,16 +149,16 @@ export default function VendorAuthPage() {
                 value={vendorId}
                 onChange={(e) => setVendorId(e.target.value)}
                 placeholder="Choose your Vendor ID"
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-200">
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Vendor Name
               </label>
               <input
@@ -180,16 +166,16 @@ export default function VendorAuthPage() {
                 value={vendorName}
                 onChange={(e) => setVendorName(e.target.value)}
                 placeholder="Enter your full name"
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-200">
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Email
               </label>
               <input
@@ -197,16 +183,16 @@ export default function VendorAuthPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="vendor@example.com"
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-200">
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Phone
               </label>
               <input
@@ -214,16 +200,16 @@ export default function VendorAuthPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+91 "
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-200">
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Password
               </label>
               <input
@@ -231,16 +217,16 @@ export default function VendorAuthPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-200">
+              <label className="block mb-2 text-sm font-semibold text-admin">
                 Confirm Password
               </label>
               <input
@@ -248,28 +234,26 @@ export default function VendorAuthPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-yellow-400/60 
+                className="w-full px-4 py-3 border border-admin-border/60 
                   rounded-lg shadow-sm focus:outline-none 
-                  focus:ring-2 focus:ring-yellow-500 
-                  bg-white/60 backdrop-blur-md placeholder-gray-700"
+                  focus:ring-2 focus:ring-admin-primary 
+                  bg-admin-light/60 backdrop-blur-md placeholder-admin-muted"
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 text-lg font-semibold text-white 
-                bg-gradient-to-r from-yellow-600 to-yellow-800 
-                hover:from-yellow-700 hover:to-yellow-900 
-                rounded-lg shadow-lg"
+              className="w-full py-3 text-lg font-semibold text-admin-light 
+                bg-admin-primary rounded-lg shadow-lg hover:bg-admin-primary-hover transition"
             >
               Sign Up
             </button>
 
-            <p className="text-center text-sm text-gray-200 mt-3">
+            <p className="text-center text-sm text-admin-muted mt-3">
               <span
                 onClick={() => setIsLogin(true)}
-                className="text-yellow-200 font-semibold hover:underline cursor-pointer"
+                className="text-admin-primary font-semibold hover:underline cursor-pointer"
               >
                 Log in here
               </span>
@@ -280,3 +264,4 @@ export default function VendorAuthPage() {
     </div>
   );
 }
+

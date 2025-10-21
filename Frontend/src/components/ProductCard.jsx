@@ -11,18 +11,18 @@ const ProductCard = ({ product, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
       viewport={{ once: true }}
-      className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2 group overflow-hidden"
+      className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2 group overflow-hidden"
     >
       {/* Badge */}
       {product.badge && (
-        <span className="absolute top-4 left-4 bg-pink-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+        <span className="absolute top-4 left-4 bg-brand-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
           {product.badge}
         </span>
       )}
 
       {/* Wishlist (static icon placeholder) */}
       <button
-        className="absolute top-4 right-4 text-gray-400 hover:text-pink-600 transition"
+        className="absolute top-4 right-4 text-brand-muted hover:text-brand-primary transition"
         title="Add to Wishlist"
       >
         <FaHeart className="w-5 h-5" />
@@ -42,21 +42,21 @@ const ProductCard = ({ product, index }) => {
       {/* Product Info */}
       <div className="p-5">
         <Link to={`/product/${product.id}`}>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white group-hover:text-pink-600 transition">
+          <h3 className="text-lg font-semibold text-brand group-hover:text-brand-primary transition">
             {product.name}
           </h3>
         </Link>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 line-clamp-2">
+        <p className="text-brand-muted text-sm mt-1 line-clamp-2">
           {product.description}
         </p>
 
         {/* Price */}
-        <p className="text-xl font-bold text-pink-600 mt-3">{product.price}</p>
+        <p className="text-xl font-bold text-brand-primary mt-3">{product.price}</p>
 
         {/* View Details Button */}
         <Link
           to={`/product/${product.id}`}
-          className="block text-center mt-5 bg-pink-600 text-white font-semibold py-2 rounded-full hover:bg-pink-700 transition shadow-md"
+          className="block text-center mt-5 bg-brand-primary text-white font-semibold py-2 rounded-full hover:bg-brand-highlight transition shadow-md"
         >
           View Details
         </Link>
