@@ -52,12 +52,12 @@ const FeaturedCollections = () => {
                             // Animation classes added here
                             className={`group relative block overflow-hidden rounded-xl shadow-xl transition-all duration-150 hover:shadow-2xl hover:scale-[1.02] ${baseTransition} ${isLoaded ? finalClasses : initialClasses}`}
                             // Staggered delay added here
-                            style={{ transitionDelay: `${index * 150}ms` }}
+                            // style={{ transitionDelay: `${index * 150}ms` }}
                         >
                             <img
                                 src={collection.image}
                                 alt={collection.name}
-                                className="w-full h-80 object-cover object-center transition-transform duration-150 group-hover:scale-110"
+                                className="w-full h-80 object-cover object-center transition-transform duration-150 group-hover:scale-105"
                             />
 
                             <div className="absolute inset-0 flex flex-col justify-end p-6 text-brand-primary z-10 bg-gradient-to-t from-black/60 via-black/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-100">

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 @import "./styles/global-manual-OKLCH.css";
 
 :root {
@@ -23,9 +22,9 @@ a {
   /* color: var(--primary); */
   text-decoration: inherit;
 }
-a:hover {
-  /* color: var(--secondary); */
-}
+/* a:hover {
+  color: var(--secondary);
+} */
 
 body {
   margin: 0;

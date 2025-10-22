@@ -35,7 +35,7 @@ function Hero() {
             }}
         >
             {/* Overlay for contrast in dark mode */}
-            <div className="absolute inset-0  bg-opacity-100 dark:bg-opacity-50 z-10 bg-gradient-to-t from-black/60 via-black/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-100"></div>
+            <div className="absolute inset-0  bg-opacity-100 dark:bg-opacity-50 bg-gradient-to-t from-black/60 via-black/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-100"></div>
 
             <div className="relative max-w-7xl mx-auto h-full flex items-center px-4 sm:px-6 lg:px-8">
                 {/* Text Content - Positioned left for emphasis */}
@@ -60,7 +60,7 @@ function Hero() {
                     <Link
                         to="/products"
                         className={`inline-flex items-center px-8 py-4 bg-brand-dark text-brand text-xl font-bold rounded-full shadow-2xl hover:bg-brand-light transition transform hover:scale-[1.05] gap-3 ${baseTransition} ${isAnimated ? finalClasses : initialClasses}`}
-                        style={{ transitionDelay: '450ms' }}
+                        style={{ transitionDelay: '0ms' }}
                     >
                         <FaGem /> Shop The Collection
                     </Link>

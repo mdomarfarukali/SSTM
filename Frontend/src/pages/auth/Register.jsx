@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import lightLogo from "/DIVA.png";
+import darkLogo from "/DIVA_G_Dark.png";
 
 const SignUpForm = () => {
+
+  const { theme } = useTheme();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,7 +34,7 @@ const SignUpForm = () => {
     <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand-light">
       <div
         className="h-screen w-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-6 md:px-16"
-        style={{ backgroundImage: "url('/jewell.png')" }}
+        style={{ backgroundImage: `url('${theme === "dark" ? darkLogo : lightLogo}')` }}
       >
         <div className="backdrop-blur-md bg-white/30 p-10 rounded-2xl max-w-4xl w-full shadow-lg">
           {/* Title */}

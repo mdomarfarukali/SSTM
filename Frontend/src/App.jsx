@@ -5,6 +5,7 @@ import PageLayout from "./components/layout/PageLayout";
 // --- CORE USER PAGES ---
 import Home from "./pages/Home";
 import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -62,6 +63,7 @@ function App() {
                 <Route element={<PageLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Register />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
 
