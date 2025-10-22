@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext.jsx"; // 🌙 Theme Context
+import lightLogo from "/DIVA_LightCut-removebg-preview.png";
+import darkLogo from "/DIVA_Cut-removebg-preview.png";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { theme } = useTheme(); // 👈 Access current theme (dark/light)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -12,73 +17,92 @@ export default function LoginPage() {
     };
 
     return (
-        <div
-            // The outer background color uses the 'bg-brand' class
-            className="fixed top-0 right-0 bottom-0 left-0 bg-brand"
-        >
-            <div
+        <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand">
+            <motion.div
                 className="h-screen w-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-6 md:px-16"
-                style={{ backgroundImage: "url('/jewell.png')" }}
+                // You can enable the bg image later if you like
+                /* style={{ backgroundImage: "url('/jewell.png')" }} */
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
             >
-                <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl">
+                <motion.div
+                    className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl"
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                >
 
-                    {/* Left side - Brand Name */}
-                    <div className="hidden md:flex flex-col items-start space-y-4 max-w-md">
-                        {/* Text color uses the main 'text-brand' class */}
-                        <h1 className="text-7xl font-serif font-bold text-brand drop-shadow-lg">
-                            DIVA
-                        </h1>
-                        {/* Muted text color for secondary description */}
+                    {/* Left side - Brand Name with Dynamic Logo 🌙 */}
+                    <motion.div
+                        className="hidden md:flex flex-col items-start space-y-4 max-w-md"
+                        initial={{ x: -60, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 1 }}
+                    >
+                        <div className="flex items-center space-x-3">
+                            <img
+                                src={theme === "dark" ? darkLogo : lightLogo}
+                                alt="DIVA Logo"
+                                className="w-14 h-14 drop-shadow-lg"
+                            />
+                            <h1 className="text-7xl font-serif font-bold text-brand drop-shadow-lg">
+                                DIVA
+                            </h1>
+                        </div>
                         <p className="text-2xl italic text-brand-muted drop-shadow-md">
                             Elegant Jewellery, Timeless Beauty
                         </p>
-                    </div>
+                    </motion.div>
 
                     {/* Right side - Login card */}
-                    <div
-                        // Login card background uses a dark/primary color with transparency
-                        // Border uses a primary/muted border color
+                    <motion.div
                         className="relative z-20 w-full max-w-md p-8 
-            bg-brand-dark/60 backdrop-blur-xl 
-            rounded-2xl shadow-2xl border border-brand-primary/50 
-            transition-transform transform hover:scale-105 hover:shadow-brand-primary/40"
+                        bg-white/60 backdrop-blur-xl 
+                        rounded-2xl shadow-2xl border border-brand-primary/50 
+                        transition-transform transform hover:scale-105 hover:shadow-brand-primary/40"
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        whileHover={{ scale: 1.03 }}
                     >
                         <div className="text-center mb-6">
-                            {/* Title text uses secondary/highlight color */}
-                            <h1 className="text-4xl font-serif font-bold text-brand-secondary drop-shadow">
+                            <motion.h1
+                                className="text-4xl font-serif font-bold text-brand-secondary drop-shadow"
+                                initial={{ y: -10, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.3, duration: 0.6 }}
+                            >
                                 SIGN IN
-                            </h1>
+                            </motion.h1>
                         </div>
 
                         {/* Form */}
                         <form onSubmit={handleSubmit} className="space-y-5">
-                            {/* Email */}
                             <div>
                                 <label
                                     htmlFor="email"
-                                    // Label text color is muted
                                     className="block mb-2 text-sm font-semibold text-brand-muted"
                                 >
                                     Email Address
                                 </label>
-                                <input
+                                <motion.input
                                     id="email"
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="you@example.com"
                                     className="w-full px-4 py-3 border border-brand-muted/60 
-                    rounded-lg shadow-sm focus:outline-none 
-                    // Input focus ring uses the primary brand color
-                    focus:ring-2 focus:ring-brand-primary
-                    bg-brand-light/70 backdrop-blur-md
-                    // Placeholder text uses the main text color
-                    placeholder-text-brand" 
+                                    rounded-lg shadow-sm focus:outline-none 
+                                    focus:ring-2 focus:ring-brand-primary
+                                    bg-brand-light/70 backdrop-blur-md
+                                    placeholder-text-brand"
                                     required
+                                    whileFocus={{ scale: 1.02 }}
+                                    transition={{ type: "spring", stiffness: 200 }}
                                 />
                             </div>
 
-                            {/* Password */}
                             <div>
                                 <label
                                     htmlFor="password"
@@ -86,28 +110,27 @@ export default function LoginPage() {
                                 >
                                     Password
                                 </label>
-                                <input
+                                <motion.input
                                     id="password"
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
                                     className="w-full px-4 py-3 border border-brand-muted/60 
-                    rounded-lg shadow-sm focus:outline-none 
-                    focus:ring-2 focus:ring-brand-primary
-                    bg-brand-light/70 backdrop-blur-md
-                    placeholder-text-brand"
+                                    rounded-lg shadow-sm focus:outline-none 
+                                    focus:ring-2 focus:ring-brand-primary
+                                    bg-brand-light/70 backdrop-blur-md
+                                    placeholder-text-brand"
                                     required
+                                    whileFocus={{ scale: 1.02 }}
+                                    transition={{ type: "spring", stiffness: 200 }}
                                 />
                             </div>
 
-                            {/* Remember me + Forgot password */}
-                            {/* Changed text-brand- to text-brand-highlight to be visible against the card background */}
                             <div className="flex items-center justify-between text-sm text-brand-highlight">
                                 <label className="flex items-center space-x-2">
                                     <input
                                         type="checkbox"
-                                        // Checkbox is colored using text-brand-primary
                                         className="w-4 h-4 text-brand-primary border-brand-muted rounded"
                                     />
                                     <span>Remember me</span>
@@ -117,45 +140,37 @@ export default function LoginPage() {
                                 </a>
                             </div>
 
-                            {/* Submit Button */}
-                            <button
+                            <motion.button
                                 type="submit"
-                                // Replaced hardcoded yellow gradient with a primary color class for simplicity
-                                // You might need to define a 'bg-gradient-brand-primary' in your CSS if you want the gradient
                                 className="w-full py-3 text-lg font-semibold text-brand-highlight 
-                    bg-brand-primary 
-                    hover:bg-brand
-                    rounded-lg shadow-lg 
-                    transition transform hover:scale-[1.05]"
+                                bg-brand-primary hover:bg-brand rounded-lg shadow-lg 
+                                transition transform hover:scale-[1.05]"
+                                whileTap={{ scale: 0.95 }}
                             >
                                 Sign In
-                            </button>
+                            </motion.button>
                         </form>
 
-                        {/* Divider */}
                         <div className="relative flex items-center justify-center my-6">
-                            {/* 'or' text uses brand highlight color */}
                             <span className="absolute px-2 bg-brand-dark/40 text-brand-highlight text-sm">or</span>
-                            {/* Divider line uses a muted border color */}
                             <div className="w-full border-t border-brand-muted/40"></div>
                         </div>
 
-                        {/* Social Login */}
-                        <button
+                        <motion.button
                             className="w-full py-3 flex items-center justify-center space-x-2 
-            border border-brand-muted/50 rounded-lg shadow-sm 
-            hover:bg-brand-light/20 bg-brand-light/10 backdrop-blur-md text-brand"
+                            border border-brand-muted/50 rounded-lg shadow-sm 
+                            hover:bg-brand-light/20 bg-brand-light/10 backdrop-blur-md text-brand"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
                             <img
                                 src="https://www.svgrepo.com/show/303552/google-g-2015-logo.svg"
                                 alt="Google"
                                 className="w-5 h-5"
                             />
-                            {/* Text for social login uses the main text color */}
                             <span className="text-sm font-medium text-brand">Continue with Google</span>
-                        </button>
+                        </motion.button>
 
-                        {/* Signup */}
                         <p className="mt-4 text-center text-sm text-brand-muted">
                             New here?{" "}
                             <Link
@@ -165,9 +180,9 @@ export default function LoginPage() {
                                 Create an account
                             </Link>
                         </p>
-                    </div>
-                </div>
-            </div>
+                    </motion.div>
+                </motion.div>
+            </motion.div>
         </div>
     );
 }
