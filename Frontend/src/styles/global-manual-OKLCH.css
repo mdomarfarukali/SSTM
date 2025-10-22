@@ -3,7 +3,7 @@
 =========================== */
 .bg-brand-dark { background-color: oklch(88.516% 0.05701 20.867); }
 .bg-brand { background-color: oklch(0.96 0.07 20); }
-.bg-brand-light { background-color: oklch(96.801% 0.00534 16.115); }
+.bg-brand-light { background-color: oklch(100% 0.00011 271.152); }
 
 
 .text-brand { color: oklch(0.15 0.14 20); }
@@ -27,7 +27,7 @@
 .text-brand-danger { color: oklch(0.5 0.14 30); }
 .text-brand-warning { color: oklch(0.5 0.14 100); }
 .text-brand-success { color: oklch(0.5 0.14 160); }
-.text-brand-info { color: oklch(0.5 0.14 260); }
+.text-brand-info { color: oklch(49.991% 0.07112 286.572); }
 
 
 .ring-brand-primary {--tw-ring-color: oklch(0.7 0.14 20);}
@@ -39,8 +39,8 @@
 .dark .bg-brand { background-color: oklch(0.15 0.055 297); }
 .dark .bg-brand-light { background-color: oklch(0.2 0.055 297); }
 
-.dark .text-brand { color: oklch(0.96 0.1 297); }
-.dark .text-brand-muted { color: oklch(0.76 0.1 297); }
+.dark .text-brand { color: oklch(63.211% 0.11799 326.83); }
+.dark .text-brand-muted { color: oklch(68.781% 0.10315 296.72); }
 
 .dark .text-brand-highlight { color: oklch(0.5 0.11 297); }
 .dark .border-brand { border-color: oklch(0.4 0.11 297); }
@@ -58,7 +58,7 @@
 .dark .text-brand-danger { color: oklch(0.7 0.11 30); }
 .dark .text-brand-warning { color: oklch(0.7 0.11 100); }
 .dark .text-brand-success { color: oklch(0.7 0.11 160); }
-.dark .text-brand-info { color: oklch(0.7 0.11 260); }
+.dark .text-brand-info { color: oklch(59.67% 0.08674 259.496); }
 
 .dark .ring-brand-primary { --tw-ring-color: oklch(0.76 0.11 297); }
 

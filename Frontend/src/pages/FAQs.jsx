@@ -36,8 +36,8 @@ const faqs = [
 
 export default function FAQs() {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen px-6 md:px-16 py-32"> {/* Increased py from 20 → 32 */}
-      <h1 className="text-3xl font-bold text-white-700 dark:text-pink-300 mb-12 text-center">
+    <div className="bg-brand min-h-screen px-6 md:px-16 py-32"> {/* Increased py from 20 → 32 */}
+      <h1 className="text-3xl text-brand-info font-bold  mb-12 text-center">
         Frequently Asked Questions
       </h1>
 

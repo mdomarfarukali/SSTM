@@ -40,7 +40,7 @@ function Hero() {
 
             <div className="relative max-w-7xl mx-auto h-full flex items-center px-4 sm:px-6 lg:px-8">
                 {/* Text Content - Positioned left for emphasis */}
-                <div className="max-w-xl text-brand-highlight -blur-sm p-6 rounded-xl bg-opacity-20">
+                <div className="max-w-xl text-brand -blur-sm p-6 rounded-xl bg-opacity-20">
                     {/* H1 - DIVA */}
                     <h1 className={`text-6xl md:text-8xl font-serif font-extrabold leading-tight tracking-tight ${baseTransition} ${isAnimated ? finalClasses : initialClasses}`} style={{ transitionDelay: '0ms' }}>
                         <img src="/DIVA_LightCut-removebg-preview.png" alt="DIVA Logo" className="w-25 h-25 inline-block mr-2 mb-1" />

@@ -17,7 +17,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand">
+        <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand-light">
             <motion.div
                 className="h-screen w-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-6 md:px-16"
                 // You can enable the bg image later if you like
