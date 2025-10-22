@@ -1,32 +1,36 @@
 /* ===========================
    🌞 LIGHT MODE (DEFAULT)
 =========================== */
-.bg-brand-dark { background-color: oklch(0.92 0.055 297); }
-.bg-brand { background-color: oklch(0.96 0.055 297); }
-.bg-brand-light { background-color: oklch(1 0.055 297); }
+.bg-brand-dark { background-color: oklch(88.516% 0.05701 20.867); }
+.bg-brand { background-color: oklch(0.96 0.07 20); }
+.bg-brand-light { background-color: oklch(96.801% 0.00534 16.115); }
 
-.text-brand { color: oklch(0.15 0.11 297); }
-.text-brand-muted { color: oklch(0.4 0.11 297); }
-.text-brand-highlight { color: oklch(.99 0.11 297); }
 
-.border-brand { border-color: oklch(0.6 0.11 297); }
-.border-brand-muted { border-color: oklch(0.7 0.11 297); }
+.text-brand { color: oklch(0.15 0.14 20); }
+.text-brand-muted { color: oklch(0.4 0.14 20); }
+.text-brand-highlight { color: oklch(1 0.14 20); }
 
-.bg-brand-primary { background-color: oklch(0.4 0.11 297); }
-.bg-brand-secondary { background-color: oklch(0.4 0.11 117); }
-.bg-brand-danger { background-color: oklch(0.5 0.11 30); }
-.bg-brand-warning { background-color: oklch(0.5 0.11 100); }
-.bg-brand-success { background-color: oklch(0.5 0.11 160); }
-.bg-brand-info { background-color: oklch(0.5 0.11 260); }
+.border-brand { border-color: oklch(0.6 0.14 20); }
+.border-brand-muted { border-color: oklch(0.7 0.14 20); }
 
-.text-brand-primary { color: oklch(0.4 0.11 297); }
-.text-brand-secondary { color: oklch(0.4 0.11 117); }
-.text-brand-danger { color: oklch(0.5 0.11 30); }
-.text-brand-warning { color: oklch(0.5 0.11 100); }
-.text-brand-success { color: oklch(0.5 0.11 160); }
-.text-brand-info { color: oklch(0.5 0.11 260); }
 
-.ring-brand-primary { --tw-ring-color: oklch(0.7 0.11 297); }
+.bg-brand-primary { background-color: oklch(0.4 0.14 20); }
+.bg-brand-secondary { background-color: oklch(0.4 0.14 200); } /* Used new secondary hue: 200 */
+.bg-brand-danger { background-color: oklch(0.5 0.14 30); }
+.bg-brand-warning { background-color: oklch(0.5 0.14 100); }
+.bg-brand-success { background-color: oklch(0.5 0.14 160); }
+.bg-brand-info { background-color: oklch(0.5 0.14 260); }
+
+
+.text-brand-primary { color: oklch(0.4 0.14 20); }
+.text-brand-secondary { color: oklch(0.4 0.14 200); } /* Used new secondary hue: 200 */
+.text-brand-danger { color: oklch(0.5 0.14 30); }
+.text-brand-warning { color: oklch(0.5 0.14 100); }
+.text-brand-success { color: oklch(0.5 0.14 160); }
+.text-brand-info { color: oklch(0.5 0.14 260); }
+
+
+.ring-brand-primary {--tw-ring-color: oklch(0.7 0.14 20);}
 
 /* ===========================
    🌚 DARK MODE OVERRIDE (Manual Toggle)
