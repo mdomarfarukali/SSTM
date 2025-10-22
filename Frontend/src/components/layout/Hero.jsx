@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'; // <-- ADDED useState and useEffect
 import { Link } from 'react-router-dom';
 import { FaGem } from 'react-icons/fa';
+import backgroundImage from "../../assets/p22.jpg";
 
 function Hero() {
     // 1. STATE TO TRIGGER ANIMATION
@@ -29,7 +30,7 @@ function Hero() {
             style={{
                 // Using a light, elegant image (replace with your own high-res image later)
                 // backgroundImage: 'url("https://images.unsplash.com/photo-1549414002-3c1a7d656096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80")',
-                backgroundImage: 'url("/3.jpg")',
+                backgroundImage: 'url(' + backgroundImage + ')',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center 40%',
             }}

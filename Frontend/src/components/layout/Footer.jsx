@@ -13,11 +13,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand Info */}
           <div>
-            <h3 className="text-2xl text-brand font-bold mb-4">
+            <h3 className="text-4xl text-brand font-serif font-bold ">
               <img
                 src={theme === "dark" ? darkLogo : lightLogo}
                 alt="DIVA Logo"
-                className="w-10 h-10 inline-block mr-2 mb-1"
+                className="w-20 h-20 inline-block mr-2 mb-1"
               />
               DIVA
             </h3>

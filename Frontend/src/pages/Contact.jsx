@@ -37,7 +37,8 @@ export default function Contact() {
         transition={{ duration: 0.7 }}
         className="text-6xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-500 dark:from-pink-400 dark:to-rose-300 mb-20 font-serif tracking-wide"
       >
-        Contact DIVA
+        Contact <span className="text-pink-500">DIVA</span>
+        <img src="/DIVA_Cut-removebg-preview.png" alt="DIVA Logo" className="w-25 h-25 inline-block mr-2 mb-1" />
       </motion.h1>
 
       <motion.p
