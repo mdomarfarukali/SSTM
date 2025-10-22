@@ -22,13 +22,13 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-pink-50 via-white to-rose-50 dark:from-gray-900 dark:via-gray-950 dark:to-black min-h-screen px-6 md:px-16 py-28 relative overflow-hidden">
+    <div className="bg-brand min-h-screen px-6 md:px-16 py-28 relative overflow-hidden">
       <br></br>
       {/* <br></br>
       <br></br> */}
       {/* Floating sparkles */}
-      <Sparkles className="absolute top-35 left-12 text-pink-200 dark:text-pink-700 w-20 h-20 opacity-30 animate-pulse" />
-      <Sparkles className="absolute bottom-20 right-12 text-pink-200 dark:text-pink-700 w-16 h-16 opacity-30 animate-pulse" />
+      <Sparkles className="absolute top-35 left-12 text-pink-400 dark:text-pink-700 w-20 h-20 opacity-30 animate-pulse" />
+      <Sparkles className="absolute bottom-20 right-12 text-pink-400 dark:text-pink-700 w-16 h-16 opacity-30 animate-pulse" />
 
       {/* Heading */}
       <motion.h1

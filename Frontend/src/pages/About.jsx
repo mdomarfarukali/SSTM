@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className="bg-gradient-to-b from-pink-50 to-white dark:from-gray-900 dark:to-gray-950 min-h-screen px-6 md:px-16 py-20 font-serif">
+    <div className="bg-brand min-h-screen px-6 md:px-16 py-20 font-serif">
       {/* 💖 Header Section */}
       <section className="text-center mb-20">
         <br></br>
