@@ -5,7 +5,7 @@ import dotenv from 'dotenv';  // Dotenv for loading environment variables
 dotenv.config();  // Load environment variables from .env file
 import generateChecksum from '../components/ChecksumGenerate.js';  // Function to generate checksum for validation
 import generateOrderId from '../components/OrderIDGenerate.js';  // Function to generate a unique order ID
-import Order from "../models/order.js";  // Order model to save order details in the database
+import Order from "../models/Order.js";  // Order model to save order details in the database
 
 // Access environment variables for PhonePe Payment Gateway configuration
 // const { Buffer } = require('node:buffer');  // Buffer for encoding/decoding data
