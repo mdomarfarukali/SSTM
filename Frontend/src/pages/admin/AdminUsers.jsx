@@ -11,7 +11,7 @@ export default function AdminUsers() {
   };
 
   return (
-    <div className="p-8 bg-admin-light min-h-screen">
+    <div className="p-8 bg-admin-dark min-h-screen">
       <h2 className="text-3xl font-bold text-admin mb-6">Users Management</h2>
       <table className="min-w-full bg-admin shadow rounded-lg overflow-hidden">
         <thead className="bg-admin-primary">

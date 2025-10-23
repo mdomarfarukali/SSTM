@@ -67,7 +67,7 @@
 =========================== */
 
 /* Backgrounds - Very high lightness (L), subtle chroma/hue */
-.bg-admin-dark { background-color: oklch(92.134% 0.02782 258.421); } /* Off-white base */
+.bg-admin-dark { background-color: oklch(83.63% 0.06311 258.938); } /* Off-white base */
 .bg-admin { background-color: oklch(93.527% 0.01099 256.842); } /* Near-white cards/panels */
 .bg-admin-light { background-color: oklch(1 0 0); } /* Pure white for contrast/lightest elements */
 
