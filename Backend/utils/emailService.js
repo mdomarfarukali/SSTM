@@ -28,12 +28,12 @@ transporter.verify(function (error, success) {
 });
 
 export const sendOrderConfirmationEmail = async (options) => {
-  const { to, order } = options;
+  const { email, order } = options;
 
   // Create email message
   const message = {
-    from: `"${process.env.EMAIL_FROM_NAME || 'E-Commerce Store'}" <${process.env.EMAIL_FROM || 'noreply@ecommerce.com'}>`,
-    to,
+    from: `"${process.env.EMAIL_FROM_NAME || 'DIVA'}" <${process.env.EMAIL_FROM || 'noreply@ecommerce.com'}>`,
+    to: email,
     subject: `Order Confirmation - Order #${order.id}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -50,7 +50,7 @@ export const sendOrderConfirmationEmail = async (options) => {
             <h2 style="margin-top: 0;">Order Summary</h2>
             <p><strong>Order ID:</strong> ${order.id}</p>
             <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
-            <p><strong>Total:</strong> ₹${order.total.toLocaleString('en-IN')}</p>
+            <p><strong>Total:</strong> ₹${order.totalPrice.toLocaleString('en-IN')}</p>
           </div>
           
           <table style="width: 100%; border-collapse: collapse;">
@@ -62,7 +62,7 @@ export const sendOrderConfirmationEmail = async (options) => {
               </tr>
             </thead>
             <tbody>
-              ${order.items.map(item => `
+              ${order.orderItems.map(item => `
                 <tr style="border-bottom: 1px solid #eee;">
                   <td style="padding: 8px;">${item.name}</td>
                   <td style="text-align: center; padding: 8px;">${item.quantity}</td>
@@ -71,7 +71,7 @@ export const sendOrderConfirmationEmail = async (options) => {
               `).join('')}
               <tr>
                 <td colspan="2" style="text-align: right; padding: 8px;"><strong>Total:</strong></td>
-                <td style="text-align: right; padding: 8px;"><strong>₹${order.total.toLocaleString('en-IN')}</strong></td>
+                <td style="text-align: right; padding: 8px;"><strong>₹${order.totalPrice.toLocaleString('en-IN')}</strong></td>
               </tr>
             </tbody>
           </table>
@@ -79,19 +79,19 @@ export const sendOrderConfirmationEmail = async (options) => {
           <div style="margin-top: 20px;">
             <h3>Shipping Address</h3>
             <p>
-              ${order.shippingAddress.street}<br>
-              ${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}<br>
+              ${order.shippingAddress.addressLine1}<br>
+              ${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.postalCode}<br>
               ${order.shippingAddress.country}
             </p>
           </div>
           
           <div style="margin-top: 30px; text-align: center;">
-            <p>If you have any questions, please contact our customer service at support@ecommerce.com</p>
+            <p>If you have any questions, please contact our customer service at support@diva.com</p>
           </div>
         </div>
         
         <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
-          <p>&copy; ${new Date().getFullYear()} E-Commerce Store. All rights reserved.</p>
+          <p>&copy; ${new Date().getFullYear()} DIVA Store. All rights reserved.</p>
         </div>
       </div>
     `
