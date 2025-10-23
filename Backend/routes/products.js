@@ -1,31 +1,91 @@
 import express from "express";
-import Product from "../models/Product.js";
+import {
+  createProduct,
+  getAllProducts,
+  getProduct,
+  updateProduct,
+  deleteProduct,
+  addReview,
+  getFeaturedProducts,
+  getNewArrivals,
+  getBestSellers,
+} from "../controllers/productController.js";
 
 const router = express.Router();
 
-// Get all products
-router.get("/", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
-});
+/* =========================================================
+   🛒 PRODUCT ROUTES
+========================================================= */
 
-// Add product
-router.post("/", async (req, res) => {
-  const newProduct = new Product(req.body);
-  await newProduct.save();
-  res.json(newProduct);
-});
+/**
+ * @route   POST /api/products
+ * @desc    Create a new product
+ * @access  Admin
+ */
+router.post("/", createProduct);
 
-// Update product
-router.put("/:id", async (req, res) => {
-  const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(updated);
-});
+/**
+ * @route   GET /api/products
+ * @desc    Get all products (with filters, sorting, pagination)
+ * @access  Public
+ */
+router.get("/", getAllProducts);
 
-// Delete product
-router.delete("/:id", async (req, res) => {
-  await Product.findByIdAndDelete(req.params.id);
-  res.json({ message: "Product deleted" });
-});
+/**
+ * @route   GET /api/products/:idOrSlug
+ * @desc    Get single product by ID or slug
+ * @access  Public
+ */
+router.get("/:idOrSlug", getProduct);
+
+/**
+ * @route   PUT /api/products/:id
+ * @desc    Update product details
+ * @access  Admin
+ */
+router.put("/:id", updateProduct);
+
+/**
+ * @route   DELETE /api/products/:id
+ * @desc    Delete a product
+ * @access  Admin
+ */
+router.delete("/:id", deleteProduct);
+
+/* =========================================================
+   ⭐ REVIEW ROUTES
+========================================================= */
+
+/**
+ * @route   POST /api/products/:productId/review
+ * @desc    Add a review to a product
+ * @access  Authenticated User
+ */
+router.post("/:productId/review", addReview);
+
+/* =========================================================
+   🏷️ COLLECTION ROUTES
+========================================================= */
+
+/**
+ * @route   GET /api/products/collections/featured
+ * @desc    Get featured products
+ * @access  Public
+ */
+router.get("/collections/featured", getFeaturedProducts);
+
+/**
+ * @route   GET /api/products/collections/new
+ * @desc    Get new arrival products
+ * @access  Public
+ */
+router.get("/collections/new", getNewArrivals);
+
+/**
+ * @route   GET /api/products/collections/best
+ * @desc    Get best-selling products
+ * @access  Public
+ */
+router.get("/collections/best", getBestSellers);
 
 export default router;

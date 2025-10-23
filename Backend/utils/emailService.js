@@ -6,11 +6,11 @@ import logger from './logger.js';
 // Create a transporter object
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || 587,
-  secure: false,
+  port: process.env.SMTP_PORT || 465,
+  secure: true,
   auth: {
-    user: process.env.SMTP_EMAIL,
-    pass: process.env.SMTP_PASSWORD
+    user: process.env.SMTP_EMAIL || 'noreply.todiva@gmail.com',
+    pass: process.env.SMTP_PASSWORD || 'qpwwsgmfbvidzvne '
   },
   logger: true, // Enable logging
   debug: process.env.NODE_ENV !== 'production' // Debug in non-production environments
@@ -19,9 +19,10 @@ const transporter = nodemailer.createTransport({
 // Verify transporter configuration
 transporter.verify(function (error, success) {
   if (error) {
-    // console.log("Loaded Gmail credentials:", process.env.GMAIL_USER, " & ", process.env.GMAIL_PASS);
+    // console.log("Loaded Gmail credentials:", process.env.SMTP_EMAIL, " & ", process.env.SMTP_PASSWORD);
     logger.error('SMTP server connection error:', error);
   } else {
+    // console.log("Loaded Gmail credentials:", process.env.SMTP_EMAIL, " & ", process.env.SMTP_PASSWORD);
     logger.debug('SMTP server connection verified and ready to send emails');
   }
 });
@@ -155,7 +156,7 @@ export const sendShippingConfirmationEmail = async (options) => {
 };
 
 export const sendPasswordResetEmail = async (options) => {
-  const { to, name, resetUrl } = options;
+  const { email, name, subject, resetUrl } = options;
 
   // Log the attempt (not in production)
   if (process.env.NODE_ENV !== 'production') {
@@ -166,8 +167,8 @@ export const sendPasswordResetEmail = async (options) => {
   // Create email message
   const message = {
     from: `"${process.env.EMAIL_FROM_NAME || 'SastaKart'}" <${process.env.SMTP_EMAIL || 'noreply@ecommerce.com'}>`,
-    to,
-    subject: `Password Reset Request - SastaKart`,
+    to: email,
+    subject: subject,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background-color: #000; padding: 20px; text-align: center;">
@@ -190,11 +191,12 @@ export const sendPasswordResetEmail = async (options) => {
           <div style="margin-top: 30px;">
             <p>If the button doesn't work, copy and paste this URL into your browser:</p>
             <p style="word-break: break-all;">${resetUrl}</p>
+            <p>If you did not request this, please ignore this email.</p>
           </div>
         </div>
         
         <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
-          <p>&copy; ${new Date().getFullYear()} SastaKart. All rights reserved.</p>
+          <p>&copy; ${new Date().getFullYear()} DIVA. All rights reserved.</p>
         </div>
       </div>
     `,
@@ -217,6 +219,7 @@ export const sendPasswordResetEmail = async (options) => {
   };
 
   try {
+    console.log("Sending password reset email to:", email);
     const info = await transporter.sendMail(message);
     logger.debug('Password reset email sent:', info.messageId);
     return { success: true, messageId: info.messageId };
@@ -230,6 +233,68 @@ export const sendPasswordResetEmail = async (options) => {
     return { success: false, error: error.message };
   }
 };
+
+export const sendPasswordResetConfirmationEmail = async (options) => {
+  const { email, name, subject } = options;
+
+  console.log("Preparing to send password reset confirmation email to:", email);
+  const message = {
+    from: `"${process.env.EMAIL_FROM_NAME || 'DIVA'}" <${process.env.SMTP_EMAIL || 'noreply@divastore.com'}>`,
+    to: email,
+    subject: subject,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background-color: #000; padding: 20px; text-align: center;">
+          <h1 style="color: #fff; margin: 0;">Password Reset Successful</h1>
+        </div>
+        
+        <div style="padding: 20px; border: 1px solid #eee;">
+          <p>Hello ${name},</p>
+          
+          <p>Good news! Your password has been successfully reset. You can now use your new password to log in to your account.</p>
+          
+          <p style="margin: 20px 0; text-align: center;">
+            <a href="${process.env.FRONTEND_URL || 'https://divastore.com/login'}" 
+               style="background-color: #000; color: #fff; padding: 12px 25px; text-decoration: none; border-radius: 4px; display: inline-block;">
+               Log In Now
+            </a>
+          </p>
+          
+          <p>If you did not perform this action, please contact our support immediately.</p>
+          
+          <p>Thank you for choosing DIVA.</p>
+        </div>
+        
+        <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
+          <p>&copy; ${new Date().getFullYear()} DIVA. All rights reserved.</p>
+        </div>
+      </div>
+    `,
+    text: `
+      Hello ${name},
+
+      Your password has been successfully reset. You can now log in using your new password.
+
+      If you did not perform this action, please contact our support immediately.
+
+      Log in here: ${process.env.FRONTEND_URL || 'https://divastore.com/login'}
+
+      Thank you,
+      DIVA Team
+    `,
+  };
+
+  try {
+    const info = await transporter.sendMail(message);
+    logger.debug('Password reset confirmation email sent:', info.messageId);
+    // console.log('Password reset confirmation email sent:', info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Failed to send password reset confirmation email:', error);
+    return { success: false, error: error.message };
+  }
+};
+
 
 export const sendOrderStatusUpdateEmail = async (options) => {
   const { to, order, status, additionalInfo } = options;
