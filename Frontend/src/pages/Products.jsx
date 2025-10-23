@@ -259,8 +259,140 @@ const products = [
     type: "Earrings",
     material: ["Pearls", "Gold Vermeil & Plated"],
     collection: ["Statement/Cocktail Wear"]
-  }
-];
+  },
+
+  { 
+    id: 24, 
+    name: "Ruby Radiance Earrings", 
+    price: "$450", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210181/p24_ghgkx4.jpg", 
+    description: "Classic ruby earrings that exude timeless beauty.",
+    type: "Earrings",
+    material: ["Gemstones (Ruby)", "Fine Jewelry"],
+    collection: ["Everyday Essentials", "Statement/Cocktail Wear"]
+  },
+  { 
+    id: 25, 
+    name: "Diamond Bliss Bracelet", 
+    price: "$780", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210220/p25_gdbss4.jpg", 
+    description: "Luxurious bracelet crafted with brilliant-cut diamonds.",
+    type: "Bracelets & Bangles",
+    material: ["Diamond", "Fine Jewelry"],
+    collection: ["Bridal & Wedding", "Gifts"]
+  },
+  { 
+    id: 26, 
+    name: "Sapphire Sky Anklet", 
+    price: "$270", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210279/p26_s1qt0w.jpg", 
+    description: "Charming anklet set with deep-blue sapphire stones.",
+    type: "Anklets & Body Jewelry",
+    material: ["Gemstones (Sapphire)", "Fashion/Costume Jewelry"],
+    collection: ["Everyday Essentials", "Gifts"]
+  },
+  { 
+    id: 27, 
+    name: "Amethyst Aura Pendant", 
+    price: "$340", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210267/p27_cmtvic.jpg", 
+    description: "Radiant amethyst pendant that symbolizes peace and balance.",
+    type: "Necklaces & Pendants",
+    material: ["Gemstones (Amethyst)", "Fine Jewelry"],
+    collection: ["Gifts (Birthstones)", "Everyday Essentials"]
+  },
+  { 
+    id: 28, 
+    name: "Emerald Envy Ring", 
+    price: "$610", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210278/p28_hmlitp.jpg", 
+    description: "A luxury ring featuring a vivid green emerald centerpiece.",
+    type: "Rings",
+    material: ["Gemstones (Emerald)", "Fine Jewelry"],
+    collection: ["Statement/Cocktail Wear", "Bridal & Wedding"]
+  },
+  { 
+    id: 29, 
+    name: "Ruby Charm Bracelet", 
+    price: "$400", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210278/p29_wgukxr.jpg", 
+    description: "Delicate bracelet with ruby charms for a passionate look.",
+    type: "Bracelets & Bangles",
+    material: ["Gemstones (Ruby)", "Demi-Fine Jewelry"],
+    collection: ["Gifts", "Everyday Essentials"]
+  },
+  { 
+    id: 30, 
+    name: "Sapphire Dream Earrings", 
+    price: "$380", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210302/p30_qrdxmy.jpg", 
+    description: "Blue sapphire earrings perfect for elegant evening wear.",
+    type: "Earrings",
+    material: ["Gemstones (Sapphire)", "Fine Jewelry"],
+    collection: ["Statement/Cocktail Wear", "Bridal & Wedding"]
+  },
+  { 
+    id: 31, 
+    name: "Opal Whisper Anklet", 
+    price: "$290", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210293/p31_abeweg.jpg", 
+    description: "Subtle opal anklet with iridescent shimmer for daily wear.",
+    type: "Anklets & Body Jewelry",
+    material: ["Gemstones (Opal)", "Fashion/Costume Jewelry"],
+    collection: ["Everyday Essentials", "Gifts (Birthstones)"]
+  },
+  { 
+    id: 32, 
+    name: "Amethyst Halo Ring", 
+    price: "$355", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210279/p32_nled7e.jpg", 
+    description: "Stunning ring featuring a radiant amethyst surrounded by a silver halo.",
+    type: "Rings",
+    material: ["Gemstones (Amethyst)", "Sterling Silver", "Demi-Fine Jewelry"],
+    collection: ["Gifts (Birthstones)", "Everyday Essentials"]
+  },
+  { 
+    id: 33, 
+    name: "Emerald Horizon Bracelet", 
+    price: "$490", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210291/p33_mjsipx.jpg", 
+    description: "Elegant bracelet showcasing a line of emerald stones set in fine gold.",
+    type: "Bracelets & Bangles",
+    material: ["Gemstones (Emerald)", "Fine Jewelry"],
+    collection: ["Bridal & Wedding", "Statement/Cocktail Wear"]
+  },
+  { 
+    id: 34, 
+    name: "Ruby Cascade Necklace", 
+    price: "$620", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210291/p34_vf4bl0.jpg", 
+    description: "A captivating ruby necklace with a cascading gemstone design.",
+    type: "Necklaces & Pendants",
+    material: ["Gemstones (Ruby)", "Fine Jewelry"],
+    collection: ["Vintage & Antique Style", "Statement/Cocktail Wear"]
+  },
+  { 
+    id: 35, 
+    name: "Sapphire Bloom Earrings", 
+    price: "$410", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210290/p35_by2nbx.jpg", 
+    description: "Floral-inspired sapphire earrings designed for graceful charm.",
+    type: "Earrings",
+    material: ["Gemstones (Sapphire)", "Demi-Fine Jewelry"],
+    collection: ["Everyday Essentials", "Gifts"]
+  },
+  { 
+    id: 36, 
+    name: "Opal Luxe Pendant", 
+    price: "$330", 
+    imageUrl: "https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761210298/p36_dg57gv.jpg", 
+    description: "A luxurious opal pendant with gold detailing, symbolizing elegance.",
+    type: "Necklaces & Pendants",
+    material: ["Gemstones (Opal)", "Fine Jewelry"],
+    collection: ["Gifts (Birthstones)", "Bridal & Wedding"]
+},
+]
+
 
 // Definition of Filter Keys (Needed for FILTER_OPTIONS)
 const FILTER_OPTIONS = {
@@ -328,7 +460,7 @@ const Products = () => {
     // --- Filter Sidebar Component (Inline for Simplicity) ---
     const FilterSidebar = () => (
         <aside className="w-full lg:w-1/4">
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 shadow-xl border border-gray-100 sticky top-24 transform transition-all duration-300">
+            <div className="p-8 rounded-2xl bg-brand-dark sticky top-24 transform transition-all duration-300">
                 <h3 className="text-3xl font-serif font-bold text-gray-800 mb-8 pb-4 border-b border-gray-200 tracking-wide">
                     Refine Your Search <span className="text-gray-500 text-base ml-2">({filteredProducts.length})</span>
                 </h3>
@@ -404,14 +536,14 @@ const Products = () => {
     // ------------------------------
 
     return (
-        <div className="min-h-screen bg-gray-50 transition-colors duration-500 pt-20"> {/* Changed bg-brand-light to bg-gray-50 for consistency */}
+        <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20"> {/* Changed bg-brand-light to bg-gray-50 for consistency */}
             {/* <Navbar /> */}
 
             <div className="container mx-auto px-4 py-8">
                 
                 {/* Title Section */}
                 <div className="text-center mb-16 pt-8">
-                    <h1 className="text-6xl font-serif font-bold text-gray-900 mb-4"> {/* Enhanced header styling */}
+                    <h1 className="text-6xl font-serif font-bold text-gray-400 mb-4"> {/* Enhanced header styling */}
                         Our Exclusive Collection
                     </h1>
                     <p className="text-gray-600 text-xl max-w-2xl mx-auto"> {/* Enhanced description styling */}
