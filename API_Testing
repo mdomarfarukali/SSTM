@@ -4,14 +4,14 @@
 ```bash
 curl -X POST http://localhost:5000/API/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"name":"Omar","email":"umara.loves@gmail.com","password":"123456"}'
+  -d '{"name":"Tamanna Parvin","email":"tamannaparvin124@gmail.com","password":"NewPassword123"}'
 ```
 
 # 2️⃣ Login
 ```bash
 curl -X POST http://localhost:5000/API/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"umara.loves@gmail.com","password":"NewPassword123"}'
+  -d '{"email":"sohanaparvin202@gmail.com","password":"NewPassword123"}'
 ```
 
 # 3️⃣ Get Profile (Requires JWT)
@@ -149,18 +149,19 @@ curl -X GET http://localhost:5000/API/products/collections/best
 
 
 
-4️⃣ cURL Commands (API Testing)
 
-Base URL assumed: http://localhost:5000/api/orders
+
+Base URL assumed: http://localhost:5000/API/orders
 
 🧾 Create Order (User)
-curl -X POST http://localhost:5000/api/orders \
+```bash
+curl -X POST http://localhost:5000/API/orders \
 -H "Content-Type: application/json" \
--H "Authorization: Bearer <USER_TOKEN>" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No" \
 -d '{
   "orderItems": [
     {
-      "product": "652dcb1234abcd56789f1111",
+      "product": "68f979e3d4d1959eed3b30cb",
       "name": "Diamond Necklace",
       "quantity": 1,
       "price": 1500,
@@ -182,29 +183,42 @@ curl -X POST http://localhost:5000/api/orders \
   "shippingPrice": 50,
   "totalPrice": 1520
 }'
+```
 
 👤 Get My Orders
-curl -X GET http://localhost:5000/api/orders/my-orders \
--H "Authorization: Bearer <USER_TOKEN>"
+```bash
+curl -X GET http://localhost:5000/API/orders/my-orders \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjM1NTgzLCJleHAiOjE3NjE4NDAzODN9.oae-yjmuHJayMHPlBymvqzd7hX7lLhZL6caOY-3PwmI"
+```
 
 🔍 Get Single Order
-curl -X GET http://localhost:5000/api/orders/<ORDER_ID> \
--H "Authorization: Bearer <USER_TOKEN>"
+```bash
+curl -X GET http://localhost:5000/API/orders/68fa6cf58a0b6fb02f2891cd \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No"
+```
 
 ❌ Cancel Order
-curl -X PUT http://localhost:5000/api/orders/<ORDER_ID>/cancel \
--H "Authorization: Bearer <USER_TOKEN>"
+```bash
+curl -X PUT http://localhost:5000/API/orders/68fa6cf58a0b6fb02f2891cd/cancel \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No"
+```
 
 🧮 Get All Orders (Admin)
-curl -X GET http://localhost:5000/api/orders \
+```bash
+curl -X GET http://localhost:5000/API/orders \
 -H "Authorization: Bearer <ADMIN_TOKEN>"
+```
 
 🔄 Update Order Status (Admin)
+```bash
 curl -X PUT http://localhost:5000/api/orders/<ORDER_ID>/status \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer <ADMIN_TOKEN>" \
 -d '{"status": "Shipped"}'
+```
 
 📊 Get Order Stats (Admin)
-curl -X GET http://localhost:5000/api/orders/admin/stats/overview \
--H "Authorization: Bearer <ADMIN_TOKEN>"
+```bash
+curl -X GET http://localhost:5000/API/orders/admin/stats/overview \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No"
+```
