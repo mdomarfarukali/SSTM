@@ -1,14 +1,26 @@
-// routes/paymentRoutes.js
-import { Router } from "express";
-import paymentController from "../controllers/paymentController.js";
+import express from "express";
+import {
+  createPayment,
+  getUserPayments,
+  getPaymentById,
+  requestRefund,
+  getAllPayments,
+  updatePaymentStatus,
+  processRefund,
+} from "../controllers/paymentController.js";
+import { protect, admin } from "../middleware/auth.js";
 
-const router = Router();
+const router = express.Router();
 
-// POST: create order and initiate payment
-router.post("/create", paymentController.createOrderPayment);
+// 🧍‍♀️ USER ROUTES
+router.post("/", protect, createPayment);
+router.get("/my", protect, getUserPayments);
+router.get("/:id", protect, getPaymentById);
+router.put("/:id/refund", protect, requestRefund);
 
-// POST: check payment status
-router.post("/status", paymentController.checkOrderPaymentStatus);
-
+// 🧑‍💼 ADMIN ROUTES
+router.get("/", protect, admin, getAllPayments);
+router.put("/:id/status", protect, admin, updatePaymentStatus);
+router.put("/:id/refund/process", protect, admin, processRefund);
 
 export default router;
