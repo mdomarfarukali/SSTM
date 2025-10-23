@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaTimesCircle } from 'react-icons/fa';
 import { useCartContext } from '../context/CartContext'; // Need cart context to move items
+import { useWishlistContext } from '../context/WishListContext';
 
 function WishList() {
     const { wishlistItems, removeItemFromWishlist } = useWishlistContext();
@@ -13,7 +14,7 @@ function WishList() {
             quantity: 1,
             selectedSize: item.selectedSize || 'Default',
         };
-        
+
         addItemToCart(cartItem);
         removeItemFromWishlist(item.id);
     };
@@ -21,7 +22,7 @@ function WishList() {
     return (
         <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                
+
                 <h1 className="text-5xl font-serif font-extrabold text-brand mb-10 text-center flex items-center justify-center gap-3">
                     <FaHeart className="text-brand-danger" /> My Wishlist
                 </h1>
@@ -32,8 +33,8 @@ function WishList() {
                         <p className="text-2xl font-semibold text-brand mb-6">
                             Your Wishlist is feeling lonely.
                         </p>
-                        <Link 
-                            to="/products" 
+                        <Link
+                            to="/products"
                             className="inline-flex items-center px-6 py-3 bg-brand-primary text-white font-medium rounded-full shadow-lg hover:bg-brand-highlight transition gap-2"
                         >
                             Start Saving Items
@@ -42,22 +43,22 @@ function WishList() {
                 ) : (
                     <div className="space-y-6">
                         {wishlistItems.map((item) => (
-                            <div 
-                                key={item.id} 
+                            <div
+                                key={item.id}
                                 className="flex flex-col sm:flex-row items-center justify-between p-4 bg-brand rounded-xl shadow-md border-l-4 border-brand-primary"
                             >
                                 {/* Item Details */}
                                 <div className="flex items-center space-x-4 w-full sm:w-1/2">
                                     <Link to={`/product/${item.id}`}>
-                                        <img 
-                                            src={item.image} 
-                                            alt={item.name} 
+                                        <img
+                                            src={item.image}
+                                            alt={item.name}
                                             className="w-20 h-20 object-cover rounded-lg shadow-md"
                                         />
                                     </Link>
                                     <div>
-                                        <Link 
-                                            to={`/product/${item.id}`} 
+                                        <Link
+                                            to={`/product/${item.id}`}
                                             className="text-xl font-semibold text-brand hover:text-brand-primary transition"
                                         >
                                             {item.name}
@@ -67,7 +68,7 @@ function WishList() {
                                         </p>
                                     </div>
                                 </div>
-                                
+
                                 {/* Actions */}
                                 <div className="flex space-x-4 mt-4 sm:mt-0">
                                     <button

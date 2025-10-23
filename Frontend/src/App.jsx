@@ -25,9 +25,9 @@ import UserDashboard from "./pages/UserDashboard"; // The main account layout/si
 import OrderHistory from "./pages/OrderHistory"; // The list of orders
 import OrderDetails from "./pages/OrderDetails"; // Details for a single order
 // Placeholder component for user profile management
-const UserProfile = () => <div>User Profile Settings Form</div>;
+const UserProfile = () => <div>User Profile Settings Form</div>; //
 // Placeholder component for addresses/settings
-const UserAddresses = () => <div>User Address Book</div>;
+const UserAddresses = () => <div>User Address Book</div>; //
 
 // --- ADMIN PAGES ---
 // import AdminLayout from "./components/layout/AdminLayout";

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Users, Package, ShoppingCart, BarChart2 } from "lucide-react";
+import AdminProducts from "./AdminProducts";
+import AdminOrders from "./AdminOrders";
+import AdminUsers from "./AdminUsers";
 
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -67,11 +70,15 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <main className="flex-1 p-8 overflow-auto bg-admin-light">
-        <h2 className="text-3xl font-bold text-admin mb-6">Dashboard</h2>
+        <AdminProducts />
+        <AdminOrders />
+        <AdminUsers />
+        
+        {/* <h2 className="text-3xl font-bold text-admin mb-6">Dashboard</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"> */}
           {/* Cards */}
-          <div className="p-6 bg-admin rounded-xl shadow hover:shadow-lg transition">
+          {/* <div className="p-6 bg-admin rounded-xl shadow hover:shadow-lg transition">
             <h3 className="text-lg font-semibold text-admin-muted">Total Products</h3>
             <p className="mt-2 text-2xl font-bold text-admin-primary">120</p>
           </div>
@@ -87,10 +94,10 @@ export default function AdminDashboard() {
             <h3 className="text-lg font-semibold text-admin-muted">Revenue</h3>
             <p className="mt-2 text-2xl font-bold text-admin-primary">₹ 12,50,000</p>
           </div>
-        </div>
+        </div> */}
 
         {/* Recent Orders Table */}
-        <div className="mt-10 bg-admin rounded-xl shadow overflow-x-auto">
+        {/* <div className="mt-10 bg-admin rounded-xl shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-admin-muted">
             <thead className="bg-admin-primary">
               <tr>
@@ -121,7 +128,7 @@ export default function AdminDashboard() {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
       </main>
     </div>
   );
