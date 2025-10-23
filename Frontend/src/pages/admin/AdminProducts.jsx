@@ -2,8 +2,8 @@ import { useState } from "react";
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([
-    { id: 1, name: "Diamond Ring", price: 560000 },
-    { id: 2, name: "Gold Necklace", price: 325000 },
+    { id: 1, name: "Diamond Ring", price: 560 },
+    { id: 2, name: "Gold Necklace", price: 325 },
   ]);
 
   const handleDelete = (id) => {
@@ -27,7 +27,7 @@ export default function AdminProducts() {
             <tr key={product.id} className="hover:bg-admin-secondary transition">
               <td className="px-6 py-4 text-admin">{product.id}</td>
               <td className="px-6 py-4 text-admin">{product.name}</td>
-              <td className="px-6 py-4 text-admin">₹ {product.price.toLocaleString()}</td>
+              <td className="px-6 py-4 text-admin"> {product.price.toLocaleString()}</td>
               <td className="px-6 py-4 flex gap-2">
                 <button className="px-3 py-1 bg-admin-primary text-admin-light rounded hover:bg-admin-secondary transition">
                   Edit
