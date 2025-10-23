@@ -141,3 +141,70 @@ curl -X GET http://localhost:5000/API/products/collections/new
 ```bash
 curl -X GET http://localhost:5000/API/products/collections/best
 ```
+
+
+
+
+
+
+
+
+4️⃣ cURL Commands (API Testing)
+
+Base URL assumed: http://localhost:5000/api/orders
+
+🧾 Create Order (User)
+curl -X POST http://localhost:5000/api/orders \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <USER_TOKEN>" \
+-d '{
+  "orderItems": [
+    {
+      "product": "652dcb1234abcd56789f1111",
+      "name": "Diamond Necklace",
+      "quantity": 1,
+      "price": 1500,
+      "finalPrice": 1400,
+      "image": "https://cdn/jewel.jpg"
+    }
+  ],
+  "shippingAddress": {
+    "fullName": "Omar Ali",
+    "phone": "9998887776",
+    "addressLine1": "Park Street",
+    "city": "Kolkata",
+    "state": "WB",
+    "postalCode": "700016"
+  },
+  "paymentMethod": "COD",
+  "itemsPrice": 1400,
+  "taxPrice": 70,
+  "shippingPrice": 50,
+  "totalPrice": 1520
+}'
+
+👤 Get My Orders
+curl -X GET http://localhost:5000/api/orders/my-orders \
+-H "Authorization: Bearer <USER_TOKEN>"
+
+🔍 Get Single Order
+curl -X GET http://localhost:5000/api/orders/<ORDER_ID> \
+-H "Authorization: Bearer <USER_TOKEN>"
+
+❌ Cancel Order
+curl -X PUT http://localhost:5000/api/orders/<ORDER_ID>/cancel \
+-H "Authorization: Bearer <USER_TOKEN>"
+
+🧮 Get All Orders (Admin)
+curl -X GET http://localhost:5000/api/orders \
+-H "Authorization: Bearer <ADMIN_TOKEN>"
+
+🔄 Update Order Status (Admin)
+curl -X PUT http://localhost:5000/api/orders/<ORDER_ID>/status \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <ADMIN_TOKEN>" \
+-d '{"status": "Shipped"}'
+
+📊 Get Order Stats (Admin)
+curl -X GET http://localhost:5000/api/orders/admin/stats/overview \
+-H "Authorization: Bearer <ADMIN_TOKEN>"
