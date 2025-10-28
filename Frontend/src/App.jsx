@@ -40,6 +40,22 @@ const UserAddresses = () => <div>User Address Book</div>; //
 
 import AdminRoutes from "./pages/admin/AdminRoutes";
 // import AdminDashboard from "./pages/admin/AdminRoutes";
+// src/components/AdminProtected.jsx
+import { Navigate } from "react-router-dom";
+
+const AdminProtected = ({ children }) => {
+    const isAdmin = localStorage.getItem("role") === "admin";
+    // or however you store user role (e.g., from context, cookie, JWT decode, etc.)
+
+    if (!isAdmin) {
+        // If not admin, redirect to login or home
+        return <Navigate to="/login" replace />;
+    }
+
+    // Otherwise, render the child route
+    return children;
+}
+
 
 function App() {
     const [user, setUser] = useState(null);
@@ -131,7 +147,15 @@ function App() {
                 </Route> */}
 
 
-                <Route path="/admin" element={<AdminRoutes />} />
+                <Route
+                    path="/admin"
+                    element={
+                        <AdminProtected>
+                            <AdminRoutes />
+                        </AdminProtected>
+                    }
+                    // element={<AdminRoutes />}
+                />
             </Routes>
         </Router>
     );

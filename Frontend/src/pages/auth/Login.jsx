@@ -10,6 +10,40 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const { theme } = useTheme(); // 👈 Access current theme (dark/light)
 
+    // Example: Login.jsx or inside handleLogin()
+    const handleLogin = async () => {
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+                credentials: "include", // if you're using cookies
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                // Store role in localStorage
+                localStorage.setItem("role", data.user.role);
+                // e.g. "admin", "user", etc.
+
+                // Optionally store token or other info
+                // localStorage.setItem("token", data.token);
+
+                // Redirect based on role
+                if (data.user.role === "admin") {
+                    window.location.href = "/admin";
+                } else {
+                    window.location.href = "/";
+                }
+            } else {
+                alert(data.message || "Login failed");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Email:", email, "Password:", password);
@@ -79,9 +113,9 @@ export default function LoginPage() {
                         <div className="text-center mb-6">
                             <motion.h1
                                 className="text-4xl font-serif font-bold text-brand-secondary drop-shadow"
-                                // initial={{ y: -10, opacity: 0 }}
-                                // animate={{ y: 0, opacity: 1 }}
-                                // transition={{ delay: 0.3, duration: 0.6 }}
+                            // initial={{ y: -10, opacity: 0 }}
+                            // animate={{ y: 0, opacity: 1 }}
+                            // transition={{ delay: 0.3, duration: 0.6 }}
                             >
                                 SIGN IN
                             </motion.h1>
@@ -155,7 +189,7 @@ export default function LoginPage() {
                                 className="w-full py-3 text-lg font-semibold text-brand-highlight 
                                 bg-brand-primary hover:bg-brand rounded-lg shadow-lg 
                                 transition transform hover:scale-[1.05]"
-                                // whileTap={{ scale: 0.95 }}
+                            // whileTap={{ scale: 0.95 }}
                             >
                                 Sign In
                             </motion.button>
@@ -170,8 +204,8 @@ export default function LoginPage() {
                             className="w-full py-3 flex items-center justify-center space-x-2 
                             border border-brand-muted/50 rounded-lg shadow-sm 
                             hover:bg-brand-light/20 bg-brand-light/10 backdrop-blur-md text-brand"
-                            // whileHover={{ scale: 1.05 }}
-                            // whileTap={{ scale: 0.95 }}
+                        // whileHover={{ scale: 1.05 }}
+                        // whileTap={{ scale: 0.95 }}
                         >
                             <img
                                 src="https://www.svgrepo.com/show/303552/google-g-2015-logo.svg"
