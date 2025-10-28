@@ -37,7 +37,7 @@ export const sendOrderConfirmationEmail = async (options) => {
     subject: `Order Confirmation - Order #${order.id}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div 
+        <!-- <div 
           style="
             background-color: #000; 
             padding: 20px; 
@@ -47,19 +47,60 @@ export const sendOrderConfirmationEmail = async (options) => {
             justify-content: flex-start;  /* keep items at the left */
           "
         >
-          <h1 style="color: #fff; margin: 0;">
+          <h1 
+            style="
+              color: #fff; 
+              margin: 0; 
+              
+            "
+          >
           <img 
             src="https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761224594/DIVA_Cut-removebg-preview_wnlzal.png" 
             alt="DIVA Logo" 
             style="
-              height: 80px; 
+              height: 50px; 
               vertical-align: middle; 
-              margin-right: 50px;
-              margin-left: 10px;
+              margin-right: 10px;
+              
             "
           >
           Order Confirmation
           </h1>
+        </div> -->
+
+        <div 
+          style="
+            background-color: #000; 
+            padding: 20px; 
+            display: flex;
+            align-items: center; 
+            justify-content: space-between;
+          "
+        >
+          <!-- Left: Logo -->
+          <img 
+            src="https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761224594/DIVA_Cut-removebg-preview_wnlzal.png" 
+            alt="DIVA Logo" 
+            style="
+              height: 50px; 
+              margin-left: 10px;
+            "
+          >
+
+          <!-- Center: Text -->
+          <h1 
+            style="
+              color: #fff; 
+              margin: 0; 
+              text-align: center;
+              flex-grow: 1;  /* let it take center space */
+            "
+          >
+          Order Confirmation
+          </h1>
+
+          <!-- Right: Invisible spacer (to balance the layout) -->
+          <div style="width: 60px;"></div>
         </div>
         
         <div style="padding: 20px; border: 1px solid #eee;">
