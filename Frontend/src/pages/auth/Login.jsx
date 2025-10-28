@@ -18,28 +18,29 @@ export default function LoginPage() {
 
     return (
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand-light">
-            <motion.div
+            {/* <motion.div
                 className="h-screen w-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-6 md:px-16"
-                // You can enable the bg image later if you like
-                /* style={{ backgroundImage: "url('/jewell.png')" }} */
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-            >
-                <motion.div
+                transition={{ duration: 0.1 }}
+            > */}
+            <div className="h-screen w-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-6 md:px-16">
+                {/* <motion.div
                     className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl"
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                >
+                    transition={{ duration: 0.1, ease: "easeOut" }}
+                > */}
+                <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl">
 
                     {/* Left side - Brand Name with Dynamic Logo 🌙 */}
-                    <motion.div
+                    {/* <motion.div
                         className="hidden md:flex flex-col items-start space-y-4 max-w-md"
                         initial={{ x: -60, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 1 }}
-                    >
+                        transition={{ duration: 0.1 }}
+                    > */}
+                    <div className="hidden md:flex flex-col items-start space-y-4 max-w-md">
                         <div className="flex items-center space-x-3">
                             <img
                                 src={theme === "dark" ? darkLogo : lightLogo}
@@ -53,10 +54,11 @@ export default function LoginPage() {
                         <p className="text-2xl italic text-brand-muted drop-shadow-md">
                             Elegant Jewellery, Timeless Beauty
                         </p>
-                    </motion.div>
+                        {/* </motion.div> */}
+                    </div>
 
                     {/* Right side - Login card */}
-                    <motion.div
+                    {/* <motion.div
                         className="relative z-20 w-full max-w-md p-8 
                         bg-white/60 backdrop-blur-xl 
                         rounded-2xl shadow-2xl border border-brand-primary/50 
@@ -65,13 +67,21 @@ export default function LoginPage() {
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         whileHover={{ scale: 1.03 }}
+                    > */}
+                    <div
+                        className="relative z-20 w-full max-w-md p-8 
+                        bg-white/60 backdrop-blur-xl 
+                        rounded-2xl shadow-2xl border border-brand-primary/50 
+                        transition-transform transform 
+                        hover:scale-105 
+                        hover:shadow-brand-primary/40"
                     >
                         <div className="text-center mb-6">
                             <motion.h1
                                 className="text-4xl font-serif font-bold text-brand-secondary drop-shadow"
-                                initial={{ y: -10, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.3, duration: 0.6 }}
+                                // initial={{ y: -10, opacity: 0 }}
+                                // animate={{ y: 0, opacity: 1 }}
+                                // transition={{ delay: 0.3, duration: 0.6 }}
                             >
                                 SIGN IN
                             </motion.h1>
@@ -127,7 +137,7 @@ export default function LoginPage() {
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between text-sm text-brand-highlight">
+                            <div className="flex items-center justify-between text-sm text-brand">
                                 <label className="flex items-center space-x-2">
                                     <input
                                         type="checkbox"
@@ -145,7 +155,7 @@ export default function LoginPage() {
                                 className="w-full py-3 text-lg font-semibold text-brand-highlight 
                                 bg-brand-primary hover:bg-brand rounded-lg shadow-lg 
                                 transition transform hover:scale-[1.05]"
-                                whileTap={{ scale: 0.95 }}
+                                // whileTap={{ scale: 0.95 }}
                             >
                                 Sign In
                             </motion.button>
@@ -160,8 +170,8 @@ export default function LoginPage() {
                             className="w-full py-3 flex items-center justify-center space-x-2 
                             border border-brand-muted/50 rounded-lg shadow-sm 
                             hover:bg-brand-light/20 bg-brand-light/10 backdrop-blur-md text-brand"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            // whileHover={{ scale: 1.05 }}
+                            // whileTap={{ scale: 0.95 }}
                         >
                             <img
                                 src="https://www.svgrepo.com/show/303552/google-g-2015-logo.svg"
@@ -180,9 +190,12 @@ export default function LoginPage() {
                                 Create an account
                             </Link>
                         </p>
-                    </motion.div>
-                </motion.div>
-            </motion.div>
+                        {/* </motion.div> */}
+                    </div>
+                    {/* </motion.div> */}
+                </div>
+                {/* </motion.div> */}
+            </div>
         </div>
     );
 }

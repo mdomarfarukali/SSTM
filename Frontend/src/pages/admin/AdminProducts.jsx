@@ -84,7 +84,7 @@ export default function AdminProducts() {
     // --- Sub-Component: Product Form Modal ---
     const ProductFormModal = () => (
         // Modal Backdrop
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/40 bg-opacity-10 flex items-center justify-center z-50 p-4">
             {/* Modal Content - Increased max-w-2xl for better layout of many fields */}
             <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl m-4 transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center border-b pb-3 mb-6">

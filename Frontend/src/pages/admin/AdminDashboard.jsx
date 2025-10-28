@@ -1,106 +1,102 @@
-import { useState } from "react";
-// Removed 'Link' as we are using state for navigation
-import { Users, Package, ShoppingCart, BarChart2 } from "lucide-react";
+import React, { useState } from 'react';
 
-// Import all content components
-import AdminProducts from "./AdminProducts";
-import AdminOrders from "./AdminOrders";
-import AdminUsers from "./AdminUsers";
-import DashboardContent from "./DashboardContent"; // Assuming this file holds the dashboard cards/tables
-
+// This component displays the key metrics (cards) and a snapshot 
+// of recent orders, providing the main overview for the dashboard.
 export default function AdminDashboard() {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
-    // State to determine which component to display (default to 'dashboard')
-    const [currentView, setCurrentView] = useState('dashboard'); 
+    // 1. State for Metric Data (simulating data fetched from an API)
+    const [metrics, setMetrics] = useState({
+        totalProducts: 120,
+        totalOrders: 58,
+        totalUsers: 342,
+        totalRevenue: 1250000, // Stored as a number
+    });
 
-    // Function to conditionally render the main content component
-    const renderView = () => {
-        switch (currentView) {
-            case 'products':
-                return <AdminProducts />;
-            case 'users':
-                return <AdminUsers />;
-            case 'orders':
-                return <AdminOrders />;
-            case 'dashboard':
+    // 2. State for Recent Orders Data
+    const [recentOrders, setRecentOrders] = useState([
+        { id: 1023, customer: "Alice", total: 5600, status: "Completed" },
+        { id: 1024, customer: "Bob", total: 3200, status: "Pending" },
+        { id: 1025, customer: "Charlie", total: 12000, status: "Shipped" },
+    ]);
+
+    // 3. Utility function to determine status styling classes
+    const getStatusClasses = (status) => {
+        switch (status) {
+            case "Completed":
+                return "text-green-700 font-semibold bg-green-100 px-3 py-1 rounded-full text-xs";
+            case "Pending":
+                return "text-yellow-700 font-semibold bg-yellow-100 px-3 py-1 rounded-full text-xs";
+            case "Shipped":
+                return "text-blue-700 font-semibold bg-blue-100 px-3 py-1 rounded-full text-xs";
             default:
-                // This renders the content from DashboardContent.jsx
-                return <DashboardContent />; 
+                return "text-gray-700 font-semibold bg-gray-100 px-3 py-1 rounded-full text-xs";
         }
-    };
-    
-    // Reusable NavItem component to handle state update and active styling
-    const NavItem = ({ view, icon: Icon, label }) => {
-        const isActive = currentView === view;
-        return (
-            <li>
-                <div
-                    onClick={() => setCurrentView(view)}
-                    // Updated padding and colors for a modern, purple/blue look
-                    className={`flex items-center gap-3 p-3 py-3.5 font-medium rounded-lg transition cursor-pointer mx-3 
-                        ${isActive 
-                            // Active: Vibrant fuchsia/purple background, strong shadow
-                            ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-600/50' 
-                            // Inactive: Cyan text with indigo hover
-                            : 'hover:bg-indigo-900 text-cyan-300 hover:text-white' 
-                        }`
-                    }
-                >
-                    <Icon size={18} />
-                    {sidebarOpen && label}
-                </div>
-            </li>
-        );
     };
 
     return (
-        // Changed to a standard light gray background
-        <div className="flex h-screen bg-admin-dark antialiased font-sans">
-            
-            {/* Sidebar */}
-            <aside
-                // Deep Indigo/Blue foundation (bg-indigo-950)
-                className={`${sidebarOpen ? "w-64" : "w-16"} bg-indigo-950 transition-all duration-300 flex flex-col flex-shrink-0 shadow-2xl`}
-                style={{ borderRadius: '0 12px 12px 0' }}
-            >
-                <div className="flex items-center justify-between p-4 border-b border-indigo-900 h-16">
-                    {/* Primary branding in vibrant cyan tone */}
-                    <h1 className={`text-3xl font-bold text-cyan-300 ${sidebarOpen ? "block" : "hidden"}`}>
-                        Admin
-                    </h1>
-                    <button
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
-                        className="p-1.5 rounded-full text-cyan-300 hover:text-white hover:bg-indigo-900 transition"
-                        title={sidebarOpen ? "Collapse Menu" : "Expand Menu"}
-                    >
-                        {sidebarOpen ? ">>" : "<<"}
-                    </button>
-                </div>
+        <div className="space-y-10">
+            {/* Main Dashboard Title */}
+            <h2 className="text-3xl font-bold text-gray-800">Dashboard Overview</h2>
 
-                {/* Navigation */}
-                <nav className="flex-1 mt-6 space-y-2 overflow-y-auto">
-                    <ul className="space-y-2">
-                        <NavItem view="dashboard" icon={BarChart2} label="Dashboard" />
-                        <NavItem view="products" icon={Package} label="Products" />
-                        <NavItem view="orders" icon={ShoppingCart} label="Orders" />
-                        <NavItem view="users" icon={Users} label="Users" />
-                    </ul>
-                </nav>
-            </aside>
-
-            {/* Main Content */}
-            <main className="flex-1 p-10 overflow-auto bg-pink-100">
-                {/* Dynamic Title based on current view */}
-                {/* Font Improvement: Added tracking-tight for a sharper, modern font feel */}
-                <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-10 border-b pb-3 border-indigo-200">
-                    {currentView.charAt(0).toUpperCase() + currentView.slice(1)} Management
-                </h1>
+            {/* --- 1. Metric Cards (now pulling from state) --- */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
-                {/* Render only the selected component */}
-                <div className="admin-content-view">
-                    {renderView()}
+                {/* Total Products Card */}
+                <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition">
+                    <h3 className="text-lg font-semibold text-gray-500">Total Products</h3>
+                    <p className="mt-2 text-3xl font-bold text-indigo-600">{metrics.totalProducts}</p>
                 </div>
-            </main>
+
+                {/* Total Orders Card */}
+                <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition">
+                    <h3 className="text-lg font-semibold text-gray-500">Total Orders</h3>
+                    <p className="mt-2 text-3xl font-bold text-blue-600">{metrics.totalOrders}</p>
+                </div>
+                
+                {/* Total Users Card */}
+                <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition">
+                    <h3 className="text-lg font-semibold text-gray-500">Total Users</h3>
+                    <p className="mt-2 text-3xl font-bold text-green-600">{metrics.totalUsers}</p>
+                </div>
+                
+                {/* Revenue Card */}
+                <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition">
+                    <h3 className="text-lg font-semibold text-gray-500">Revenue</h3>
+                    <p className="mt-2 text-3xl font-bold text-purple-600">
+                        {/* Use toLocaleString to format the large number */}
+                        ₹ {metrics.totalRevenue.toLocaleString('en-IN')}
+                    </p>
+                </div>
+            </div>
+
+            {/* --- 2. Recent Orders Table (now mapping state) --- */}
+            <h3 className="text-2xl font-bold text-gray-800 mt-10">Recent Orders</h3>
+
+            <div className="mt-4 bg-white rounded-xl shadow overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-indigo-600">
+                        <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Order ID</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Customer</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Total</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                        {recentOrders.map((order) => (
+                             <tr key={order.id} className="hover:bg-gray-50 transition">
+                                <td className="px-6 py-4 whitespace-nowrap text-gray-700 font-medium">#{order.id}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-gray-700">{order.customer}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-gray-700">
+                                    ₹ {order.total.toLocaleString('en-IN')}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <span className={getStatusClasses(order.status)}>{order.status}</span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

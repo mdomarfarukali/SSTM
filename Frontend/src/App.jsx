@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import PageLayout from "./components/layout/PageLayout";
@@ -38,9 +39,23 @@ const UserAddresses = () => <div>User Address Book</div>; //
 // import CODManagement from "./pages/admin/CODManagement";
 
 import AdminRoutes from "./pages/admin/AdminRoutes";
-import VendorLogin from "./pages/admin/vendorlogin";
-import VendorSignup from "./pages/admin/vendorlogin";
+// import AdminDashboard from "./pages/admin/AdminRoutes";
+
 function App() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        setUser(null);
+    };
+
     return (
         // Context Providers should ideally wrap this Router (e.g., CartProvider, AuthProvider)
         <Router>
@@ -116,7 +131,7 @@ function App() {
                 </Route> */}
 
 
-                <Route path="/admin/*" element={<AdminRoutes />} />
+                <Route path="/admin" element={<AdminRoutes />} />
             </Routes>
         </Router>
     );

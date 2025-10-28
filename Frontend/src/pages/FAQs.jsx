@@ -49,9 +49,8 @@ export default function FAQs() {
                 <Disclosure.Button className="flex justify-between w-full px-6 py-4 text-left text-gray-700 dark:text-gray-200 font-medium text-lg rounded-lg hover:bg-pink-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-400">
                   <span>{faq.question}</span>
                   <ChevronUpIcon
-                    className={`${
-                      open ? "transform rotate-180" : ""
-                    } w-6 h-6 text-pink-600 dark:text-pink-400`}
+                    className={`${open ? "transform rotate-180" : ""
+                      } w-6 h-6 text-pink-600 dark:text-pink-400`}
                   />
                 </Disclosure.Button>
                 <Disclosure.Panel className="px-6 pb-4 text-gray-600 dark:text-gray-300">
