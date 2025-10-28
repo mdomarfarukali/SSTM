@@ -36,6 +36,7 @@ export const createOrder = async (req, res) => {
             await sendOrderConfirmationEmail({
                 email: req.user.email,
                 order: order,
+                userName: req.user.name,
                 subject: "Your Order Has Been Successfully Placed",
             });
             res.status(200).json({

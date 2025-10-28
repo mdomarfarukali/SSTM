@@ -8,19 +8,19 @@ import {
   updatePaymentStatus,
   processRefund,
 } from "../controllers/paymentController.js";
-import { protect, admin } from "../middleware/auth.js";
+import { isAuthenticatedUser, isAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
 // 🧍‍♀️ USER ROUTES
-router.post("/", protect, createPayment);
-router.get("/my", protect, getUserPayments);
-router.get("/:id", protect, getPaymentById);
-router.put("/:id/refund", protect, requestRefund);
+router.post("/", isAuthenticatedUser, createPayment);
+router.get("/my", isAuthenticatedUser, getUserPayments);
+router.get("/:id", isAuthenticatedUser, getPaymentById);
+router.put("/:id/refund", isAuthenticatedUser, requestRefund);
 
 // 🧑‍💼 ADMIN ROUTES
-router.get("/", protect, admin, getAllPayments);
-router.put("/:id/status", protect, admin, updatePaymentStatus);
-router.put("/:id/refund/process", protect, admin, processRefund);
+router.get("/", isAuthenticatedUser, isAdmin, getAllPayments);
+router.put("/:id/status", isAuthenticatedUser, isAdmin, updatePaymentStatus);
+router.put("/:id/refund/process", isAuthenticatedUser, isAdmin, processRefund);
 
 export default router;

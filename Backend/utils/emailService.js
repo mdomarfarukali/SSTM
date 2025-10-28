@@ -28,7 +28,7 @@ transporter.verify(function (error, success) {
 });
 
 export const sendOrderConfirmationEmail = async (options) => {
-  const { email, order } = options;
+  const { email, order, userName } = options;
 
   // Create email message
   const message = {
@@ -37,12 +37,33 @@ export const sendOrderConfirmationEmail = async (options) => {
     subject: `Order Confirmation - Order #${order.id}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background-color: #000; padding: 20px; text-align: center;">
-          <h1 style="color: #fff; margin: 0;">Order Confirmation</h1>
+        <div 
+          style="
+            background-color: #000; 
+            padding: 20px; 
+            text-align: center;
+            display: flex;
+            align-items: center;   /* vertically center */
+            justify-content: flex-start;  /* keep items at the left */
+          "
+        >
+          <h1 style="color: #fff; margin: 0;">
+          <img 
+            src="https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761224594/DIVA_Cut-removebg-preview_wnlzal.png" 
+            alt="DIVA Logo" 
+            style="
+              height: 80px; 
+              vertical-align: middle; 
+              margin-right: 50px;
+              margin-left: 10px;
+            "
+          >
+          Order Confirmation
+          </h1>
         </div>
         
         <div style="padding: 20px; border: 1px solid #eee;">
-          <p>Hello ${order.user.name},</p>
+          <p>Hello ${userName},</p>
           
           <p>Thank you for your order! We're processing it now and will let you know when it ships.</p>
           
@@ -116,8 +137,29 @@ export const sendShippingConfirmationEmail = async (options) => {
     subject: `Your Order Has Shipped - Order #${order.id}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background-color: #000; padding: 20px; text-align: center;">
-          <h1 style="color: #fff; margin: 0;">Your Order Has Shipped</h1>
+        <div 
+          style="
+            background-color: #000; 
+            padding: 20px; 
+            text-align: center;
+            display: flex;
+            align-items: center;   /* vertically center */
+            justify-content: flex-start;  /* keep items at the left */
+          "
+        >
+          <h1 style="color: #fff; margin: 0;">
+          <img 
+            src="https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761224594/DIVA_Cut-removebg-preview_wnlzal.png" 
+            alt="DIVA Logo" 
+            style="
+              height: 80px; 
+              vertical-align: middle; 
+              margin-right: 50px;
+              margin-left: 10px;
+            "
+          >
+          Your Order Has Shipped
+          </h1>
         </div>
         
         <div style="padding: 20px; border: 1px solid #eee;">
@@ -171,8 +213,29 @@ export const sendPasswordResetEmail = async (options) => {
     subject: subject,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background-color: #000; padding: 20px; text-align: center;">
-          <h1 style="color: #fff; margin: 0;">Password Reset</h1>
+        <div 
+          style="
+            background-color: #000; 
+            padding: 20px; 
+            text-align: center;
+            display: flex;
+            align-items: center;   /* vertically center */
+            justify-content: flex-start;  /* keep items at the left */
+          "
+        >
+          <h1 style="color: #fff; margin: 0;">
+          <img 
+            src="https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761224594/DIVA_Cut-removebg-preview_wnlzal.png" 
+            alt="DIVA Logo" 
+            style="
+              height: 80px; 
+              vertical-align: middle; 
+              margin-right: 50px;
+              margin-left: 10px;
+            "
+          >
+          Password Reset
+          </h1>
         </div>
         
         <div style="padding: 20px; border: 1px solid #eee;">
@@ -244,8 +307,29 @@ export const sendPasswordResetConfirmationEmail = async (options) => {
     subject: subject,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background-color: #000; padding: 20px; text-align: center;">
-          <h1 style="color: #fff; margin: 0;">Password Reset Successful</h1>
+        <div 
+          style="
+            background-color: #000; 
+            padding: 20px; 
+            text-align: center;
+            display: flex;
+            align-items: center;   /* vertically center */
+            justify-content: flex-start;  /* keep items at the left */
+          "
+        >
+          <h1 style="color: #fff; margin: 0;">
+          <img 
+            src="https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761224594/DIVA_Cut-removebg-preview_wnlzal.png" 
+            alt="DIVA Logo" 
+            style="
+              height: 80px; 
+              vertical-align: middle; 
+              margin-right: 50px;
+              margin-left: 10px;
+            "
+          >
+          Password Reset Successful
+          </h1>
         </div>
         
         <div style="padding: 20px; border: 1px solid #eee;">
@@ -335,8 +419,29 @@ export const sendOrderStatusUpdateEmail = async (options) => {
     subject: `${statusTitle} - Order #${order.id}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background-color: #000; padding: 20px; text-align: center;">
-          <h1 style="color: #fff; margin: 0;">${statusTitle}</h1>
+        <div 
+          style="
+            background-color: #000; 
+            padding: 20px; 
+            text-align: center;
+            display: flex;
+            align-items: center;   /* vertically center */
+            justify-content: flex-start;  /* keep items at the left */
+          "
+        >
+          <h1 style="color: #fff; margin: 0;">
+          <img 
+            src="https://res.cloudinary.com/dgdpg6eqi/image/upload/v1761224594/DIVA_Cut-removebg-preview_wnlzal.png" 
+            alt="DIVA Logo" 
+            style="
+              height: 80px; 
+              vertical-align: middle; 
+              margin-right: 50px;
+              margin-left: 10px;
+            "
+          >
+          ${statusTitle}
+          </h1>
         </div>
         
         <div style="padding: 20px; border: 1px solid #eee;">
