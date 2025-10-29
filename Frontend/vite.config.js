@@ -15,7 +15,5 @@ export default defineConfig({
     proxy: {
       '/API': 'http://localhost:5000'
     }
-    
-
   }
 })
