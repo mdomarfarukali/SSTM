@@ -9,12 +9,13 @@ import { sendPasswordResetEmail, sendPasswordResetConfirmationEmail } from "../u
    🧍 REGISTER USER
 ========================================================= */
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const user = await User.create({
         name,
         email,
         password,
+        role,
         avatar: "default-avatar.jpg",
     });
 
