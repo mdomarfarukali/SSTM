@@ -4,7 +4,11 @@
 ```bash
 curl -X POST http://localhost:5000/API/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"name":"Tamanna Parvin","email":"tamannaparvin124@gmail.com","password":"NewPassword123"}'
+  -d '{
+  "name":"Tamanna Parvin",
+  "email":"tamannaparvin124@gmail.com",
+  "role":"admin",
+  "password":"NewPassword123"}'
 ```
 
 # 2️⃣ Login
@@ -49,8 +53,16 @@ curl -X PUT http://localhost:5000/API/auth/password/reset/<Token> \
 
 ### Logout
 ```bash
-curl -X GET http://localhost:5000/API/auth/logout 
+curl -X POST http://localhost:5000/API/auth/logout 
 ```
+
+
+curl -X GET http://localhost:5000/API/auth/admin/users \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDEzMzgzY2ViYzA1OWYyYmNkMWNhYSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTY4ODgzNiwiZXhwIjoxNzYyMjkzNjM2fQ.iup1FRDt2QejoPdVoM2XvCDgz-8IESK6CV5DzT679ds"
+
+
+
 
 
 ### Product
