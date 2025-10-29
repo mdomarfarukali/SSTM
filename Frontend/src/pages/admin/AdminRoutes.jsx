@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 // Removed 'Link' as we are using state for navigation
 import { Users, Package, ShoppingCart, BarChart2 } from "lucide-react";
 
@@ -7,11 +8,35 @@ import AdminProducts from "./AdminProducts";
 import AdminOrders from "./AdminOrders";
 import AdminUsers from "./AdminUsers";
 import AdminDashboard from "./AdminDashboard"; // Assuming this file holds the dashboard cards/tables
+import LoginPage from "./auth/Login";
+
+const AdminProtected = ({ children }) => {
+    const isAdmin = localStorage.getItem("role") === "admin";
+    // or however you store user role (e.g., from context, cookie, JWT decode, etc.)
+
+    if (!isAdmin) {
+        // If not admin, redirect to login or home
+        // return <Navigate to="/login" replace />;
+        return <LoginPage />;
+    }
+
+    // Otherwise, render the child route
+    // return children;
+}
 
 export default function AdminRoutes() {
+    // <AdminProtected/>
+    const isAdmin = localStorage.getItem("role") === "admin";
+
+    if (!isAdmin) {
+        return <LoginPage />;
+    }
+
+    const email = localStorage.getItem("email") || "guest@example.com";
+
     const [sidebarOpen, setSidebarOpen] = useState(true);
     // State to determine which component to display (default to 'dashboard')
-    const [currentView, setCurrentView] = useState('dashboard'); 
+    const [currentView, setCurrentView] = useState('dashboard');
 
     // Function to conditionally render the main content component
     const renderView = () => {
@@ -25,10 +50,10 @@ export default function AdminRoutes() {
             case 'dashboard':
             default:
                 // This renders the content from AdminDashboard.jsx
-                return <AdminDashboard />; 
+                return <AdminDashboard />;
         }
     };
-    
+
     // Reusable NavItem component to handle state update and active styling
     const NavItem = ({ view, icon: Icon, label }) => {
         const isActive = currentView === view;
@@ -38,11 +63,11 @@ export default function AdminRoutes() {
                     onClick={() => setCurrentView(view)}
                     // Updated padding and colors for a modern, purple/blue look
                     className={`flex items-center gap-3 p-3 py-3.5 font-medium rounded-lg transition cursor-pointer mx-3 
-                        ${isActive 
+                        ${isActive
                             // Active: Vibrant fuchsia/purple background, strong shadow
-                            ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-600/50' 
+                            ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-600/50'
                             // Inactive: Cyan text with indigo hover
-                            : 'hover:bg-indigo-900 text-cyan-300 hover:text-white' 
+                            : 'hover:bg-indigo-900 text-cyan-300 hover:text-white'
                         }`
                     }
                 >
@@ -53,10 +78,25 @@ export default function AdminRoutes() {
         );
     };
 
+    const handleLogout = async () => {
+        try {
+            const res = await axios.post("/API/auth/logout", {}, { withCredentials: true });
+            alert(res.message || "Logged out successfully");
+
+            localStorage.removeItem("user");
+            localStorage.removeItem("role");
+            localStorage.removeItem("email");
+            localStorage.removeItem("userToken");
+            window.location.href = "/admin";
+        } catch (error) {
+            console.error("Error during logout:", error);
+        }
+    }
+
     return (
         // Changed to a standard light gray background
         <div className="flex h-screen bg-admin-dark antialiased font-sans">
-            
+
             {/* Sidebar */}
             <aside
                 // Deep Indigo/Blue foundation (bg-indigo-950)
@@ -85,6 +125,19 @@ export default function AdminRoutes() {
                         <NavItem view="orders" icon={ShoppingCart} label="Orders" />
                         <NavItem view="users" icon={Users} label="Users" />
                     </ul>
+
+                    {/* Bottom Section */}
+                    <div className="border-t border-gray-700 pt-4 mt-auto mb-4">
+                        <p className="text-sm text-gray-400 px-4 mb-2">
+                            Logged in: <span className="text-gray-200">{email}</span>
+                        </p>
+                        <button
+                            onClick={handleLogout}
+                            className="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 rounded-lg"
+                        >
+                            Logout
+                        </button>
+                    </div>
                 </nav>
             </aside>
 
@@ -95,7 +148,7 @@ export default function AdminRoutes() {
                 <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-10 border-b pb-3 border-indigo-200">
                     {currentView.charAt(0).toUpperCase() + currentView.slice(1)} Management
                 </h1>
-                
+
                 {/* Render only the selected component */}
                 <div className="admin-content-view">
                     {renderView()}

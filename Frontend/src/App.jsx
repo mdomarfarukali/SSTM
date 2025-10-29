@@ -150,9 +150,9 @@ function App() {
                 <Route
                     path="/admin"
                     element={
-                        <AdminProtected>
+                        // <AdminProtected>
                             <AdminRoutes />
-                        </AdminProtected>
+                        // </AdminProtected>
                     }
                     // element={<AdminRoutes />}
                 />
