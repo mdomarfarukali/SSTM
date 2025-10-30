@@ -10,22 +10,7 @@ import AdminUsers from "./AdminUsers";
 import AdminDashboard from "./AdminDashboard"; // Assuming this file holds the dashboard cards/tables
 import LoginPage from "./auth/Login";
 
-const AdminProtected = ({ children }) => {
-    const isAdmin = localStorage.getItem("role") === "admin";
-    // or however you store user role (e.g., from context, cookie, JWT decode, etc.)
-
-    if (!isAdmin) {
-        // If not admin, redirect to login or home
-        // return <Navigate to="/login" replace />;
-        return <LoginPage />;
-    }
-
-    // Otherwise, render the child route
-    // return children;
-}
-
 export default function AdminRoutes() {
-    // <AdminProtected/>
     const isAdmin = localStorage.getItem("role") === "admin";
 
     if (!isAdmin) {

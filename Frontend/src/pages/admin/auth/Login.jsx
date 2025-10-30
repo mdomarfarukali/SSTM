@@ -68,7 +68,7 @@ export default function LoginPage() {
             // localStorage.setItem('user', JSON.stringify(response.data.data.user));
             // navigate('/'); // Replace with actual dashboard route when available
 
-            console.log("Response status:", response.status); // Debugging line
+            // console.log("Response status:", response.status); // Debugging line
             const data = response.data;
 
             if (data.success) {
