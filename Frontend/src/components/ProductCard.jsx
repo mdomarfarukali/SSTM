@@ -47,7 +47,7 @@ const ProductCard = ({ product, index }) => {
             </button>
 
             {/* Product Image */}
-            <Link to={`/product/${slug}`}>
+            <Link to={`/product/${_id}`}>
                 <div className="overflow-hidden rounded-t-2xl">
                     <img
                         src={imageUrl}
@@ -60,7 +60,7 @@ const ProductCard = ({ product, index }) => {
 
             {/* Product Info */}
             <div className="p-5">
-                <Link to={`/product/${slug}`}>
+                <Link to={`/product/${_id}`}>
                     <h3 className="text-lg font-semibold text-gray-800 group-hover:text-pink-600 transition">
                         {name}
                     </h3>
@@ -89,7 +89,7 @@ const ProductCard = ({ product, index }) => {
 
                 {/* View Details Button */}
                 <Link
-                    to={`/product/${slug}`}
+                    to={`/product/${_id}`}
                     className="block text-center mt-5 bg-pink-600 text-white font-semibold py-2 rounded-full hover:bg-pink-700 transition shadow-md"
                 >
                     View Details

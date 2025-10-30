@@ -4,6 +4,7 @@ import { FaHeart, FaTruck, FaShieldAlt } from "react-icons/fa";
 import { useCartContext } from "../context/CartContext.jsx"; 
 import { useWishlistContext } from "../context/WishListContext.jsx";
 import { showToast } from "../utils/toastUtils.js";
+import axios from "axios";
 
 const allProducts = [
   {
@@ -74,19 +75,33 @@ const allProducts = [
 ];
 
 const useProductData = (id) => {
-  const [product, setProduct] = useState(null);
+  const [product, setProducts] = useState(null);
+  // useEffect(() => {
+  //   const fetchProduct = () => {
+  //     const foundProduct = allProducts.find((p) => p.id === id);
+  //     setProduct(foundProduct === undefined ? undefined : foundProduct);
+  //   };
+  //   fetchProduct();
+  // }, [id]);
   useEffect(() => {
-    const fetchProduct = () => {
-      const foundProduct = allProducts.find((p) => p.id === id);
-      setProduct(foundProduct === undefined ? undefined : foundProduct);
-    };
-    fetchProduct();
-  }, [id]);
+        const fetchProducts = async () => {
+            try {
+                const { data } = await axios.get(`/API/products/${id}`);
+                // The products are inside data.products
+                setProducts(data.products || []);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
   return product;
 };
 
 function ProductDetails() {
   const { id } = useParams();
+  // console.log("Product ID from URL:", id);
   const product = useProductData(id);
 
   const { addItemToCart } = useCartContext();
@@ -98,7 +113,7 @@ function ProductDetails() {
 
   useEffect(() => {
     if (product) {
-      setMainImage(product.images[0]);
+      setMainImage(product.images[0].url);
       setSelectedSize(product.sizes[0]);
     }
   }, [product]);
@@ -178,7 +193,7 @@ function ProductDetails() {
               {product.images.map((img, index) => (
                 <img
                   key={index}
-                  src={img}
+                  src={img.url}
                   alt={`Thumbnail ${index + 1}`}
                   className={`w-20 h-20 object-cover rounded-md cursor-pointer transition border-2 ${
                     img === mainImage

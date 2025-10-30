@@ -31,31 +31,18 @@ const UserProfile = () => <div>User Profile Settings Form</div>; //
 const UserAddresses = () => <div>User Address Book</div>; //
 
 // --- ADMIN PAGES ---
-// import AdminLayout from "./components/layout/AdminLayout";
-// import Dashboard from "./pages/admin/Dashboard";
-// import OrderManagement from "./pages/admin/OrderManagement";
-// import ProductManagement from "./pages/admin/ProductManagement";
-// import UsersManagement from "./pages/admin/UsersManagement";
-// import CODManagement from "./pages/admin/CODManagement";
-
 import AdminRoutes from "./pages/admin/AdminRoutes";
 // import AdminDashboard from "./pages/admin/AdminRoutes";
-// src/components/AdminProtected.jsx
+
 import { Navigate } from "react-router-dom";
 
-const AdminProtected = ({ children }) => {
-    const isAdmin = localStorage.getItem("role") === "admin";
-    // or however you store user role (e.g., from context, cookie, JWT decode, etc.)
 
-    if (!isAdmin) {
-        // If not admin, redirect to login or home
-        return <Navigate to="/login" replace />;
-    }
 
-    // Otherwise, render the child route
-    return children;
-}
 
+const UserProtectedRoute = ({ children }) => {
+    const token = localStorage.getItem('userToken');
+    return token ? children : children; //<Navigate to="/login" />; // Replace with user login page if the personalized user dashboard is created
+};
 
 function App() {
     const [user, setUser] = useState(null);
@@ -76,15 +63,6 @@ function App() {
         // Context Providers should ideally wrap this Router (e.g., CartProvider, AuthProvider)
         <Router>
             <Routes>
-
-                {/* <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/order-success" element={<OrderSuccess />} />
-                <Route path="/wishlist" element={<WishList />} /> */}
 
                 {/* ======================================================= */}
                 {/* ⭐️ 1. USER FACING ROUTES (Wrapped in PageLayout) ⭐️ */}
@@ -117,45 +95,31 @@ function App() {
                 {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Nested Routes) ⭐️ */}
                 {/* Consolidating /profile, /orders, /settings under /account */}
                 {/* ======================================================= */}
-                <Route path="/account" element={<PageLayout><UserDashboard /></PageLayout>}>
+                <Route path="/account" element={<PageLayout>  </PageLayout>}>
                     {/* Default view when navigating to /account (shows profile content) */}
-                    <Route index element={<UserProfile />} />
+                    <Route index element={<UserProtectedRoute><UserDashboard /></UserProtectedRoute>} />
 
                     {/* Routes accessible via the UserDashboard sidebar: /account/orders, /account/profile, etc. */}
-                    <Route path="profile" element={<UserProfile />} />
-                    <Route path="addresses" element={<UserAddresses />} />
-                    <Route path="wishlist" element={<WishList />} />
+                    <Route path="profile" element={<UserProtectedRoute ><UserProfile /></UserProtectedRoute>} />
+                    <Route path="addresses" element={<UserProtectedRoute ><UserAddresses /></UserProtectedRoute>} />
+                    <Route path="wishlist" element={<UserProtectedRoute ><WishList /></UserProtectedRoute>} />
 
                     {/* Order Management Nested Routes */}
-                    <Route path="orders" element={<OrderHistory />} />
-                    <Route path="orders/:orderId" element={<OrderDetails />} />
+                    <Route path="orders" element={<UserProtectedRoute ><OrderHistory /></UserProtectedRoute>} />
+                    <Route path="orders/:orderId" element={<UserProtectedRoute ><OrderDetails /></UserProtectedRoute>} />
                 </Route>
 
 
                 {/* ======================================================= */}
                 {/* ⭐️ 3. ADMIN ROUTES (Wrapped in AdminLayout) ⭐️ */}
                 {/* ======================================================= */}
-                {/* <Route path="/admin" element={<AdminLayout />}> */}
-                {/* Default admin view */}
-                {/* <Route index element={<Dashboard />} />
-
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="orders" element={<OrderManagement />} />
-                    <Route path="products" element={<ProductManagement />} />
-                    <Route path="users" element={<UsersManagement />} />
-                    <Route path="cod" element={<CODManagement />} />
-                </Route> */}
-
-
                 <Route
                     path="/admin"
                     element={
-                        // <AdminProtected>
-                            <AdminRoutes />
-                        // </AdminProtected>
+                        <AdminRoutes />
                     }
-                    // element={<AdminRoutes />}
                 />
+
             </Routes>
         </Router>
     );
