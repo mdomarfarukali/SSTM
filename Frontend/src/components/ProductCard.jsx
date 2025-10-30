@@ -20,8 +20,8 @@ const ProductCard = ({ product, index }) => {
 
     // Use first image or fallback
     const imageUrl = images[0]?.url
-        ? `/uploads/${images[0].url}`
-        : "/placeholder.jpg"; // fallback image
+        ? `${images[0].url}`
+        : "/placeholder.png"; // fallback image
 
     return (
         <motion.div

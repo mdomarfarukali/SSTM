@@ -1,7 +1,8 @@
 // src/pages/Products.jsx
 import React, { useState, useEffect, useMemo } from "react";
-import ProductCard from "../components/ProductCard";
 import axios from "axios";
+import ProductCard from "../components/ProductCard";
+import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 
 // 🔹 Helper to extract unique filter options
 const getUniqueOptions = (products, key) => {
@@ -30,6 +31,7 @@ const Products = () => {
 
     const [products, setProducts] = useState([]);
     const [openFilter, setOpenFilter] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // 🔹 Fetch products
     useEffect(() => {
@@ -40,11 +42,14 @@ const Products = () => {
                 setProducts(data.products || []);
             } catch (error) {
                 console.error("Error fetching products:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchProducts();
     }, []);
+
 
     // 🔹 Toggle filter dropdown
     const toggleFilter = (key) => {
@@ -171,6 +176,11 @@ const Products = () => {
         </aside>
     );
 
+    if (loading) {
+        return (
+            <LoadingSpinner />
+        );
+    }
     // 🔹 Render
     return (
         <div className="min-h-screen bg-gray-50 pt-20">

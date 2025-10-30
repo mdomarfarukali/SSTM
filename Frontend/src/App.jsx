@@ -34,15 +34,8 @@ const UserAddresses = () => <div>User Address Book</div>; //
 import AdminRoutes from "./pages/admin/AdminRoutes";
 // import AdminDashboard from "./pages/admin/AdminRoutes";
 
-import { Navigate } from "react-router-dom";
-
-
-
-
-const UserProtectedRoute = ({ children }) => {
-    const token = localStorage.getItem('userToken');
-    return token ? children : children; //<Navigate to="/login" />; // Replace with user login page if the personalized user dashboard is created
-};
+// Login protection for user account routes
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -97,16 +90,16 @@ function App() {
                 {/* ======================================================= */}
                 <Route path="/account" element={<PageLayout>  </PageLayout>}>
                     {/* Default view when navigating to /account (shows profile content) */}
-                    <Route index element={<UserProtectedRoute><UserDashboard /></UserProtectedRoute>} />
+                    <Route index element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
 
                     {/* Routes accessible via the UserDashboard sidebar: /account/orders, /account/profile, etc. */}
-                    <Route path="profile" element={<UserProtectedRoute ><UserProfile /></UserProtectedRoute>} />
-                    <Route path="addresses" element={<UserProtectedRoute ><UserAddresses /></UserProtectedRoute>} />
-                    <Route path="wishlist" element={<UserProtectedRoute ><WishList /></UserProtectedRoute>} />
+                    <Route path="profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                    <Route path="addresses" element={<ProtectedRoute><UserAddresses /></ProtectedRoute>} />
+                    <Route path="wishlist" element={<ProtectedRoute><WishList /></ProtectedRoute>} />
 
                     {/* Order Management Nested Routes */}
-                    <Route path="orders" element={<UserProtectedRoute ><OrderHistory /></UserProtectedRoute>} />
-                    <Route path="orders/:orderId" element={<UserProtectedRoute ><OrderDetails /></UserProtectedRoute>} />
+                    <Route path="orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+                    <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
                 </Route>
 
 

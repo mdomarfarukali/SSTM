@@ -28,6 +28,7 @@
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.16.0",
+    "react-loading-indicators": "^1.0.1",
     "react-router-dom": "^7.9.4",
     "react-toastify": "^11.0.5"
   },
