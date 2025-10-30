@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import ProductCard from "../components/.init.ProductCard";
 import axios from "axios";
-
+import products from "../context/ProductContext";
 // Helper function to extract all unique filter options (Needed for availableOptions)
 const getUniqueOptions = (products, key) => {
     const options = new Set();
@@ -18,7 +18,7 @@ const getUniqueOptions = (products, key) => {
     return Array.from(options).sort();
 };
 
-const products = [
+const _products = [
     // ... (Your products array is correctly defined here)
     {
         id: 1,

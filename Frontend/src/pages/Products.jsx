@@ -36,7 +36,6 @@ const Products = () => {
         const fetchProducts = async () => {
             try {
                 const { data } = await axios.get("/API/products");
-                console.log("Fetched products:", data);
                 // The products are inside data.products
                 setProducts(data.products || []);
             } catch (error) {

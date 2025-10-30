@@ -32,7 +32,7 @@ const ProductCard = ({ product, index }) => {
       <Link to={`/product/${product.id}`}>
         <div className="overflow-hidden rounded-t-2xl">
           <img
-            src={product.images[0].url}
+            src={product.imageUrl}
             alt={product.name}
             className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-105"
           />
