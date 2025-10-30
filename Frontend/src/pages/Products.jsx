@@ -37,7 +37,7 @@ const Products = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const { data } = await axios.get("/API/products");
+                const { data } = await axios.get("/API/products?page=1&limit=100");
                 // The products are inside data.products
                 setProducts(data.products || []);
             } catch (error) {
@@ -140,7 +140,7 @@ const Products = () => {
                                         className="hidden peer"
                                     />
                                     <div
-                                        className="w-5 h-5 border-2 border-gray-300 rounded-md flex items-center justify-center
+                                        className="w-5 h-5 border-2 border-brand-muted rounded-md flex items-center justify-center
                     peer-checked:bg-pink-500 peer-checked:border-pink-500 transition"
                                     >
                                         {activeFilters[key].includes(option) && (

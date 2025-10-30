@@ -44,7 +44,7 @@ export default function AdminProducts() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get("/API/products");
+                const res = await axios.get("/API/products?page=1&limit=1000000");
                 // Update metrics based on fetched data
                 setProducts(res.data.products);
             } catch (error) {

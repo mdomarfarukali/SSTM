@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 export default function PageLayout({ children }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-brand-light">
       {/* Navbar always on top */}
       <Navbar />
 
