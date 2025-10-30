@@ -12,9 +12,7 @@ import {
     // Moon,
     Menu,
     X,
-    User,
 } from "lucide-react";
-import { FaHeart, FaUser } from "react-icons/fa";
 
 import ThemeToggle from "../common/ThemeToggle";
 import { useTheme } from "../../context/ThemeContext.jsx";
@@ -32,138 +30,22 @@ export default function Navbar() {
     return (
         <nav className={dark ? "dark" : ""}>
             <div className="fixed top-0 inset-x-0 bg-brand-dark shadow-md z-50">
-                <div
+                <div 
                     // className="mx-auto flex flex-col md:flex-row justify-between items-center px-6 py-4 gap-3 md:gap-0"
-                    // className="mx-auto flex justify-between items-center px-4 py-3 md:px-6 md:py-4"
-                    className="mx-auto px-4 py-3 md:px-6 md:py-4"
+                    className="mx-auto flex justify-between items-center px-4 py-3 md:px-6 md:py-4"
                 >
-
-                    {/* 1st Row */}
-                    <div className="flex justify-between items-center">
-                        {/* Logo */}
-                        <Link to="/" className="text-3xl font-serif font-bold text-brand-primary flex items-center">
-                            <img
-                                src={theme === "dark" ? darkLogo : lightLogo}
-                                alt="DIVA Logo"
-                                className="w-10 h-10 mr-2"
-                            />
-                            DIVA
-                        </Link>
-
-                        {/* Desktop Search (inline) */}
-                        <div className="hidden md:flex flex-1 mx-6">
-                            <input
-                                type="text"
-                                placeholder="Search products..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full px-4 py-2 rounded-full border border-brand-muted text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary text-brand-primary dark:text-brand-highlight"
-                            />
-                        </div>
-
-                        {/* Wishlist + Cart + Menu */}
-                        <div className="flex items-center gap-3">
-                            {/* Wishlist icon (mobile) */}
-                            <Link to="/wishlist" className="md:hidden text-brand-primary hover:text-brand-secondary">
-                                <FaHeart size={20} />
-                            </Link>
-
-                            {/* Cart icon (mobile) */}
-                            <Link to="/cart" className="relative md:hidden text-brand-primary hover:text-brand-secondary">
-                                <ShoppingCart size={22} />
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-brand-primary text-brand-highlight text-xs px-1.5 py-0.5 rounded-full">
-                                        {cartCount}
-                                    </span>
-                                )}
-                            </Link>
-
-                            {/* Mobile Menu Button */}
-                            <button
-                                className="md:hidden p-2 text-brand-primary"
-                                onClick={() => setMobileOpen(!mobileOpen)}
-                            >
-                                {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-                            </button>
-
-                            {/* Desktop Menu - hidden on mobile */}
-                            <ul className="hidden md:flex gap-6  font-medium items-center">
-                                <li>
-                                    <Link to="/" className="text-brand-primary hover:text-brand-secondary transition">
-                                        <HomeIcon size={20} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/products" className="text-brand-primary hover:text-brand-secondary transition">
-                                        <Layers size={20} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/about" className="text-brand-primary hover:text-brand-secondary transition">
-                                        <Info size={20} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/contact" className="text-brand-primary hover:text-brand-secondary transition">
-                                        <Phone size={20} />
-                                    </Link>
-                                </li>
-
-                                {/* Sign In */}
-                                <li>
-                                    <Link
-                                        to="/account"
-                                        // text-white is assumed to be `text-brand-highlight` on your dark background
-                                        className="flex items-center justify-center border-2 border-brand-primary text-brand-primary p-2 rounded-full hover:bg-brand-secondary transition"
-                                    >
-                                        <User size={18} />
-                                    </Link>
-                                </li>
-
-                                {/* Cart */}
-                                <li className="relative">
-                                    <Link
-                                        to="/cart"
-                                        className="flex items-center justify-center bg-brand-light text-white p-2 rounded-full hover:bg-brand transition"
-                                    >
-                                        <ShoppingCart size={22} className="cursor-pointer text-brand border-brand" />
-                                        {cartCount > 0 && (
-                                            // text-white is assumed to be `text-brand-highlight`
-                                            <span className="absolute -top-2 -right-2 bg-brand-primary text-brand-highlight text-xs px-1.5 py-0.5 rounded-full">
-                                                {cartCount}
-                                            </span>
-                                        )}
-                                    </Link>
-                                </li>
-                                <ThemeToggle />
-                            </ul>
-                        </div>
-                    </div>
-
-
-                    {/* 2nd Row - Mobile Search */}
-                    <div className="mt-3 md:mt-0 md:hidden">
-                        <input
-                            type="text"
-                            placeholder="Search products..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full px-3 py-2 rounded-full border border-brand-muted text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary text-brand-primary dark:text-brand-highlight"
-                        />
-                    </div>
-
                     {/* Logo */}
-                    {/* <Link to="/" className="text-3xl font-serif text-brand-primary font-bold">
+                    <Link to="/" className="text-3xl font-serif text-brand-primary font-bold">
                         <img
                             src={theme === "dark" ? darkLogo : lightLogo}
                             alt="DIVA Logo"
                             className="w-10 h-10 inline-block mr-2 mb-1"
                         />
                         DIVA
-                    </Link> */}
+                    </Link>
 
                     {/* Search Bar */}
-                    {/* <form
+                    <form
                         onSubmit={(e) => {
                             e.preventDefault();
                             console.log("Searching:", searchQuery);
@@ -178,9 +60,9 @@ export default function Navbar() {
                             // Text color now uses your brand classes and dark mode prefix
                             className="w-full px-4 py-3 rounded-md border border-brand-muted focus:outline-none focus:ring-2 focus:ring-brand-primary text-brand-primary dark:text-brand-highlight"
                         />
-                    </form> */}
+                    </form>
                     {/* Desktop Menu */}
-                    {/* <ul className="hidden md:flex gap-6  font-medium items-center">
+                    <ul className="hidden md:flex gap-6  font-medium items-center">
                         <li>
                             <Link to="/" className="text-brand-primary hover:text-brand-secondary transition">
                                 <HomeIcon size={20} />
@@ -200,10 +82,10 @@ export default function Navbar() {
                             <Link to="/contact" className="text-brand-primary hover:text-brand-secondary transition">
                                 <Phone size={20} />
                             </Link>
-                        </li> */}
+                        </li>
 
-                    {/* Sign In */}
-                    {/* <li>
+                        {/* Sign In */}
+                        <li>
                             <Link
                                 to="/login"
                                 // text-white is assumed to be `text-brand-highlight` on your dark background
@@ -211,10 +93,10 @@ export default function Navbar() {
                             >
                                 <LogIn size={18} />
                             </Link>
-                        </li> */}
+                        </li>
 
-                    {/* Cart */}
-                    {/* <li className="relative">
+                        {/* Cart */}
+                        <li className="relative">
                             <Link
                                 to="/cart"
                                 className="flex items-center justify-center bg-brand-light text-white p-2 rounded-full hover:bg-brand transition"
@@ -229,15 +111,15 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <ThemeToggle />
-                    </ul> */}
+                    </ul>
 
                     {/* Mobile Menu Button (uses generic gray classes that are responsive) */}
-                    {/* <button
+                    <button
                         className="md:hidden p-2 rounded-full bg-gray-200 dark:bg-gray-700"
                         onClick={() => setMobileOpen(!mobileOpen)}
                     >
                         {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button> */}
+                    </button>
                 </div>
 
 
@@ -285,22 +167,22 @@ export default function Navbar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link
-                                        to="/about"
+                                    <a
+                                        href="#about"
                                         onClick={() => setMobileOpen(false)}
                                         className="hover:text-brand-secondary transition flex items-center gap-2 text-lg"
                                     >
                                         <Info size={20} /> About
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link
-                                        to="/contact"
+                                    <a
+                                        href="#contact"
                                         onClick={() => setMobileOpen(false)}
                                         className="hover:text-brand-secondary transition flex items-center gap-2 text-lg"
                                     >
                                         <Phone size={20} /> Contact
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
                                     <Link

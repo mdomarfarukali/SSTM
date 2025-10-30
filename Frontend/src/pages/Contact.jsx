@@ -23,7 +23,7 @@ export default function Contact() {
 
   return (
     <div className="bg-brand min-h-screen px-6 md:px-16 py-28 relative overflow-hidden">
-      <br></br>
+      {/* <br></br> */}
       {/* <br></br>
       <br></br> */}
       {/* Floating sparkles */}

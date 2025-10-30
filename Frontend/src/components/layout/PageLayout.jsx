@@ -9,7 +9,10 @@ export default function PageLayout({ children }) {
       <Navbar />
 
       {/* Main content */}
-      <main className="flex-1">
+      <main 
+        // className="flex-1"
+        className="flex-grow min-h-[calc(100vh-80px)] mt-16 md:mt-12"
+      >
         {/* {children} */}
         <Outlet /> {/* 👈 This renders nested route content */}
       </main>

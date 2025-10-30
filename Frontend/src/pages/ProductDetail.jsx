@@ -89,7 +89,7 @@ const useProductData = (id) => {
                 const { data } = await axios.get(`/API/products/${id}`);
                 // The products are inside data.products
                 // console.log("Fetched product data:", data);
-                setProducts(data.products || []);
+                setProducts(data.product || []);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -114,7 +114,7 @@ function ProductDetails() {
 
     useEffect(() => {
         if (product) {
-            setMainImage(product?.images?.[0]?.url || "/placeholder.png");
+            setMainImage(product.images?.[0]?.url || "/placeholder.png");
             setSelectedSize(product?.sizes?.[0] || "R");
         }
     }, [product]);
@@ -194,7 +194,7 @@ function ProductDetails() {
                             className="w-full h-auto rounded-xl shadow-2xl object-cover aspect-square"
                         />
                         <div className="flex gap-3 mt-4 overflow-x-auto p-1">
-                            {product?.images?.map((img, index) => (
+                            {product.images?.map((img, index) => (
                                 <img
                                     key={index}
                                     src={img.url}

@@ -21,17 +21,15 @@ import { LifeLine, Riple, ThreeDot } from "react-loading-indicators";
 
 const LoadingSpinner = () => {
   return (
-    <div className="flex flex-col items-center justify-center flex-1 py-24">
-      <div className="relative w-16 h-16">
-        <br></br><br></br><br></br><br></br>
-        <br></br><br></br><br></br><br></br>
+    <div
+      // className="flex flex-col items-center justify-center flex-1 pt-[64px]"
+      className="fixed inset-0 flex items-center justify-center z-50 bg-white/50"
+    >
+      <div className="relative w-16 h-16 flex items-center justify-center">
         {/* <LifeLine color="#ffa7a7ff" size="large" text="" textColor="" /> */}
         {/* <Riple color="#ffa7a7ff" size="extra-large" text="" textColor="" /> */}
         <ThreeDot variant="bounce" color="#ffa7a7ff" size="large" text="" textColor="" className="absolute inset-0 m-auto item-center" />
       </div>
-      {/* <p className="mt-6 text-lg font-semibold text-brand animate-pulse tracking-wide">
-        Loading<span className="dots">...</span>
-      </p> */}
     </div>
   );
 };
