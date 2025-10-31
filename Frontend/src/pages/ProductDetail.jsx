@@ -6,83 +6,9 @@ import { useWishlistContext } from "../context/WishListContext.jsx";
 import { showToast } from "../utils/toastUtils.js";
 import axios from "axios";
 
-const allProducts = [
-    {
-        id: "1",
-        name: "Diamond Solitaire Ring",
-        price: 299.0,
-        images: [
-            "https://images.unsplash.com/photo-1598560917807-1bae44bd2be8?q=80&w=580&auto=format&fit=crop",
-        ],
-        description:
-            "A handcrafted diamond ring that symbolizes eternal love. Made with 18k white gold and natural diamonds for unmatched brilliance and clarity.",
-        material: "18k White Gold, 0.5 Carat Diamond",
-        sizes: ["US 5", "US 6", "US 7", "US 8", "US 9"],
-        stock: 15,
-    },
-    {
-        id: "2",
-        name: "Pearl Drop Earrings",
-        price: 199.0,
-        images: [
-            "https://plus.unsplash.com/premium_photo-1739548338201-4c337ce176d2?w=500&auto=format&fit=crop&q=60",
-        ],
-        description:
-            "Elegant pearl earrings with a subtle golden setting. Perfect for evening wear.",
-        material: "Sterling gold, Freshwater Pearl",
-        sizes: ["Small", "Medium"],
-        stock: 22,
-    },
-    {
-        id: "3",
-        name: "Minimalist Diamond Band",
-        price: 750.0,
-        images: [
-            "https://images.unsplash.com/photo-1628080064295-d8641a23e595?w=500&auto=format&fit=crop&q=60",
-        ],
-        description:
-            "A contemporary thin band set with micro-pavé diamonds, perfect for stacking or as a simple wedding band.",
-        material: "14k Rose Gold, Certified Diamonds",
-        sizes: ["US 5", "US 6", "US 7", "US 8", "US 9"],
-        stock: 30,
-    },
-    {
-        id: "4",
-        name: "Vintage Amethyst Pendant",
-        price: 320.0,
-        images: [
-            "https://images.unsplash.com/photo-1611119641753-f725a3a2a091?w=500&auto=format&fit=crop&q=60",
-        ],
-        description:
-            "An ornate silver pendant featuring a deep violet amethyst gemstone, inspired by classic Victorian design.",
-        material: "Sterling Silver, Natural Amethyst",
-        sizes: ["18 inch", "20 inch"],
-        stock: 12,
-    },
-    {
-        id: "5",
-        name: "Delicate Chain Bracelet",
-        price: 125.0,
-        images: [
-            "https://images.unsplash.com/photo-1598472504445-6453f7c9e0d9?w=500&auto=format&fit=crop&q=60",
-        ],
-        description:
-            "A barely-there chain bracelet with three tiny accent stones. Perfect for everyday subtle elegance.",
-        material: "14k Gold Vermeil, Cubic Zirconia",
-        sizes: ["6.5 inch", "7 inch", "7.5 inch"],
-        stock: 45,
-    },
-];
-
 const useProductData = (id) => {
     const [product, setProducts] = useState(null);
-    // useEffect(() => {
-    //   const fetchProduct = () => {
-    //     const foundProduct = allProducts.find((p) => p.id === id);
-    //     setProduct(foundProduct === undefined ? undefined : foundProduct);
-    //   };
-    //   fetchProduct();
-    // }, [id]);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -114,6 +40,7 @@ function ProductDetails() {
 
     useEffect(() => {
         if (product) {
+            console.log("Product data loaded:", product);
             setMainImage(product.images?.[0]?.url || "/placeholder.png");
             setSelectedSize(product?.sizes?.[0] || "R");
         }
@@ -200,10 +127,10 @@ function ProductDetails() {
                                     src={img.url}
                                     alt={`Thumbnail ${index + 1}`}
                                     className={`w-20 h-20 object-cover rounded-md cursor-pointer transition border-2 ${img === mainImage
-                                            ? "border-brand-primary shadow-md"
-                                            : "border-brand-muted hover:border-brand"
+                                        ? "border-brand-primary shadow-md"
+                                        : "border-brand-muted hover:border-brand"
                                         }`}
-                                    onClick={() => setMainImage(img)}
+                                    onClick={() => setMainImage(img.url)}
                                 />
                             ))}
                         </div>
@@ -225,8 +152,8 @@ function ProductDetails() {
                                         key={size}
                                         onClick={() => setSelectedSize(size)}
                                         className={`px-4 py-2 border rounded-full text-sm font-medium transition ${selectedSize === size
-                                                ? "bg-brand-primary text-brand-highlight border-brand-primary shadow-md"
-                                                : "bg-brand-light text-brand border-brand-muted hover:border-brand-primary"
+                                            ? "bg-brand-primary text-brand-highlight border-brand-primary shadow-md"
+                                            : "bg-brand-light text-brand border-brand-muted hover:border-brand-primary"
                                             }`}
                                     >
                                         {size}
@@ -268,8 +195,8 @@ function ProductDetails() {
                             <button
                                 onClick={handleToggleWishlist}
                                 className={`px-6 py-4 border text-xl rounded-full transition flex items-center justify-center gap-2 ${wished
-                                        ? "border-brand-danger bg-brand-light text-brand-danger"
-                                        : "border-brand-primary text-brand-primary hover:bg-brand-light"
+                                    ? "border-brand-danger bg-brand-light text-brand-danger"
+                                    : "border-brand-primary text-brand-primary hover:bg-brand-light"
                                     }`}
                             >
                                 <FaHeart className={wished ? "fill-current" : ""} />
