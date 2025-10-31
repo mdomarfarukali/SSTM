@@ -37,6 +37,7 @@ import AdminRoutes from "./pages/admin/AdminRoutes";
 // Login protection for user account routes
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
+import UploadImage from "./components/UploadImage.jsx";
 function App() {
     const [user, setUser] = useState(null);
 
@@ -57,6 +58,7 @@ function App() {
         <Router>
             <Routes>
 
+                <Route path="/upload-image" element={<UploadImage />} />
                 {/* ======================================================= */}
                 {/* ⭐️ 1. USER FACING ROUTES (Wrapped in PageLayout) ⭐️ */}
                 {/* ======================================================= */}

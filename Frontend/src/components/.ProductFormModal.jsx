@@ -13,22 +13,8 @@ const MATERIAL_OPTIONS = ["Gold", "Silver", "Diamond", "Platinum", "Artificial",
 const ProductFormModal = ({ isEditing, currentProduct, setCurrentProduct, handleChange, handleCloseModal, handleSave }) => {
     // const [product, setProduct] = useState(currentProduct || {});
     const [uploading, setUploading] = useState(false);
+    const [imagePreview, setImagePreview] = useState(currentProduct.thumbnail || "");
 
-    // const [imagePreviews, setImagePreviews] = useState(
-    //     currentProduct.images ? currentProduct.images.map(img => img.url) : []
-    // );
-    const [imagePreviews, setImagePreviews] = useState(
-        currentProduct.images
-            ? currentProduct.images.map(img => ({
-                url: img.url,
-                public_id: img.public_id
-            }))
-            : []
-    );
-
-
-    // console.log("Current Product in Modal :", currentProduct);
-    // console.log("Image Previews in Modal :", imagePreviews);
     // const handleChange = (e) => {
     //     const { name, value, type } = e.target;
     //     setCurrentProduct(prev => ({
@@ -37,44 +23,37 @@ const ProductFormModal = ({ isEditing, currentProduct, setCurrentProduct, handle
     //     }));
     // };
 
+    // ☁️ Cloudinary upload
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
         setUploading(true);
         const formData = new FormData();
-        formData.append("images", file); // backend expects 'images' field
+        formData.append("file", file);
+        formData.append("upload_preset", "your_upload_preset_here"); // 🔁 change this
+        formData.append("cloud_name", "your_cloud_name_here"); // 🔁 change this
 
         try {
-            const res = await axios.post("/API/cloudinary/upload", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-                timeout: 60000
-            });
-            // console.log("Upload response:", res.data);
-            const newImage = res.data; // first image returned
-            setCurrentProduct(prev => ({
+            const res = await axios.post(`https://api.cloudinary.com/v1_1/your_cloud_name_here/image/upload`, formData);
+            const imageUrl = res.data.secure_url;
+            setProduct((prev) => ({
                 ...prev,
-                images: [...(prev.images || []), { url: newImage.url, public_id: newImage.public_id }],
-                thumbnail: newImage.url, // first image as thumbnail
+                thumbnail: imageUrl,
+                images: [{ public_id: res.data.public_id, url: imageUrl }],
             }));
-            setImagePreviews(prev => [...prev,
-            { url: newImage.url, public_id: newImage.public_id }
-            ]);
-
-            // console.log("Images added till now :", imagePreviews);
+            setImagePreview(imageUrl);
         } catch (err) {
-            console.error("Upload failed", err);
+            alert("Image upload failed");
+            console.error(err);
         } finally {
             setUploading(false);
         }
     };
 
-
     // 🧾 Submit handler
     const handleSubmit = (e) => {
         e.preventDefault();
-        currentProduct.images = imagePreviews;
-        console.log("Submitting Product :", currentProduct);
         handleSave(currentProduct);
     };
 
@@ -112,7 +91,7 @@ const ProductFormModal = ({ isEditing, currentProduct, setCurrentProduct, handle
                                     onChange={handleChange}
                                     value={currentProduct?.name || ""}
                                     // onChange={(e) =>
-                                    // setCurrentProduct((prev) => ({ ...prev, name: e.target.value }))
+                                        // setCurrentProduct((prev) => ({ ...prev, name: e.target.value }))
                                     // }
                                     placeholder="Enter product name"
                                     className="w-full border rounded-lg p-2 shadow-sm focus:ring-fuchsia-500 focus:border-fuchsia-500"
@@ -207,51 +186,25 @@ const ProductFormModal = ({ isEditing, currentProduct, setCurrentProduct, handle
 
                     {/* 🖼️ IMAGE UPLOAD SECTION */}
                     <section>
-                        <h4 className="text-lg font-semibold text-indigo-700 border-b pb-1 mb-4">
-                            Product Images
-                        </h4>
-                        <div className="flex items-center gap-4 flex-wrap">
-                            {/* Upload Button */}
+                        <h4 className="text-lg font-semibold text-indigo-700 border-b pb-1 mb-4">Product Images</h4>
+                        <div className="flex flex-col md:flex-row items-center gap-4">
                             <label className="cursor-pointer flex items-center gap-2 px-4 py-2 border rounded-lg bg-fuchsia-50 hover:bg-fuchsia-100 transition">
                                 <Upload size={20} className="text-fuchsia-600" />
                                 <span className="text-fuchsia-700 font-medium">Upload Image</span>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageUpload}
-                                    hidden
-                                />
+                                <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
                             </label>
 
-                            {/* Loading Spinner */}
-                            {uploading && <Loader2 className="animate-spin text-fuchsia-600" size={28} />}
-
-                            {/* Previews */}
-                            {imagePreviews.length > 0 &&
-                                imagePreviews.map((img, idx) => (
-                                    <div key={idx} className="relative w-24 h-24">
-                                        <img
-                                            src={img.url}
-                                            alt={`preview ${idx}`}
-                                            className="w-24 h-24 rounded-lg object-cover border shadow"
-                                        />
-                                        {/* Remove button */}
-                                        <button
-                                            type="button"
-                                            className="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
-                                            onClick={() => {
-                                                // Remove image from state
-                                                setImagePreviews(prev => prev.filter((_, i) => i !== idx));
-                                                setCurrentProduct(prev => ({
-                                                    ...prev,
-                                                    images: prev.images.filter((_, i) => i !== idx),
-                                                }));
-                                            }}
-                                        >
-                                            ×
-                                        </button>
-                                    </div>
-                                ))}
+                            {uploading ? (
+                                <Loader2 className="animate-spin text-fuchsia-600" size={28} />
+                            ) : imagePreview ? (
+                                <img
+                                    src={imagePreview}
+                                    alt="preview"
+                                    className="w-24 h-24 rounded-lg object-cover border shadow"
+                                />
+                            ) : (
+                                <p className="text-gray-500 text-sm">No image selected</p>
+                            )}
                         </div>
                     </section>
 
