@@ -61,6 +61,12 @@ const productSchema = new mongoose.Schema(
         metalWeight: {
             type: Number, // in grams
         },
+        // sizes: [
+        //     {
+        //         type: String, // e.g., "6", "7", "8" for rings; "S", "M", "L" for bracelets
+        //         enum: ["6", "7", "8", "9", "10", "S", "M", "L", "XL"],
+        //     },
+        // ],
 
         // 💰 Pricing
         price: {
