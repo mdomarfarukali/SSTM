@@ -57,13 +57,34 @@ export default function AdminProducts() {
         fetchProducts();
     }, []);
 
+
+    const deleteProduct = async (productId) => {
+        try {
+            const adminToken = localStorage.getItem("adminToken");
+            const response = await axios.delete(
+                `/API/products/${productId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${adminToken}`,
+                    },
+                }
+            );
+            console.log("✅ Product deleted successfully:", response.data);
+        } catch (error) {
+            console.error("❌ Error deleting product:", error.response?.data || error.message);
+        }
+    };
+
     // --- Handlers ---
 
     const handleDelete = (_id) => {
         if (window.confirm(`Are you sure you want to delete product ID #${_id}?`)) {
+            deleteProduct(_id);
             setProducts(products.filter((p) => p._id !== _id));
         }
     };
+
+
 
     const handleOpenModal = (product = initialProductState) => {
         setIsEditing(!!product._id);
@@ -94,11 +115,17 @@ export default function AdminProducts() {
                 });
                 setProducts(products.map(p => p._id === productData._id ? productData : p));
             } else {
-                await axios.post("/API/products", productData, {
+                const res = await axios.post("/API/products", productData, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
+
+                console.log("✅ Product created successfully:", res.data);
+
+                // const createdProduct = res.data.product; // ✅ Real product object from backend
+                // setProducts([...products, createdProduct]);
+                productData._id = res.data.product._id;
                 const newId = products.length ? Math.max(...products.map(p => p._id || 0)) + 1 : 1;
-                setProducts([...products, { ...productData, _id: newId }]);
+                setProducts([...products, { ...productData }]);
             }
         } catch (error) {
             console.error("❌ Failed to save product:", error);
@@ -173,7 +200,7 @@ export default function AdminProducts() {
                                     </button>
                                     <button
                                         className="p-1 text-red-600 rounded-full hover:bg-red-50 transition"
-                                        onClick={() => handleDelete(product.id)}
+                                        onClick={() => handleDelete(product._id)}
                                         title="Delete Product"
                                     >
                                         <Trash2 size={18} />

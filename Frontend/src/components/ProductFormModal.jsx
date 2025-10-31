@@ -74,7 +74,7 @@ const ProductFormModal = ({ isEditing, currentProduct, setCurrentProduct, handle
     const handleSubmit = (e) => {
         e.preventDefault();
         currentProduct.images = imagePreviews;
-        console.log("Submitting Product :", currentProduct);
+        // console.log("Submitting Product :", currentProduct);
         handleSave(currentProduct);
     };
 
