@@ -1,66 +1,152 @@
-import React from 'react';
+import React, { useState } from 'react'; // <--- ADDED useState
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { FaUserCircle, FaHistory, FaHeart, FaMapMarkerAlt, FaKey } from 'react-icons/fa';
+import { FaUserCircle, FaCreditCard, FaMapMarkerAlt, FaBell, FaSignOutAlt, FaBox, FaTicketAlt } from 'react-icons/fa';
 
-const dashboardNav = [
-    { name: 'My Profile', path: 'profile', icon: FaUserCircle },
-    { name: 'Order History', path: 'orders', icon: FaHistory },
-    { name: 'Wishlist', path: 'wishlist', icon: FaHeart },
-    { name: 'Addresses', path: 'addresses', icon: FaMapMarkerAlt },
-    { name: 'Change Password', path: 'password', icon: FaKey },
+// --- NAVIGATION STRUCTURE (Same as before) ---
+const dashboardNavGroups = [
+    {
+        title: 'MY ORDERS',
+        items: [
+            { name: 'My Orders', path: 'orders', icon: FaBox },
+        ],
+    },
+    {
+        title: 'ACCOUNT SETTINGS',
+        items: [
+            { name: 'Profile Information', path: 'profile', icon: FaUserCircle },
+            { name: 'Manage Addresses', path: 'addresses', icon: FaMapMarkerAlt },
+        ],
+    },
+    {
+        title: 'PAYMENTS',
+        items: [
+            { name: 'Gift Cards', path: 'gift-cards', icon: FaCreditCard },
+            { name: 'Saved UPI', path: 'saved-upi', icon: FaCreditCard },
+            { name: 'Saved Cards', path: 'saved-cards', icon: FaCreditCard },
+        ],
+    },
+    {
+        title: 'MY STUFF',
+        items: [
+            { name: 'My Coupons', path: 'coupons', icon: FaTicketAlt },
+            { name: 'My Reviews & Ratings', path: 'reviews', icon: FaBell },
+            { name: 'All Notifications', path: 'notifications', icon: FaBell },
+            { name: 'My Wishlist', path: 'wishlist', icon: FaBox },
+        ],
+    },
 ];
 
 function UserDashboard() {
     const location = useLocation();
+    
+    // 1. Initialize a placeholder state for the user's name
+    // In a real app, you would fetch this from your Auth Context or Redux store
+    const [userName, setUserName] = useState('Guest User'); 
+    
+    // NOTE: If you are using an authentication context (like AuthContext), 
+    // you would replace the line above with:
+    // const { user } = useContext(AuthContext); 
+    // const userName = user ? user.name : 'Guest User';
+
+    const isActive = (path) => location.pathname.includes(path);
 
     return (
-        <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">
-            {/* Page Header */}
+        <div className="min-h-screen bg-white pt-10">
             <div className="max-w-7xl mx-auto px-4 py-8">
-                <h1 className="text-4xl font-serif font-bold text-brand mb-10">
-                    My Account Dashboard
-                </h1>
-
-                <div className="lg:grid lg:grid-cols-4 lg:gap-10">
+                
+                <div className="lg:grid lg:grid-cols-4 lg:gap-6">
                     
                     {/* Sidebar Navigation */}
                     <aside className="lg:col-span-1 mb-8 lg:mb-0">
-                        <nav className="bg-brand-dark p-6 rounded-xl shadow-lg border border-brand-muted sticky lg:top-28">
-                            <h2 className="text-xl font-semibold text-brand mb-4 border-b border-brand-muted pb-2">
-                                Account Navigation
-                            </h2>
-                            <ul>
-                                {dashboardNav.map((item) => (
-                                    <li key={item.name} className="mt-1">
-                                        <Link
-                                            to={item.path}
-                                            className={`flex items-center gap-3 p-3 rounded-lg font-medium transition-colors ${
-                                                location.pathname.includes(item.path)
-                                                    ? 'bg-brand-primary text-brand-highlight'
-                                                    : 'text-brand-muted hover:bg-brand-dark hover:text-brand'
-                                            }`}
-                                        >
-                                            <item.icon className="w-5 h-5" />
-                                            {item.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
+                        <nav className="bg-white rounded-lg sticky lg:top-28">
+                            
+                            {/* Profile Greeting */}
+                            <div className="flex items-center p-4 mb-4">
+                                <span className="text-4xl text-gray-800 mr-3">
+                                    <FaUserCircle />
+                                </span>
+                                <div>
+                                    <p className="text-gray-500 text-sm">Hello,</p>
+                                    {/* 3. Use the dynamic userName here */}
+                                    <p className="font-semibold text-lg text-gray-800">{userName}</p>
+                                </div>
+                            </div>
+                            
+                            {/* Navigation Groups (Rest of the code is unchanged) */}
+                            {dashboardNavGroups.map((group) => (
+                                <div key={group.title} className="mb-4">
+                                    <h2 className="text-gray-500 text-xs font-semibold tracking-widest px-4 py-2 mt-2">
+                                        {group.title}
+                                    </h2>
+                                    <ul>
+                                        {group.items.map((item) => (
+                                            <li key={item.name}>
+                                                <Link
+                                                    to={item.path}
+                                                    className={`flex items-center gap-3 p-2 pl-4 text-sm font-medium transition-colors border-l-4 
+                                                        ${isActive(item.path)
+                                                            ? 'border-blue-500 text-blue-500 bg-blue-50'
+                                                            : 'border-transparent text-gray-700 hover:text-blue-500 hover:bg-gray-50'
+                                                        }`}
+                                                >
+                                                    <item.icon className="w-4 h-4" />
+                                                    {item.name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                            
+                            {/* Logout Link */}
+                            <div className="border-t border-gray-200 mt-6 pt-4">
+                                <Link
+                                    to="logout"
+                                    className="flex items-center gap-3 p-2 pl-4 text-sm font-medium text-gray-700 hover:text-red-500"
+                                >
+                                    <FaSignOutAlt className="w-4 h-4" />
+                                    Logout
+                                </Link>
+                            </div>
+                        
+<div className="border-t border-gray-200 mt-4 pt-4 text-sm text-gray-500 px-4">
+    <h3 className="font-semibold text-gray-800 mb-2">Frequently Visited</h3>
+    <ul className="list-disc list-inside space-y-1 ml-2">
+        <li>
+            <Link 
+                to="/orders/track" 
+                className="text-gray-700 hover:text-blue-500" // <-- ADDED text-gray-700
+            >
+                Track Order
+            </Link>
+        </li>
+        <li>
+            <Link 
+                to="/help" 
+                className="text-gray-700 hover:text-blue-500" // <-- ADDED text-gray-700
+            >
+                Help Center
+            </Link>
+        </li>
+    </ul>
+</div>
+
                         </nav>
                     </aside>
 
                     {/* Content Area */}
                     <main className="lg:col-span-3">
-                        <div className="bg-brand p-8 rounded-xl shadow-lg border border-brand-muted min-h-[60vh]">
+                        <div className="bg-white p-6 rounded-lg border border-gray-200 min-h-[60vh] shadow-sm">
                             <Outlet />
 
-                            {location.pathname === '/account' && (
+                            {/* Default content if no sub-route is matched (e.g., /account) */}
+                            {location.pathname.endsWith('/account') && (
                                 <div className="text-center py-10">
-                                    <h2 className="text-3xl font-bold text-brand mb-4">
-                                        Welcome to Your Dashboard!
+                                    <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                                        Welcome to Your Account
                                     </h2>
-                                    <p className="text-lg text-brand-muted">
-                                        Use the navigation links on the left to manage your profile, orders, and addresses.
+                                    <p className="text-gray-500">
+                                        Select an option from the left to view and manage your details.
                                     </p>
                                 </div>
                             )}
