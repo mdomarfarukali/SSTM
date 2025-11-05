@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaTrash, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
-import { useCartContext } from '../context/CartContext'; 
+import { useCartContext } from '../context/CartContext';
+import LoginPage from './auth/Login';
 
 // Helper component for displaying a single item in the cart
 const CartItem = ({ item }) => {
@@ -10,7 +11,7 @@ const CartItem = ({ item }) => {
     const handleQuantityChange = (e) => {
         const newQuantity = parseInt(e.target.value, 10);
         if (!isNaN(newQuantity) && newQuantity >= 1) {
-            updateItemQuantity(item.uniqueId, newQuantity);
+            updateItemQuantity(item.id, newQuantity);
         }
     };
 
@@ -20,9 +21,9 @@ const CartItem = ({ item }) => {
             {/* Item Details (Image, Name, Size) */}
             <div className="flex items-center space-x-4 w-1/2">
                 <Link to={`/product/${item.id}`}>
-                    <img 
-                        src={item.image} 
-                        alt={item.name} 
+                    <img
+                        src={item.image}
+                        alt={item.name}
                         className="w-20 h-20 object-cover rounded-lg shadow-md hover:opacity-80 transition"
                     />
                 </Link>
@@ -57,7 +58,7 @@ const CartItem = ({ item }) => {
                     ${(item.price * item.quantity).toFixed(2)}
                 </p>
                 <button
-                    onClick={() => removeItemFromCart(item.uniqueId)}
+                    onClick={() => removeItemFromCart(item.id, item.selectedSize)}
                     // Remove button uses the danger/red color
                     className="mt-1 text-brand-danger hover:text-red-700 transition flex items-center gap-1 ml-auto"
                 >
@@ -71,7 +72,28 @@ const CartItem = ({ item }) => {
 
 // Main Cart Component
 function Cart() {
-    const { cartItems, totalItems, cartTotal } = useCartContext(); 
+    const { cartItems, totalItems, cartTotal } = useCartContext();
+    const Navigate = useNavigate();
+    // console.log("Cart Items:", cartItems); // Debugging line
+
+    // const handleCheckout = () => {
+    //     const isUser = localStorage.getItem("role") === "user";
+    //     // const email = localStorage.getItem("email") || "guest@example.com";
+    //     // console.log("User Role:", isUser ? "user" : "not user")
+    //     if (!isUser) {
+    //         return <LoginPage path={"/checkout"} />;
+    //     }
+    //     Navigate('/checkout');
+    // };
+    const handleCheckout = () => {
+        const role = localStorage.getItem("role");
+        if (role !== "user") {
+            Navigate("/login", { state: { from: "/checkout" } });
+        } else {
+            Navigate("/checkout");
+        }
+    };
+
 
     return (
         // Main page background uses the lightest brand color
@@ -89,8 +111,8 @@ function Cart() {
                         <p className="text-2xl font-semibold text-brand mb-6">
                             Your cart is empty. Time to find some sparkle! ✨
                         </p>
-                        <Link 
-                            to="/products" 
+                        <Link
+                            to="/products"
                             // Button uses bg-brand-secondary and text-brand-highlight
                             className="inline-flex items-center px-6 py-3 bg-brand-secondary text-brand-highlight font-medium rounded-full shadow-lg hover:bg-brand-dark transition gap-2"
                         >
@@ -100,7 +122,7 @@ function Cart() {
                 ) : (
                     // Cart with Items
                     <div className="lg:grid lg:grid-cols-3 lg:gap-10">
-                        
+
                         {/* 1. Cart Items List */}
                         {/* List background uses bg-brand, border uses brand-secondary */}
                         <div className="lg:col-span-2 bg-brand p-8 rounded-xl shadow-lg">
@@ -110,7 +132,7 @@ function Cart() {
                                 <span className="text-right w-1/4">Subtotal</span>
                             </div>
                             {cartItems.map((item) => (
-                                <CartItem key={item.uniqueId} item={item} />
+                                <CartItem key={item.id} item={item} />
                             ))}
                         </div>
 
@@ -118,7 +140,7 @@ function Cart() {
                         {/* Summary background uses bg-brand */}
                         <div className="lg:col-span-1 mt-8 lg:mt-0 bg-brand p-8 rounded-xl shadow-lg h-fit sticky top-28">
                             <h2 className="text-3xl font-semibold text-brand dark:text-brand-highlight border-b pb-4 mb-6">Order Summary</h2>
-                            
+
                             <div className="space-y-3 text-brand">
                                 <div className="flex justify-between text-lg">
                                     <span>Items ({totalItems})</span>
@@ -136,13 +158,13 @@ function Cart() {
                             </div>
 
                             {/* Checkout Button */}
-                            <Link 
-                                to="/checkout" 
+                            <div
+                                onClick={handleCheckout}
                                 // Button uses bg-brand-primary and text-brand-highlight
                                 className="mt-8 w-full block text-center px-6 py-4 bg-brand-primary text-brand-highlight text-xl font-bold rounded-full shadow-xl hover:bg-brand-dark transition transform hover:scale-[1.02]"
                             >
                                 Proceed to Checkout
-                            </Link>
+                            </div>
                         </div>
                     </div>
                 )}

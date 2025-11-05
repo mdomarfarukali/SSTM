@@ -20,11 +20,12 @@ import ThemeToggle from "../common/ThemeToggle";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import lightLogo from "/DIVA_LightCut-removebg-preview.png";
 import darkLogo from "/DIVA_Cut-removebg-preview.png";
+import { useCartContext } from "../../context/CartContext.jsx";
 
 export default function Navbar() {
     const [searchQuery, setSearchQuery] = useState("");
     const [dark, setDark] = useState(false);
-    const [cartCount] = useState(2);
+    const { totalItems } = useCartContext();
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const { theme } = useTheme();
@@ -71,9 +72,9 @@ export default function Navbar() {
                             {/* Cart icon (mobile) */}
                             <Link to="/cart" className="relative md:hidden text-brand-primary hover:text-brand-secondary">
                                 <ShoppingCart size={22} />
-                                {cartCount > 0 && (
+                                {totalItems > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-brand-primary text-brand-highlight text-xs px-1.5 py-0.5 rounded-full">
-                                        {cartCount}
+                                        {totalItems}
                                     </span>
                                 )}
                             </Link>
@@ -127,10 +128,10 @@ export default function Navbar() {
                                         className="flex items-center justify-center bg-brand-light text-white p-2 rounded-full hover:bg-brand transition"
                                     >
                                         <ShoppingCart size={22} className="cursor-pointer text-brand border-brand" />
-                                        {cartCount > 0 && (
+                                        {totalItems > 0 && (
                                             // text-white is assumed to be `text-brand-highlight`
                                             <span className="absolute -top-2 -right-2 bg-brand-primary text-brand-highlight text-xs px-1.5 py-0.5 rounded-full">
-                                                {cartCount}
+                                                {totalItems}
                                             </span>
                                         )}
                                     </Link>

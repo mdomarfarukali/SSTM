@@ -1,6 +1,7 @@
-import React, { useState } from 'react'; // <--- ADDED useState
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { FaUserCircle, FaCreditCard, FaMapMarkerAlt, FaBell, FaSignOutAlt, FaBox, FaTicketAlt } from 'react-icons/fa';
+import React, { use, useState, useEffect } from 'react'; // <--- ADDED useState
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { FaUserCircle, FaCreditCard, FaMapMarkerAlt, FaBell, FaSignOutAlt, FaBox, FaHeart, FaTicketAlt } from 'react-icons/fa';
+import axios from 'axios';
 
 // --- NAVIGATION STRUCTURE (Same as before) ---
 const dashboardNavGroups = [
@@ -31,35 +32,62 @@ const dashboardNavGroups = [
             { name: 'My Coupons', path: 'coupons', icon: FaTicketAlt },
             { name: 'My Reviews & Ratings', path: 'reviews', icon: FaBell },
             { name: 'All Notifications', path: 'notifications', icon: FaBell },
-            { name: 'My Wishlist', path: 'wishlist', icon: FaBox },
+            { name: 'My Wishlist', path: 'wishlist', icon: FaHeart },
         ],
     },
 ];
 
 function UserDashboard() {
     const location = useLocation();
-    
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        const isUser = localStorage.getItem("role") === "user";
+        // console.log("User logged out, redirecting to home.", localStorage.getItem("user"), localStorage.getItem("role"), localStorage.getItem("email"), localStorage.getItem("userToken"))
+        if (!isUser) {
+            Navigate("/login", { state: { from: "/account" } });
+        }
+    }, [Navigate]);
+
+    const email = localStorage.getItem("email") || "guest@example.com";
+
     // 1. Initialize a placeholder state for the user's name
     // In a real app, you would fetch this from your Auth Context or Redux store
-    const [userName, setUserName] = useState('Guest User'); 
-    
+    const [userName, setUserName] = useState('Guest User');
+
     // NOTE: If you are using an authentication context (like AuthContext), 
     // you would replace the line above with:
     // const { user } = useContext(AuthContext); 
     // const userName = user ? user.name : 'Guest User';
+
+    const handleLogout = async () => {
+        try {
+            const res = await axios.post("/API/auth/logout", {}, { withCredentials: true });
+            alert(res.message || "Logged out successfully");
+
+            localStorage.removeItem("user");
+            localStorage.removeItem("role");
+            localStorage.removeItem("email");
+            localStorage.removeItem("userToken");
+            // console.log("User logged out, redirecting to home.", localStorage.getItem("user"), localStorage.getItem("role"), localStorage.getItem("email"), localStorage.getItem("userToken"));
+            Navigate("/");
+        } catch (error) {
+            console.error("Error during logout:", error);
+        }
+    }
 
     const isActive = (path) => location.pathname.includes(path);
 
     return (
         <div className="min-h-screen bg-white pt-10">
             <div className="max-w-7xl mx-auto px-4 py-8">
-                
+
                 <div className="lg:grid lg:grid-cols-4 lg:gap-6">
-                    
+
                     {/* Sidebar Navigation */}
                     <aside className="lg:col-span-1 mb-8 lg:mb-0">
                         <nav className="bg-white rounded-lg sticky lg:top-28">
-                            
+
                             {/* Profile Greeting */}
                             <div className="flex items-center p-4 mb-4">
                                 <span className="text-4xl text-gray-800 mr-3">
@@ -71,7 +99,7 @@ function UserDashboard() {
                                     <p className="font-semibold text-lg text-gray-800">{userName}</p>
                                 </div>
                             </div>
-                            
+
                             {/* Navigation Groups (Rest of the code is unchanged) */}
                             {dashboardNavGroups.map((group) => (
                                 <div key={group.title} className="mb-4">
@@ -97,39 +125,39 @@ function UserDashboard() {
                                     </ul>
                                 </div>
                             ))}
-                            
+
                             {/* Logout Link */}
                             <div className="border-t border-gray-200 mt-6 pt-4">
-                                <Link
-                                    to="logout"
-                                    className="flex items-center gap-3 p-2 pl-4 text-sm font-medium text-gray-700 hover:text-red-500"
+                                <div
+                                    onClick={handleLogout}
+                                    className="flex items-center gap-3 p-2 pl-4 text-sm font-medium text-gray-700 hover:text-red-500 cursor-pointer"
                                 >
                                     <FaSignOutAlt className="w-4 h-4" />
                                     Logout
-                                </Link>
+                                </div>
                             </div>
-                        
-<div className="border-t border-gray-200 mt-4 pt-4 text-sm text-gray-500 px-4">
-    <h3 className="font-semibold text-gray-800 mb-2">Frequently Visited</h3>
-    <ul className="list-disc list-inside space-y-1 ml-2">
-        <li>
-            <Link 
-                to="/orders/track" 
-                className="text-gray-700 hover:text-blue-500" // <-- ADDED text-gray-700
-            >
-                Track Order
-            </Link>
-        </li>
-        <li>
-            <Link 
-                to="/help" 
-                className="text-gray-700 hover:text-blue-500" // <-- ADDED text-gray-700
-            >
-                Help Center
-            </Link>
-        </li>
-    </ul>
-</div>
+
+                            <div className="border-t border-gray-200 mt-4 pt-4 text-sm text-gray-500 px-4">
+                                <h3 className="font-semibold text-gray-800 mb-2">Frequently Visited</h3>
+                                <ul className="list-disc list-inside space-y-1 ml-2">
+                                    <li>
+                                        <Link
+                                            to="/orders/track"
+                                            className="text-gray-700 hover:text-blue-500" // <-- ADDED text-gray-700
+                                        >
+                                            Track Order
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/help"
+                                            className="text-gray-700 hover:text-blue-500" // <-- ADDED text-gray-700
+                                        >
+                                            Help Center
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
 
                         </nav>
                     </aside>

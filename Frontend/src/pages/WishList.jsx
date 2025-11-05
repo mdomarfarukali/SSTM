@@ -19,6 +19,8 @@ function WishList() {
         removeItemFromWishlist(item.id);
     };
 
+    // console.log("Wishlist Items:", wishlistItems); // Debugging line
+
     return (
         <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

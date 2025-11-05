@@ -1,54 +1,64 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext.jsx"; // 🌙 Theme Context
 import lightLogo from "/DIVA_LightCut-removebg-preview.png";
 import darkLogo from "/DIVA_Cut-removebg-preview.png";
+import axios from "axios";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { theme } = useTheme(); // 👈 Access current theme (dark/light)
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const Navigate = useNavigate();
+    const location = useLocation();
 
-    // Example: Login.jsx or inside handleLogin()
-    const handleLogin = async () => {
+    const from = location.state?.from || "/";
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
         try {
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-                credentials: "include", // if you're using cookies
-            });
-
-            const data = await res.json();
+            const response = await axios.post('/API/auth/login', { email, password });
+            // console.log("Response status:", response.status); // Debugging line
+            const data = response.data;
 
             if (data.success) {
-                // Store role in localStorage
+                localStorage.setItem("email", data.user.email);
+                localStorage.setItem("user", data.user.name);
                 localStorage.setItem("role", data.user.role);
-                // e.g. "admin", "user", etc.
-
-                // Optionally store token or other info
-                // localStorage.setItem("token", data.token);
+                localStorage.setItem("token", data.token);
 
                 // Redirect based on role
                 if (data.user.role === "admin") {
-                    window.location.href = "/admin";
-                } else {
-                    window.location.href = "/";
+                    Navigate("/admin");
                 }
+                Navigate(from, { replace: true });
+                
             } else {
                 alert(data.message || "Login failed");
             }
-        } catch (error) {
-            console.error(error);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to log in. Please check your credentials.');
+            console.error('Login failed:', err.response); // Log the full response for debugging
+
+            // IMPROVED: Display the actual error message from the backend
+            const errorMessage = err.response?.data?.message || 'Failed to log in. Please try again.';
+
+            if (errorMessage.includes('duplicate key error')) {
+                setError('This email or phone number is already registered.');
+            } else {
+                setError(errorMessage);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Email:", email, "Password:", password);
-        alert("Login submitted!");
-    };
 
     return (
         <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand-light">

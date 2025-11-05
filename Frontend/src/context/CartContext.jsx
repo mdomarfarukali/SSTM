@@ -91,6 +91,15 @@ export const CartProvider = ({ children }) => {
         (total, item) => total + item.price * item.quantity,
         0
     );
+    
+    // =========================================================
+    //  TOTAL ITEM COUNT
+    // =========================================================
+    const totalItems = cartItems.reduce(
+        (count, item) => count + item.quantity,
+        0
+    );
+
 
     // =========================================================
     //  CONTEXT VALUE
@@ -102,6 +111,7 @@ export const CartProvider = ({ children }) => {
         updateItemQuantity,
         clearCart,
         cartTotal,
+        totalItems,
     };
 
     return (

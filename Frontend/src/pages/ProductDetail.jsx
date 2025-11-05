@@ -5,6 +5,7 @@ import { useCartContext } from "../context/CartContext.jsx";
 import { useWishlistContext } from "../context/WishListContext.jsx";
 import { showToast } from "../utils/toastUtils.js";
 import axios from "axios";
+import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 
 const useProductData = (id) => {
     const [product, setProducts] = useState(null);
@@ -36,17 +37,25 @@ function ProductDetails() {
 
     const [selectedSize, setSelectedSize] = useState("");
     const [quantity, setQuantity] = useState(1);
-    const [mainImage, setMainImage] = useState("");
+    // const [mainImage, setMainImage] = useState("");
+    const [mainImage, setMainImage] = useState("/placeholder.png");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (product) {
-            console.log("Product data loaded:", product);
-            setMainImage(product.images?.[0]?.url || "/placeholder.png");
-            setSelectedSize(product?.sizes?.[0] || "R");
+        try {
+            if (product) {
+                // console.log("Product data loaded:", product);
+                setMainImage(product.images?.[0]?.url || "/placeholder.png");
+                setSelectedSize(product?.sizes?.[0] || "R");
+            }
+        } catch (error) {
+            console.error("Error setting product data:", error);
+        } finally {
+            setLoading(false);
         }
     }, [product]);
 
-    const wished = product ? isItemWished(product.id) : false;
+    const wished = product ? isItemWished(product._id) : false;
 
     const handleAddToCart = () => {
         if (!selectedSize) {
@@ -55,10 +64,10 @@ function ProductDetails() {
         }
 
         const itemToAdd = {
-            id: product.id,
+            id: product._id,
             name: product.name,
             price: product.price,
-            image: product.images[0],
+            image: product.images[0].url,
             selectedSize: selectedSize,
             quantity: quantity,
         };
@@ -69,10 +78,10 @@ function ProductDetails() {
 
     const handleToggleWishlist = () => {
         const itemToToggle = {
-            id: product.id,
+            id: product._id,
             name: product.name,
             price: product.price,
-            image: product.images[0],
+            image: product.images[0].url,
         };
 
         toggleWishlistItem(itemToToggle);
@@ -86,9 +95,10 @@ function ProductDetails() {
 
     if (product === null) {
         return (
-            <div className="min-h-screen pt-32 text-center bg-brand-light">
-                <h2 className="text-3xl font-bold text-brand">Loading Product...</h2>
-            </div>
+            // <div className="min-h-screen pt-32 text-center bg-brand-light">
+            //     <h2 className="text-3xl font-bold text-brand">Loading Product...</h2>
+            // </div>
+            <LoadingSpinner />
         );
     }
 
@@ -109,13 +119,19 @@ function ProductDetails() {
     // console.log("Product images:", product);
 
 
+    if (loading) {
+        return (
+            <LoadingSpinner />
+        );
+    }
+
     return (
         <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="lg:grid lg:grid-cols-2 lg:gap-12">
                     {/* Image Gallery */}
                     <div className="lg:sticky lg:top-32 h-full">
-                        <img
+                        {/* <img
                             src={mainImage}
                             alt={product.name}
                             className="w-full h-auto rounded-xl shadow-2xl object-cover aspect-square"
@@ -133,6 +149,32 @@ function ProductDetails() {
                                     onClick={() => setMainImage(img.url)}
                                 />
                             ))}
+                        </div> */}
+
+                        {/* ✅ Render only when a valid image URL exists */}
+                        {mainImage && (
+                            <img
+                                src={mainImage}
+                                alt={product?.name || "Product image"}
+                                className="w-full h-auto rounded-xl shadow-2xl object-cover aspect-square"
+                            />
+                        )}
+
+                        <div className="flex gap-3 mt-4 overflow-x-auto p-1">
+                            {product.images
+                                ?.filter(img => img?.url) // ✅ filter out invalid entries
+                                .map((img, index) => (
+                                    <img
+                                        key={index}
+                                        src={img.url}
+                                        alt={`Thumbnail ${index + 1}`}
+                                        className={`w-20 h-20 object-cover rounded-md cursor-pointer transition border-2 ${img.url === mainImage
+                                            ? "border-brand-primary shadow-md"
+                                            : "border-brand-muted hover:border-brand"
+                                            }`}
+                                        onClick={() => setMainImage(img.url)}
+                                    />
+                                ))}
                         </div>
                     </div>
 

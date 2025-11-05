@@ -58,7 +58,7 @@ function App() {
         <Router>
             <Routes>
 
-                <Route path="/upload-image" element={<UploadImage />} />
+                {/* <Route path="/upload-image" element={<UploadImage />} /> */}
                 {/* ======================================================= */}
                 {/* ⭐️ 1. USER FACING ROUTES (Wrapped in PageLayout) ⭐️ */}
                 {/* ======================================================= */}
