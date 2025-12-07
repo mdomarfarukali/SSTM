@@ -1,0 +1,141 @@
+/* ===========================
+   🌞 LIGHT MODE (DEFAULT)
+=========================== */
+.bg-brand-dark { background-color: oklch(88.516% 0.05701 20.867); }
+.bg-brand { background-color: oklch(0.96 0.07 20); }
+.bg-brand-light { background-color: oklch(100% 0.00011 271.152); }
+
+
+.text-brand { color: oklch(0.15 0.14 20); }
+.text-brand-muted { color: oklch(0.4 0.14 20); }
+.text-brand-highlight { color: oklch(1 0.14 20); }
+
+.border-brand { border-color: oklch(0.6 0.14 20); }
+.border-brand-muted { border-color: oklch(0.7 0.14 20); }
+
+
+.bg-brand-primary { background-color: oklch(0.4 0.14 20); }
+.bg-brand-secondary { background-color: oklch(0.4 0.14 200); } /* Used new secondary hue: 200 */
+.bg-brand-danger { background-color: oklch(0.5 0.14 30); }
+.bg-brand-warning { background-color: oklch(0.5 0.14 100); }
+.bg-brand-success { background-color: oklch(0.5 0.14 160); }
+.bg-brand-info { background-color: oklch(0.5 0.14 260); }
+
+
+.text-brand-primary { color: oklch(0.4 0.14 20); }
+.text-brand-secondary { color: oklch(0.4 0.14 200); } /* Used new secondary hue: 200 */
+.text-brand-danger { color: oklch(0.5 0.14 30); }
+.text-brand-warning { color: oklch(0.5 0.14 100); }
+.text-brand-success { color: oklch(0.5 0.14 160); }
+.text-brand-info { color: oklch(49.991% 0.07112 286.572); }
+
+
+.ring-brand-primary {--tw-ring-color: oklch(0.7 0.14 20);}
+
+/* ===========================
+   🌚 DARK MODE OVERRIDE (Manual Toggle)
+=========================== */
+.dark .bg-brand-dark { background-color: oklch(0.1 0.055 297); }
+.dark .bg-brand { background-color: oklch(0.15 0.055 297); }
+.dark .bg-brand-light { background-color: oklch(0.2 0.055 297); }
+
+.dark .text-brand { color: oklch(43.321% 0.14907 28.929); }
+.dark .text-brand-muted { color: oklch(68.781% 0.10315 296.72); }
+.dark .text-brand-highlight { color: oklch(0.5 0.11 297); }
+
+.dark .border-brand { border-color: oklch(0.4 0.11 297); }
+.dark .border-brand-muted { border-color: oklch(0.3 0.11 297); }
+
+.dark .bg-brand-primary { background-color: oklch(0.76 0.11 297); }
+.dark .bg-brand-secondary { background-color: oklch(0.76 0.11 117); }
+.dark .bg-brand-danger { background-color: oklch(0.7 0.11 30); }
+.dark .bg-brand-warning { background-color: oklch(0.7 0.11 100); }
+.dark .bg-brand-success { background-color: oklch(0.7 0.11 160); }
+.dark .bg-brand-info { background-color: oklch(0.7 0.11 260); }
+
+.dark .text-brand-primary { color: oklch(0.76 0.11 297); }
+.dark .text-brand-secondary { color: oklch(0.76 0.11 117); }
+.dark .text-brand-danger { color: oklch(0.7 0.11 30); }
+.dark .text-brand-warning { color: oklch(0.7 0.11 100); }
+.dark .text-brand-success { color: oklch(0.7 0.11 160); }
+.dark .text-brand-info { color: oklch(59.67% 0.08674 259.496); }
+
+.dark .ring-brand-primary { --tw-ring-color: oklch(0.76 0.11 297); }
+
+/* ===========================
+  🌞 LIGHT MODE (DEFAULT)
+=========================== */
+
+/* Backgrounds - Very high lightness (L), subtle chroma/hue */
+.bg-admin-dark { background-color: oklch(83.63% 0.06311 258.938); } /* Off-white base */
+.bg-admin { background-color: oklch(93.527% 0.01099 256.842); } /* Near-white cards/panels */
+.bg-admin-light { background-color: oklch(1 0 0); } /* Pure white for contrast/lightest elements */
+
+/* Text - Low lightness (L) for high contrast */
+.text-admin { color: oklch(0.1 0.03 260); } /* Dark text, deep cool tone */
+.text-admin-muted { color: oklch(0.4 0.02 260); } /* Darker muted text for legibility */
+.text-admin-highlight { color: oklch(0.3 0.18 300); } /* Punchy accent color */
+
+/* Borders */
+.border-admin { border-color: oklch(0.8 0.02 260); } /* Clear separation line */
+.border-admin-muted { border-color: oklch(0.9 0.01 260); } /* Fainter line */
+
+/* Utility/Status Colors (Higher chroma and lower L for contrast on white) */
+.bg-admin-primary { background-color: oklch(0.45 0.15 260); } /* Primary Blue/Indigo */
+.bg-admin-secondary { background-color: oklch(0.85 0.05 200); } /* Subtle Cool Gray/Cyan */
+.bg-admin-danger { background-color: oklch(0.5 0.18 25); } /* Bright Red */
+.bg-admin-warning { background-color: oklch(0.65 0.15 85); } /* Standard Amber */
+.bg-admin-success { background-color: oklch(0.5 0.18 145); } /* Deep Green */
+.bg-admin-info { background-color: oklch(0.4 0.15 200); } /* Clear Cyan/Info Blue */
+
+/* Text colors for utility/status (match BG colors) */
+.text-admin-primary { color: oklch(0.45 0.15 260); }
+.text-admin-secondary { color: oklch(0.4 0.08 200); } /* Darker text than BG for better contrast */
+.text-admin-danger { color: oklch(0.5 0.18 25); }
+.text-admin-warning { color: oklch(0.65 0.15 85); }
+.text-admin-success { color: oklch(0.5 0.18 145); }
+.text-admin-info { color: oklch(0.4 0.15 200); }
+
+/* Ring for Focus */
+.ring-admin-primary { --tw-ring-color: oklch(0.7 0.1 260); } /* Lighter primary for focus ring */
+
+
+/* ===========================
+  🌚 DARK MODE OVERRIDE
+=========================== */
+
+/* Backgrounds - Very low lightness (L) for deep dark mode */
+.dark .bg-admin-dark { background-color: oklch(0.09 0.02 260); } /* Deepest background */
+.dark .bg-admin { background-color: oklch(0.14 0.02 260); } /* Standard panel/card */
+.dark .bg-admin-light { background-color: oklch(0.2 0.03 260); } /* Hover/Focus state background */
+
+/* Text - High lightness (L) for contrast */
+.dark .text-admin { color: oklch(0.97 0.02 260); } /* Near-white primary text */
+.dark .text-admin-muted { color: oklch(0.6 0.03 260); } /* Brighter muted text */
+
+/* Highlight Text/Accent */
+.dark .text-admin-highlight { color: oklch(0.6 0.18 300); } /* Vibrant accent color */
+
+/* Borders */
+.dark .border-admin { border-color: oklch(0.3 0.03 260); }
+.dark .border-admin-muted { border-color: oklch(0.2 0.02 260); }
+
+/* Utility/Status Colors (Higher L and high c to pop off dark backgrounds) */
+.dark .bg-admin-primary { background-color: oklch(0.65 0.18 260); } /* Vibrant Primary Blue/Indigo */
+.dark .bg-admin-secondary { background-color: oklch(0.5 0.08 200); } /* Elevated Secondary/Cool Gray */
+.dark .bg-admin-danger { background-color: oklch(0.7 0.18 25); } /* Bright Accessible Red */
+.dark .bg-admin-warning { background-color: oklch(0.8 0.18 85); } /* Bright Accessible Amber */
+.dark .bg-admin-success { background-color: oklch(0.7 0.18 145); } /* Bright Accessible Green */
+.dark .bg-admin-info { background-color: oklch(0.7 0.18 200); } /* Bright Accessible Cyan/Info Blue */
+
+/* Text colors for utility/status (match BG colors) */
+.dark .text-admin-primary { color: oklch(0.65 0.18 260); }
+.dark .text-admin-secondary { color: oklch(0.5 0.08 200); }
+.dark .text-admin-danger { color: oklch(0.7 0.18 25); }
+.dark .text-admin-warning { color: oklch(0.8 0.18 85); }
+.dark .text-admin-success { color: oklch(0.7 0.18 145); }
+.dark .text-admin-info { color: oklch(0.7 0.18 200); }
+
+/* Ring for Focus */
+.dark .ring-admin-primary { --tw-ring-color: oklch(0.65 0.18 260); }
+

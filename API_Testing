@@ -1,0 +1,224 @@
+### User
+
+# 1️⃣ Register
+```bash
+curl -X POST http://localhost:5000/API/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Tamanna ","email":"tamannaparvin1@gmail.com","password":"NewPassword123"}'
+```
+
+# 2️⃣ Login
+```bash
+curl -X POST http://localhost:5000/API/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"umara.loves@gmail.com","password":"NewPassword123"}'
+```
+
+# 3️⃣ Get Profile (Requires JWT)
+```bash
+curl -X GET http://localhost:5000/API/auth/me \
+  -H "Authorization: Bearer <token>"
+```
+
+# 4️⃣ Update Profile
+```bash
+curl -X PUT http://localhost:5000/API/auth/me/update \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Omar Ali","city":"Kolkata"}'
+```
+
+
+# 5️⃣ Forgot Password
+```bash
+curl -X POST http://localhost:5000/API/auth/password/forgot \
+  -H "Content-Type: application/json" \
+  -d '{"email":"umara.loves@gmail.com"}'
+```
+
+
+# 5️⃣ Reset Password
+```bash
+curl -X PUT http://localhost:5000/API/auth/password/reset/<Token> \
+  -H "Content-Type: application/json" \
+  -d '{
+        "password": "NewPassword123",
+        "confirmPassword": "NewPassword123"
+      }'
+```
+
+### Logout
+```bash
+curl -X GET http://localhost:5000/API/auth/logout 
+```
+
+
+### Product
+
+# Add Product With Admin
+```bash
+curl -X POST http://localhost:5000/API/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMTc5NTEyLCJleHAiOjE3NjE3ODQzMTJ9.2zQvxbQhBCDDOp1_zMN8ZAzMqkPyXD3iKpGx7i45-hs" \
+  -d '{
+        "name": "Diamond Necklace",
+        "description": "18k gold diamond necklace with elegant design",
+        "price": 1299.99,
+        "category": "Necklace",
+        "brand": "DIVA",
+        "material": "Gold",
+        "stock": 10,
+        "images": [
+          { "url": "necklace1.jpg" },
+          { "url": "necklace2.jpg" }
+        ],
+        "isFeatured": true,
+        "tags": ["diamond", "luxury", "necklace"]
+      }'
+```
+
+# Get all products (Public)
+```bash
+curl -X GET "http://localhost:5000/API/products?keyword=gold&sort=price&order=asc&page=1&limit=10"
+```
+
++ You can use filters:
+?keyword=gold
+?category=Ring
+?price[lte]=2000
+?price[gte]=500
+
+# Get a single product (by ID or slug)
+```bash
+curl -X GET http://localhost:5000/API/products/6718895c8b4f7d221c72b4f1
+```
+or by slug (if your model supports it):
+
+```bash
+curl -X GET http://localhost:5000/API/products/diamond-necklace
+```
+
+# Update a product (Admin only)
+```bash
+curl -X PUT http://localhost:5000/API/products/<id> \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your_admin_token>" \
+  -d '{
+        "price": 1499.99,
+        "stock": 8,
+        "isFeatured": false
+      }'
+```
+
+# Delete a product (Admin only)
+```bash
+curl -X DELETE http://localhost:5000/API/products/6718895c8b4f7d221c72b4f1 \
+  -H "Authorization: Bearer <your_admin_token>"
+```
+
+# Add a product review (Authenticated User)
+```bash
+curl -X POST http://localhost:5000/api/products/6718895c8b4f7d221c72b4f1/review \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <user_token>" \
+  -d '{
+        "rating": 5,
+        "comment": "Absolutely stunning piece! Worth every penny."
+      }'
+```
+
+# 🏷️ Get featured products (Public)
+```bash
+curl -X GET http://localhost:5000/API/products/collections/featured
+```
+
+# 🆕 Get new arrivals (Public)
+```bash
+curl -X GET http://localhost:5000/API/products/collections/new
+```
+
+# 💎 Get best sellers (Public)
+```bash
+curl -X GET http://localhost:5000/API/products/collections/best
+```
+
+
+
+
+
+
+
+
+
+
+Base URL assumed: http://localhost:5000/API/orders
+
+🧾 Create Order (User)
+```bash
+curl -X POST http://localhost:5000/API/orders \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxNjQ4NTQzLCJleHAiOjE3NjIyNTMzNDN9.1XgLMjTxUAedrzyNlBrv0d4Q42wMN4l7YkT_RkA4zY0" \
+-d '{
+  "orderItems": [
+    {
+      "product": "68f979e3d4d1959eed3b30cb",
+      "name": "Diamond Necklace",
+      "quantity": 1,
+      "price": 1500,
+      "finalPrice": 1400,
+      "image": "https://cdn/jewel.jpg"
+    }
+  ],
+  "shippingAddress": {
+    "fullName": "Omar Ali",
+    "phone": "9998887776",
+    "addressLine1": "Park Street",
+    "city": "Kolkata",
+    "state": "WB",
+    "postalCode": "700016"
+  },
+  "paymentMethod": "COD",
+  "itemsPrice": 1400,
+  "taxPrice": 70,
+  "shippingPrice": 50,
+  "totalPrice": 1520
+}'
+```
+
+👤 Get My Orders
+```bash
+curl -X GET http://localhost:5000/API/orders/my-orders \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjM1NTgzLCJleHAiOjE3NjE4NDAzODN9.oae-yjmuHJayMHPlBymvqzd7hX7lLhZL6caOY-3PwmI"
+```
+
+🔍 Get Single Order
+```bash
+curl -X GET http://localhost:5000/API/orders/68fa6cf58a0b6fb02f2891cd \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No"
+```
+
+❌ Cancel Order
+```bash
+curl -X PUT http://localhost:5000/API/orders/68fa6cf58a0b6fb02f2891cd/cancel \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No"
+```
+
+🧮 Get All Orders (Admin)
+```bash
+curl -X GET http://localhost:5000/API/orders \
+-H "Authorization: Bearer <ADMIN_TOKEN>"
+```
+
+🔄 Update Order Status (Admin)
+```bash
+curl -X PUT http://localhost:5000/api/orders/<ORDER_ID>/status \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <ADMIN_TOKEN>" \
+-d '{"status": "Shipped"}'
+```
+
+📊 Get Order Stats (Admin)
+```bash
+curl -X GET http://localhost:5000/API/orders/admin/stats/overview \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No"
+```

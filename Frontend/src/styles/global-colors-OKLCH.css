@@ -1,0 +1,126 @@
+
+.bg-brand-dark { background-color: oklch(0.92 0.07 20); }
+.bg-brand { background-color: oklch(0.96 0.07 20); }
+.bg-brand-light { background-color: oklch(1 0.07 20); }
+
+
+.text-brand { color: oklch(0.15 0.14 20); }
+.text-brand-muted { color: oklch(0.4 0.14 20); }
+.text-brand-highlight { color: oklch(1 0.14 20); }
+
+.border-brand { border-color: oklch(0.6 0.14 20); }
+.border-brand-muted { border-color: oklch(0.7 0.14 20); }
+
+
+.bg-brand-primary { background-color: oklch(0.4 0.14 20); }
+.bg-brand-secondary { background-color: oklch(0.4 0.14 200); } /* Used new secondary hue: 200 */
+.bg-brand-danger { background-color: oklch(0.5 0.14 30); }
+.bg-brand-warning { background-color: oklch(0.5 0.14 100); }
+.bg-brand-success { background-color: oklch(0.5 0.14 160); }
+.bg-brand-info { background-color: oklch(0.5 0.14 260); }
+
+
+.text-brand-primary { color: oklch(0.4 0.14 20); }
+.text-brand-secondary { color: oklch(0.4 0.14 200); } /* Used new secondary hue: 200 */
+.text-brand-danger { color: oklch(0.5 0.14 30); }
+.text-brand-warning { color: oklch(0.5 0.14 100); }
+.text-brand-success { color: oklch(0.5 0.14 160); }
+.text-brand-info { color: oklch(0.5 0.14 260); }
+
+
+.ring-brand-primary {--tw-ring-color: oklch(0.7 0.14 20);}
+
+@media (prefers-color-scheme: dark) {
+  .bg-brand-dark { background-color: oklch(0.1 0.055 297); }
+  .bg-brand { background-color: oklch(0.15 0.055 297); }
+  .bg-brand-light { background-color: oklch(0.2 0.055 297); }
+
+  .text-brand { color: oklch(0.96 0.1 297); }
+  .text-brand-muted { color: oklch(0.76 0.1 297); }
+
+  .text-brand-highlight { color: oklch(0.5 0.11 297); }
+  .border-brand { border-color: oklch(0.4 0.11 297); }
+  .border-brand-muted { border-color: oklch(0.3 0.11 297); }
+
+  .bg-brand-primary { background-color: oklch(0.76 0.11 297); }
+  .bg-brand-secondary { background-color: oklch(0.76 0.11 117); }
+  .bg-brand-danger { background-color: oklch(0.7 0.11 30); }
+  .bg-brand-warning { background-color: oklch(0.7 0.11 100); }
+  .bg-brand-success { background-color: oklch(0.7 0.11 160); }
+  .bg-brand-info { background-color: oklch(0.7 0.11 260); }
+
+  .text-brand-primary { color: oklch(0.76 0.11 297); }
+  .text-brand-secondary { color: oklch(0.76 0.11 117); }
+  .text-brand-danger { color: oklch(0.7 0.11 30); }
+  .text-brand-warning { color: oklch(0.7 0.11 100); }
+  .text-brand-success { color: oklch(0.7 0.11 160); }
+  .text-brand-info { color: oklch(0.7 0.11 260); }
+   .ring-brand-primary { 
+    --tw-ring-color: oklch(0.76 0.11 297); /* Uses the dark mode primary color */
+  }
+}
+/* ===========================
+   🌞 LIGHT MODE (DEFAULT)
+=========================== */
+.bg-admin-dark { background-color: oklch(0.92 0.01 220); } /* Darker panel bg */
+.bg-admin { background-color: oklch(0.97 0.01 220); }      /* Main content bg */
+.bg-admin-light { background-color: oklch(1 0.01 220); }   /* Cards & widgets */
+
+.text-admin { color: oklch(0.15 0.02 220); }               /* Primary text */
+.text-admin-muted { color: oklch(0.5 0.02 220); }          /* Secondary / muted text */
+.text-admin-highlight { color: oklch(0.2 0.08 300); }      /* Accent / highlight text */
+
+.border-admin { border-color: oklch(0.7 0.02 220); }
+.border-admin-muted { border-color: oklch(0.85 0.02 220); }
+
+.bg-admin-primary { background-color: oklch(0.3 0.08 220); }   /* Buttons / highlights */
+.bg-admin-secondary { background-color: oklch(0.85 0.02 120); } /* Secondary buttons / labels */
+.bg-admin-danger { background-color: oklch(0.55 0.08 20); }
+.bg-admin-warning { background-color: oklch(0.55 0.08 90); }
+.bg-admin-success { background-color: oklch(0.55 0.08 140); }
+.bg-admin-info { background-color: oklch(0.55 0.08 240); }
+
+.text-admin-primary { color: oklch(0.3 0.08 220); }
+.text-admin-secondary { color: oklch(0.85 0.02 120); }
+.text-admin-danger { color: oklch(0.55 0.08 20); }
+.text-admin-warning { color: oklch(0.55 0.08 90); }
+.text-admin-success { color: oklch(0.55 0.08 140); }
+.text-admin-info { color: oklch(0.55 0.08 240); }
+
+.ring-admin-primary { 
+  --tw-ring-color: oklch(0.45 0.08 220);
+}
+
+/* ===========================
+   🌚 DARK MODE OVERRIDE
+=========================== */
+@media (prefers-color-scheme: dark) {
+  .bg-admin-dark { background-color: oklch(0.1 0.02 220); }
+  .bg-admin { background-color: oklch(0.15 0.02 220); }
+  .bg-admin-light { background-color: oklch(0.2 0.02 220); }
+
+  .text-admin { color: oklch(0.95 0.02 220); }
+  .text-admin-muted { color: oklch(0.65 0.02 220); }
+
+  .text-admin-highlight { color: oklch(0.35 0.08 300); }
+  .border-admin { border-color: oklch(0.45 0.02 220); }
+  .border-admin-muted { border-color: oklch(0.35 0.02 220); }
+
+  .bg-admin-primary { background-color: oklch(0.55 0.08 220); }
+  .bg-admin-secondary { background-color: oklch(0.55 0.02 120); }
+  .bg-admin-danger { background-color: oklch(0.65 0.08 20); }
+  .bg-admin-warning { background-color: oklch(0.65 0.08 90); }
+  .bg-admin-success { background-color: oklch(0.65 0.08 140); }
+  .bg-admin-info { background-color: oklch(0.65 0.08 240); }
+
+  .text-admin-primary { color: oklch(0.55 0.08 220); }
+  .text-admin-secondary { color: oklch(0.55 0.02 120); }
+  .text-admin-danger { color: oklch(0.65 0.08 20); }
+  .text-admin-warning { color: oklch(0.65 0.08 90); }
+  .text-admin-success { color: oklch(0.65 0.08 140); }
+  .text-admin-info { color: oklch(0.65 0.08 240); }
+
+  .ring-admin-primary { 
+    --tw-ring-color: oklch(0.55 0.08 220);
+  }
+}

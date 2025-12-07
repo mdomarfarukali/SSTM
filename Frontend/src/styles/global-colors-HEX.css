@@ -1,0 +1,58 @@
+/* ===========================
+   🌞 LIGHT MODE (DEFAULT)
+=========================== */
+.bg-brand-dark { background-color: #ece7fa; }
+.bg-brand { background-color: #f5f0ff; }
+.bg-brand-light { background-color: #ffffff; }
+
+.text-brand { color: #1d1733; }
+.text-brand-muted { color: #665c99; }
+
+.text-brand-highlight { color: #ffffff; }
+.border-brand { border-color: #9990cc; }
+.border-brand-muted { border-color: #b3a8e6; }
+
+.bg-brand-primary { background-color: #665c99; }
+.bg-brand-secondary { background-color: #66785c; }
+.bg-brand-danger { background-color: #99665c; }
+.bg-brand-warning { background-color: #99915c; }
+.bg-brand-success { background-color: #5c9966; }
+.bg-brand-info { background-color: #5c6699; }
+
+.text-brand-primary { color: #665c99; }
+.text-brand-secondary { color: #66785c; }
+.text-brand-danger { color: #99665c; }
+.text-brand-warning { color: #99915c; }
+.text-brand-success { color: #5c9966; }
+.text-brand-info { color: #5c6699; }
+
+
+/* ===========================
+   🌚 DARK MODE OVERRIDE
+=========================== */
+@media (prefers-color-scheme: dark) {
+  .bg-brand-dark { background-color: #1a1533; }
+  .bg-brand { background-color: #261c47; }
+  .bg-brand-light { background-color: #332b5c; }
+
+  .text-brand { color: #f0ebff; }
+  .text-brand-muted { color: #b3a8e6; }
+
+  .text-brand-highlight { color: #665c99; }
+  .border-brand { border-color: #5c5290; }
+  .border-brand-muted { border-color: #403773; }
+
+  .bg-brand-primary { background-color: #b3a8e6; }
+  .bg-brand-secondary { background-color: #a8e6b3; }
+  .bg-brand-danger { background-color: #e6a8a3; }
+  .bg-brand-warning { background-color: #e6d9a3; }
+  .bg-brand-success { background-color: #a3e6b3; }
+  .bg-brand-info { background-color: #a3b3e6; }
+
+  .text-brand-primary { color: #b3a8e6; }
+  .text-brand-secondary { color: #a8e6b3; }
+  .text-brand-danger { color: #e6a8a3; }
+  .text-brand-warning { color: #e6d9a3; }
+  .text-brand-success { color: #a3e6b3; }
+  .text-brand-info { color: #a3b3e6; }
+}

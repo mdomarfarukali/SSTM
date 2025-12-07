@@ -1,0 +1,19 @@
+# Ignore log files
+*.log
+
+# Ignore environment variables
+.env
+
+# Ignore node_modules folder
+node_modules/
+
+# Ignore build output
+#dist/
+#build/
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore OS generated files
+# package-lock.json
