@@ -1,1 +1,0 @@
-axios bcrypt body-parser cloudinary cookie-parser cors dotenv express google-auth-library html2canvas joi jsonwebtoken jspdf logger mongoose multer nodemailer nodemon passport passport-google-oauth20 pdfkit stripe validator
