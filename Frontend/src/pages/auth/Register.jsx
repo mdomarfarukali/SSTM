@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import lightLogo from "/DIVA.png";
 import darkLogo from "/DIVA_G_Dark.png";
+import axios from "axios";
 
 const SignUpForm = () => {
 
   const { theme } = useTheme();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,10 +28,37 @@ const SignUpForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Form submitted! Check the console for data.");
+    setError("");
+    setLoading(true);
+
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post("/API/auth/register", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: "user" // Default role
+      });
+
+      if (response.data.success) {
+        // Registration successful, redirect to login
+        navigate("/login");
+      } else {
+        setError(response.data.message || "Registration failed");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,6 +72,13 @@ const SignUpForm = () => {
           <h2 className="text-2xl sm:text-3xl pb-10 font-extrabold text-center text-brand">
             Create Your Account
           </h2>
+
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -178,10 +216,11 @@ const SignUpForm = () => {
 
             {/* Submit Button */}
             <button
-              className="w-full py-3 bg-brand-primary hover:bg-brand-highlight text-white text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 transition duration-200"
+              className="w-full py-3 bg-brand-primary hover:bg-brand-highlight text-white text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
+              disabled={loading}
             >
-              Sign Up
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
           </form>
 
