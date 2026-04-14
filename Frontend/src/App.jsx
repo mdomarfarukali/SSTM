@@ -7,6 +7,8 @@ import PageLayout from "./components/layout/PageLayout";
 import Home from "./pages/Home";
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import ForgetPassword from './pages/auth/ForgotPassword.jsx';
+import ResetPassword from './pages/auth/ResetPassword.jsx';
 
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -32,10 +34,8 @@ import HelpCenter from "./pages/HelpCenter";
 import UserDashboard from "./pages/UserDashboard"; // The main account layout/sidebar
 import OrderHistory from "./pages/OrderHistory"; // The list of orders
 import OrderDetails from "./pages/OrderDetails"; // Details for a single order
-// Placeholder component for user profile management
-const UserProfile = () => <div>User Profile Settings Form</div>; //
-// Placeholder component for addresses/settings
-const UserAddresses = () => <div>User Address Book</div>; //
+import UserAddress from "./pages/user/UserAddress";
+import UserProfile from "./pages/user/UserProfile";
 
 // --- ADMIN PAGES ---
 import AdminRoutes from "./pages/admin/AdminRoutes";
@@ -81,6 +81,8 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Register />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
 
@@ -104,8 +106,8 @@ function App() {
 
 
                 {/* ======================================================= */}
-                {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Nested Routes) ⭐️ */}
-                {/* Consolidating /profile, /orders, /settings under /account */}
+                {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Panel Routing) ⭐️ */}
+                {/* Use a single account route and render pages inside UserDashboard */}
                 {/* ======================================================= */}
                 <Route path="/account" element={<PageLayout>  </PageLayout>}>
                     {/* Default view when navigating to /account (shows profile content) */}
@@ -126,6 +128,10 @@ function App() {
                     <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
                 </Route>
 
+                <Route
+                    path="/account/*"
+                    element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}
+                />
 
                 {/* ======================================================= */}
                 {/* ⭐️ 3. ADMIN ROUTES (Wrapped in AdminLayout) ⭐️ */}
