@@ -25,10 +25,8 @@ import TermsCondition from "./pages/TermsCondition";
 import UserDashboard from "./pages/UserDashboard"; // The main account layout/sidebar
 import OrderHistory from "./pages/OrderHistory"; // The list of orders
 import OrderDetails from "./pages/OrderDetails"; // Details for a single order
-// Placeholder component for user profile management
-const UserProfile = () => <div>User Profile Settings Form</div>; //
-// Placeholder component for addresses/settings
-const UserAddresses = () => <div>User Address Book</div>; //
+import UserAddress from "./pages/user/UserAddress";
+import UserProfile from "./pages/user/UserProfile";
 
 // --- ADMIN PAGES ---
 import AdminRoutes from "./pages/admin/AdminRoutes";
@@ -92,23 +90,13 @@ function App() {
 
 
                 {/* ======================================================= */}
-                {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Nested Routes) ⭐️ */}
-                {/* Consolidating /profile, /orders, /settings under /account */}
+                {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Panel Routing) ⭐️ */}
+                {/* Use a single account route and render pages inside UserDashboard */}
                 {/* ======================================================= */}
-                <Route path="/account" element={<PageLayout>  </PageLayout>}>
-                    {/* Default view when navigating to /account (shows profile content) */}
-                    <Route index element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
-
-                    {/* Routes accessible via the UserDashboard sidebar: /account/orders, /account/profile, etc. */}
-                    <Route path="profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
-                    <Route path="addresses" element={<ProtectedRoute><UserAddresses /></ProtectedRoute>} />
-                    <Route path="wishlist" element={<ProtectedRoute><WishList /></ProtectedRoute>} />
-
-                    {/* Order Management Nested Routes */}
-                    <Route path="orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
-                    <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
-                </Route>
-
+                <Route
+                    path="/account/*"
+                    element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}
+                />
 
                 {/* ======================================================= */}
                 {/* ⭐️ 3. ADMIN ROUTES (Wrapped in AdminLayout) ⭐️ */}
