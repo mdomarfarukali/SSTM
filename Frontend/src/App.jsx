@@ -27,7 +27,7 @@ import TermsCondition from "./pages/TermsCondition";
 import TrackOrder from "./pages/TrackOrder";
 import MyCoupons from "./pages/MyCoupons";
 import MyReviews from "./pages/MyReviews";
-import MyNotifications from "./pages/MyNotifications";
+import MyNotifications from "./pages/AllNotifications.jsx";
 import HelpCenter from "./pages/HelpCenter";
 
 // --- NEW USER ACCOUNT PAGES (Needed for Nested Routing) ---
@@ -109,29 +109,35 @@ function App() {
                 {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Panel Routing) ⭐️ */}
                 {/* Use a single account route and render pages inside UserDashboard */}
                 {/* ======================================================= */}
-                <Route path="/account" element={<PageLayout>  </PageLayout>}>
+                {/* <Route path="/account" element={<PageLayout>  </PageLayout>}> */}
                     {/* Default view when navigating to /account (shows profile content) */}
-                    <Route index element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+                    {/* <Route index element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} /> */}
 
                     {/* Routes accessible via the UserDashboard sidebar: /account/orders, /account/profile, etc. */}
-                    <Route path="profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                    {/* <Route path="profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                     <Route path="addresses" element={<ProtectedRoute><UserAddresses /></ProtectedRoute>} />
-                    <Route path="wishlist" element={<ProtectedRoute><WishList /></ProtectedRoute>} />
+                    <Route path="wishlist" element={<ProtectedRoute><WishList /></ProtectedRoute>} /> */}
 
+                    {/* ✅ My Stuff */}
+                    {/* <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} />
+                    <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} />
+                    <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} /> */}
+
+                    {/* Order Management Nested Routes */}
+                    {/* <Route path="orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+                    <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
+                </Route> */}
+
+                <Route
+                    path="/account/*"
+                    element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}
+                >
                     {/* ✅ My Stuff */}
                     <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} />
                     <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} />
                     <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} />
 
-                    {/* Order Management Nested Routes */}
-                    <Route path="orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
-                    <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
                 </Route>
-
-                <Route
-                    path="/account/*"
-                    element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}
-                />
 
                 {/* ======================================================= */}
                 {/* ⭐️ 3. ADMIN ROUTES (Wrapped in AdminLayout) ⭐️ */}
