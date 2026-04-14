@@ -44,7 +44,12 @@ function App() {
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.warn("Invalid user data in localStorage. Clearing stored user.", error);
+                localStorage.removeItem("user");
+            }
         }
     }, []);
 
