@@ -182,7 +182,7 @@ function ProductDetails() {
                     <div className="mt-10 lg:mt-0">
                         <h1 className="text-4xl font-serif font-extrabold text-brand">{product.name}</h1>
                         <p className="text-5xl font-bold text-brand-primary mt-4">
-                            ${product.finalPrice}
+                            ₹{product.finalPrice}
                         </p>
 
                         {/* Sizes */}
