@@ -23,6 +23,13 @@ import ShippingReturns from "./pages/ShippingReturns";
 import PrivacyPolicy_ from "./pages/PrivacyPolicy_";
 import TermsCondition from "./pages/TermsCondition";
 
+// --- NEW MY STUFF + SUPPORT PAGES ---
+import TrackOrder from "./pages/TrackOrder";
+import MyCoupons from "./pages/MyCoupons";
+import MyReviews from "./pages/MyReviews";
+import MyNotifications from "./pages/MyNotifications";
+import HelpCenter from "./pages/HelpCenter";
+
 // --- NEW USER ACCOUNT PAGES (Needed for Nested Routing) ---
 import UserDashboard from "./pages/UserDashboard"; // The main account layout/sidebar
 import OrderHistory from "./pages/OrderHistory"; // The list of orders
@@ -38,6 +45,7 @@ import AdminRoutes from "./pages/admin/AdminRoutes";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 import UploadImage from "./components/UploadImage.jsx";
+
 function App() {
     const [user, setUser] = useState(null);
 
@@ -90,6 +98,10 @@ function App() {
                     <Route path="/privacy-policy" element={<PrivacyPolicy_ />} />
                     <Route path="/terms-condition" element={<TermsCondition />} />
 
+                    {/* track and help center  */}
+                    <Route path="/track-order/:orderId" element={<TrackOrder />} />
+                    <Route path="/help-center" element={<HelpCenter />} />
+
                 </Route>
 
 
@@ -97,6 +109,25 @@ function App() {
                 {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Panel Routing) ⭐️ */}
                 {/* Use a single account route and render pages inside UserDashboard */}
                 {/* ======================================================= */}
+                <Route path="/account" element={<PageLayout>  </PageLayout>}>
+                    {/* Default view when navigating to /account (shows profile content) */}
+                    <Route index element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+
+                    {/* Routes accessible via the UserDashboard sidebar: /account/orders, /account/profile, etc. */}
+                    <Route path="profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                    <Route path="addresses" element={<ProtectedRoute><UserAddresses /></ProtectedRoute>} />
+                    <Route path="wishlist" element={<ProtectedRoute><WishList /></ProtectedRoute>} />
+
+                    {/* ✅ My Stuff */}
+                    <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} />
+                    <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} />
+                    <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} />
+
+                    {/* Order Management Nested Routes */}
+                    <Route path="orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+                    <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
+                </Route>
+
                 <Route
                     path="/account/*"
                     element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}
@@ -118,5 +149,3 @@ function App() {
 }
 
 export default App;
-
-
