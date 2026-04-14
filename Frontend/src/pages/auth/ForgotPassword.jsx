@@ -1,14 +1,50 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import lightLogo from "/DIVA.png";
+import darkLogo from "/DIVA_G_Dark.png";
+import axios from "axios";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState('');
+  const { theme } = useTheme();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
     // Here you would call your API to send a reset password link
-    console.log("Reset link requested for:", email);
-    alert(`Password reset link sent to ${email} (check console)`);
+
+    try {
+      const response = await axios.post('/API/auth/password/forgot', { email });
+      // console.log("Response status:", response.status); // Debugging line
+      const data = response.data;
+      console.log(data);
+      alert(`Password reset link sent to ${email}.`);
+      
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to Forget Password. Please check your credentials.');
+      // console.error('Forgetting Password failed:', err.response?.data?.message); // Log the full response for debugging
+
+      // IMPROVED: Display the actual error message from the backend
+      const errorMessage = err.response?.data?.message || 'Failed to log in. Please try again.';
+
+      alert(`${errorMessage}.`);
+      
+      if (errorMessage.includes('duplicate key error')) {
+        setError('This email or phone number is already registered.');
+      } else {
+        setError(errorMessage);
+      }
+    } finally {
+      setLoading(false);
+    }
+
+
+    // console.log("Reset link requested for:", email);
+    // alert(`Password reset link sent to ${email} (check console)`);
     setEmail(""); // Clear input after submit
   };
 
@@ -16,7 +52,8 @@ const ForgotPassword = () => {
     <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand-light">
       <div
         className="h-screen w-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-6 md:px-16"
-        style={{ backgroundImage: "url('/jewell.png')" }}
+        style={{ backgroundImage: `url('${theme === "dark" ? darkLogo : lightLogo}')` }}
+      // style={{ backgroundImage: "url('/jewell.png')" }}
       >
         <div className="backdrop-blur-md bg-white/30 p-10 rounded-2xl max-w-4xl w-full shadow-lg">
           {/* Title */}

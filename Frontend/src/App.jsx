@@ -7,6 +7,8 @@ import PageLayout from "./components/layout/PageLayout";
 import Home from "./pages/Home";
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import ForgetPassword from './pages/auth/ForgotPassword.jsx';
+import ResetPassword from './pages/auth/ResetPassword.jsx';
 
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -71,6 +73,8 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Register />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
 

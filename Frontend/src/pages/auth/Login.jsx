@@ -17,7 +17,6 @@ export default function LoginPage() {
 
     const from = location.state?.from || "/";
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -38,7 +37,7 @@ export default function LoginPage() {
                     Navigate("/admin");
                 }
                 Navigate(from, { replace: true });
-                
+
             } else {
                 alert(data.message || "Login failed");
             }
@@ -122,7 +121,7 @@ export default function LoginPage() {
                     >
                         <div className="text-center mb-6">
                             <motion.h1
-                                className="text-4xl font-serif font-bold text-brand-secondary drop-shadow"
+                                className="text-4xl font-serif font-bold text-brand drop-shadow"
                             // initial={{ y: -10, opacity: 0 }}
                             // animate={{ y: 0, opacity: 1 }}
                             // transition={{ delay: 0.3, duration: 0.6 }}
@@ -189,9 +188,16 @@ export default function LoginPage() {
                                     />
                                     <span>Remember me</span>
                                 </label>
-                                <a href="#" className="text-brand-highlight hover:underline font-medium">
+                                <Link
+                                    to="/forget-password"
+                                    // className="text-brand-secondary font-semibold hover:underline"
+                                    className="text-brand-highlight hover:underline font-medium"
+                                >
                                     Forgot password?
-                                </a>
+                                </Link>
+                                {/* <a href="#" className="text-brand-highlight hover:underline font-medium">
+                                    Forgot password?
+                                </a> */}
                             </div>
 
                             <motion.button

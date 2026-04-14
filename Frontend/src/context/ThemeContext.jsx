@@ -8,9 +8,10 @@ export const ThemeProvider = ({ children }) => {
         if (localStorage.getItem("theme")) {
             return localStorage.getItem("theme");
         }
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
+        return "light";
+        // window.matchMedia("(prefers-color-scheme: dark)").matches
+        //     ? "dark"
+        //     : "light";
     });
 
     // Apply the theme to the <html> element

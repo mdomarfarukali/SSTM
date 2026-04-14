@@ -1,9 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import lightLogo from "/DIVA.png";
+import darkLogo from "/DIVA_G_Dark.png";
+import axios from "axios";
 
 const ResetPassword = () => {
+  const { theme } = useTheme();
+  const { token } = useParams();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
+    // email: "",
     newPassword: "",
     confirmPassword: "",
   });
@@ -15,7 +23,7 @@ const ResetPassword = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.newPassword !== formData.confirmPassword) {
@@ -24,8 +32,32 @@ const ResetPassword = () => {
     }
 
     // Here you would call your API to reset the password
-    console.log("Reset Password Data:", formData);
-    alert("Password reset successfully! Check console for data.");
+    try {
+      const response = await axios.put(`/API/auth/password/reset/${token}`, {
+        password: formData.newPassword,
+        confirmPassword: formData.confirmPassword
+      });
+      // console.log("Response status:", response.status); // Debugging line
+      alert("Password reset successfully! You're ready to login.");
+
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to Reset Password. Please check your credentials.');
+      // IMPROVED: Display the actual error message from the backend
+      const errorMessage = err.response?.data?.message || 'Failed to Reset Password. Please try again.';
+
+      alert(`${errorMessage}.`);
+      console.error('Resetting Password failed:', err.response?.data?.message); // Log the full response for debugging
+
+      if (errorMessage.includes('duplicate key error')) {
+        setError('This email or phone number is already registered.');
+      } else {
+        setError(errorMessage);
+      }
+    } finally {
+      setLoading(false);
+    }
+    // console.log("Reset Password Data:", formData);
+    // alert("Password reset successfully! Check console for data.");
     // Optionally, redirect to login page after reset
   };
 
@@ -33,7 +65,8 @@ const ResetPassword = () => {
     <div className="fixed top-0 right-0 bottom-0 left-0 bg-brand-light">
       <div
         className="h-screen w-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-6 md:px-16"
-        style={{ backgroundImage: "url('/jewell.png')" }}
+        style={{ backgroundImage: `url('${theme === "dark" ? darkLogo : lightLogo}')` }}
+      // style={{ backgroundImage: "url('/jewell.png')" }}
       >
         <div className="backdrop-blur-md bg-white/30 p-10 rounded-2xl max-w-4xl w-full shadow-lg">
           {/* Title */}
@@ -45,7 +78,7 @@ const ResetPassword = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-5">
               {/* Email */}
-              <div>
+              {/* <div>
                 <label
                   className="block text-brand text-sm font-medium mb-1"
                   htmlFor="email"
@@ -62,7 +95,7 @@ const ResetPassword = () => {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </div> */}
 
               {/* New Password */}
               <div>
