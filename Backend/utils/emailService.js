@@ -285,7 +285,7 @@ export const sendPasswordResetEmail = async (options) => {
           <p>You requested a password reset. Click the button below to create a new password:</p>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${resetUrl}" style="background-color: #000; color: #fff; padding: 12px 25px; text-decoration: none; border-radius: 4px; display: inline-block;">Reset Password</a>
+            <a href="${process.env.FRONTEND_URL}/reset-password/${resetUrl}" style="background-color: #000; color: #fff; padding: 12px 25px; text-decoration: none; border-radius: 4px; display: inline-block;">Reset Password</a>
           </div>
           
           <p>If you didn't request this, you can safely ignore this email.</p>
@@ -294,7 +294,7 @@ export const sendPasswordResetEmail = async (options) => {
           
           <div style="margin-top: 30px;">
             <p>If the button doesn't work, copy and paste this URL into your browser:</p>
-            <p style="word-break: break-all;">${resetUrl}</p>
+            <p style="word-break: break-all;">${process.env.FRONTEND_URL}/reset-password/${resetUrl}</p>
             <p>If you did not request this, please ignore this email.</p>
           </div>
         </div>
