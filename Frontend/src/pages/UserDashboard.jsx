@@ -6,6 +6,12 @@ import UserProfile from './user/UserProfile';
 import UserAddress from './user/UserAddress';
 import WishList from './WishList';
 import OrderHistory from './OrderHistory';
+// import OrderDetails from "./OrderDetails"; // Details for a single order
+// import TrackOrder from "./TrackOrder";
+import MyCoupons from "./MyCoupons";
+import MyReviews from "./MyReviews";
+import MyNotifications from "./AllNotifications";
+// import HelpCenter from "./HelpCenter";
 
 // --- NAVIGATION STRUCTURE (Same as before) ---
 const dashboardNavGroups = [
@@ -95,11 +101,14 @@ function UserDashboard() {
             case 'saved-cards':
                 return <PlaceholderView title="Saved Cards" />;
             case 'coupons':
-                return <PlaceholderView title="My Coupons" />;
+                return <MyCoupons />;
+                // return <PlaceholderView title="My Coupons" />;
             case 'reviews':
-                return <PlaceholderView title="Reviews & Ratings" />;
+                return <MyReviews />;
+                // return <PlaceholderView title="Reviews & Ratings" />;
             case 'notifications':
-                return <PlaceholderView title="Notifications" />;
+                return <MyNotifications />;
+                // return <PlaceholderView title="Notifications" />;
             default:
                 return <UserProfile />;
         }

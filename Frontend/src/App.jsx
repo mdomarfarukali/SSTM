@@ -27,15 +27,15 @@ import TermsCondition from "./pages/TermsCondition";
 import TrackOrder from "./pages/TrackOrder";
 import MyCoupons from "./pages/MyCoupons";
 import MyReviews from "./pages/MyReviews";
-import MyNotifications from "./pages/AllNotifications.jsx";
+import MyNotifications from "./pages/AllNotifications";
 import HelpCenter from "./pages/HelpCenter";
 
 // --- NEW USER ACCOUNT PAGES (Needed for Nested Routing) ---
 import UserDashboard from "./pages/UserDashboard"; // The main account layout/sidebar
-import OrderHistory from "./pages/OrderHistory"; // The list of orders
-import OrderDetails from "./pages/OrderDetails"; // Details for a single order
-import UserAddress from "./pages/user/UserAddress";
-import UserProfile from "./pages/user/UserProfile";
+// import OrderHistory from "./pages/OrderHistory"; // The list of orders
+// import OrderDetails from "./pages/OrderDetails"; // Details for a single order
+// import UserAddress from "./pages/user/UserAddress";
+// import UserProfile from "./pages/user/UserProfile";
 
 // --- ADMIN PAGES ---
 import AdminRoutes from "./pages/admin/AdminRoutes";
@@ -50,14 +50,28 @@ function App() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            try {
+        // const storedUser = localStorage.getItem("user");
+        // if (storedUser && storedUser !== "undefined") {
+        //     try {
+        //         setUser(JSON.parse(storedUser));
+        //     } catch (error) {
+        //         console.warn("Invalid user data in localStorage. Clearing stored user.", error);
+        //         localStorage.removeItem("user");
+        //     }
+        // }
+
+        try {
+            const storedUser = localStorage.getItem("user");
+
+            if (storedUser && storedUser !== "undefined") {
+                // user = JSON.parse(storedUser);
                 setUser(JSON.parse(storedUser));
-            } catch (error) {
-                console.warn("Invalid user data in localStorage. Clearing stored user.", error);
+            } else {
                 localStorage.removeItem("user");
             }
+        } catch (error) {
+            console.error("Invalid user data in localStorage. Clearing stored user.");
+            localStorage.removeItem("user");
         }
     }, []);
 
@@ -102,6 +116,17 @@ function App() {
                     <Route path="/track-order/:orderId" element={<TrackOrder />} />
                     <Route path="/help-center" element={<HelpCenter />} />
 
+
+                    
+                    {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Panel Routing) ⭐️ */}
+                    <Route
+                        path="/account/*"
+                        element={
+                            <ProtectedRoute>
+                                <UserDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Route>
 
 
@@ -110,34 +135,46 @@ function App() {
                 {/* Use a single account route and render pages inside UserDashboard */}
                 {/* ======================================================= */}
                 {/* <Route path="/account" element={<PageLayout>  </PageLayout>}> */}
-                    {/* Default view when navigating to /account (shows profile content) */}
-                    {/* <Route index element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} /> */}
+                {/* Default view when navigating to /account (shows profile content) */}
+                {/* <Route index element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} /> */}
 
-                    {/* Routes accessible via the UserDashboard sidebar: /account/orders, /account/profile, etc. */}
-                    {/* <Route path="profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                {/* Routes accessible via the UserDashboard sidebar: /account/orders, /account/profile, etc. */}
+                {/* <Route path="profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                     <Route path="addresses" element={<ProtectedRoute><UserAddresses /></ProtectedRoute>} />
                     <Route path="wishlist" element={<ProtectedRoute><WishList /></ProtectedRoute>} /> */}
 
-                    {/* ✅ My Stuff */}
-                    {/* <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} />
+                {/* ✅ My Stuff */}
+                {/* <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} />
                     <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} />
                     <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} /> */}
 
-                    {/* Order Management Nested Routes */}
-                    {/* <Route path="orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+                {/* Order Management Nested Routes */}
+                {/* <Route path="orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
                     <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
                 </Route> */}
 
-                <Route
+                {/* <Route
                     path="/account/*"
-                    element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}
+                    element={
+                        <PageLayout>
+                        </ PageLayout>
+                    }
                 >
-                    {/* ✅ My Stuff */}
-                    <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} />
-                    <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} />
-                    <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} />
 
-                </Route>
+                    <Route index
+                        element={
+                            <ProtectedRoute>
+                                <UserDashboard />
+                            </ProtectedRoute>
+                        }
+                    /> */}
+
+                    {/* ✅ My Stuff */}
+                    {/* <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} /> */}
+                    {/* <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} /> */}
+                    {/* <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} /> */}
+
+                {/* </Route> */}
 
                 {/* ======================================================= */}
                 {/* ⭐️ 3. ADMIN ROUTES (Wrapped in AdminLayout) ⭐️ */}
