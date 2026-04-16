@@ -100,9 +100,12 @@ export default function Navbar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/about" className="text-brand-primary hover:text-brand-secondary transition">
-                                        <Info size={20} />
+                                    <Link to="/wishlist" className="text-brand-primary hover:text-brand-secondary transition">
+                                        <FaHeart size={20} />
                                     </Link>
+                                    {/* <Link to="/about" className="text-brand-primary hover:text-brand-secondary transition">
+                                        <Info size={20} />
+                                    </Link>*/}
                                 </li>
                                 <li>
                                     <Link to="/contact" className="text-brand-primary hover:text-brand-secondary transition">
