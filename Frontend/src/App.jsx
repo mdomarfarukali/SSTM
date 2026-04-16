@@ -11,7 +11,7 @@ import ForgetPassword from './pages/auth/ForgotPassword.jsx';
 import ResetPassword from './pages/auth/ResetPassword.jsx';
 
 import Products from "./pages/Products";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./pages/_ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import WishList from "./pages/WishList";
