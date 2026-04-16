@@ -87,9 +87,9 @@ function OrderHistory() {
 
                 {/* Order Footer */}
                 <div className="mt-6 flex justify-between items-center border-t border-brand-muted pt-4">
-                  <div className="flex items-center gap-2 text-brand-success">
-                    <FaCheckCircle />
-                    <span className="font-medium">Delivered</span>
+                  <div className={`flex items-center gap-2 ${order.status === 'Delivered' ? 'text-brand-success' : 'text-brand-warning'}`}>
+                    {order.status === 'Delivered' ? <FaCheckCircle /> : <FaClock />}
+                    <span className="font-medium">{order.status || 'Processing'}</span>
                   </div>
                   <p className="text-xl font-bold text-brand">
                     Total: $

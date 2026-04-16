@@ -4,14 +4,23 @@ import { FaCheckCircle, FaPrint, FaEnvelope } from 'react-icons/fa';
 
 function OrderSuccess() {
     const [orderId, setOrderId] = useState('');
+    const [latestOrder, setLatestOrder] = useState(null);
 
     useEffect(() => {
-        const newOrderId = 'DIVA-' + Math.floor(100000 + Math.random() * 900000);
-        setOrderId(newOrderId);
+        const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+        const lastOrder = storedOrders[storedOrders.length - 1] || null;
+        setLatestOrder(lastOrder);
+
+        if (lastOrder?.id) {
+            setOrderId(lastOrder.id);
+        } else {
+            setOrderId('DIVA-' + Math.floor(100000 + Math.random() * 900000));
+        }
+
         window.scrollTo(0, 0);
     }, []);
 
-    const customerEmail = "your.customer@example.com";
+    const customerEmail = latestOrder?.shippingDetails?.email || 'your.customer@example.com';
 
     return (
         <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">
@@ -38,6 +47,22 @@ function OrderSuccess() {
                         <p className="text-3xl font-bold text-brand-primary mt-1">
                             {orderId}
                         </p>
+                        {latestOrder && (
+                            <div className="mt-4 text-left space-y-2 text-brand-muted">
+                                <p>
+                                    <span className="font-semibold text-brand">Order Date:</span>{' '}
+                                    {latestOrder.date}
+                                </p>
+                                <p>
+                                    <span className="font-semibold text-brand">Total:</span>{' '}
+                                    ${Number(latestOrder.total).toFixed(2)}
+                                </p>
+                                <p>
+                                    <span className="font-semibold text-brand">Payment:</span>{' '}
+                                    {latestOrder.paymentMethod === 'cod' ? 'Cash on Delivery' : latestOrder.paymentMethod}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Next Steps */}
