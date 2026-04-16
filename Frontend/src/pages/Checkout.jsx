@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 import { FaLock, FaCreditCard, FaMapMarkedAlt, FaShoppingCart, FaWallet, FaUniversity, FaMobileAlt, FaMoneyBillWave } from 'react-icons/fa';
 import { useCartContext } from '../context/CartContext';
 
@@ -31,83 +32,74 @@ function Checkout() {
 
     const generateOrderId = () => `DIVA-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    const saveOrderHistory = (order) => {
-        const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
-        storedOrders.push(order);
-        localStorage.setItem('orders', JSON.stringify(storedOrders));
-    };
+ 
 
-    const handlePlaceOrder = (e) => {
-        e.preventDefault();
+   const handlePlaceOrder = async (e) => {
+    e.preventDefault();
 
-        if (cartItems.length === 0) {
-            alert("Your cart is empty! Cannot place an order.");
-            navigate('/products');
-            return;
-        }
+    if (cartItems.length === 0) {
+        alert("Your cart is empty!");
+        navigate('/products');
+        return;
+    }
 
-        if (Object.values(shippingDetails).some(v => v === '')) {
-            alert("Please fill out all required shipping fields.");
-            return;
-        }
+    if (Object.values(shippingDetails).some(v => v === '')) {
+        alert("Please fill all shipping details");
+        return;
+    }
 
-        const validatePayment = () => {
-            if (paymentMethod === 'card') {
-                return [paymentDetails.cardName, paymentDetails.cardNumber, paymentDetails.expiry, paymentDetails.cvc].every(v => v.trim() !== '');
-            }
-            if (paymentMethod === 'upi') {
-                return paymentDetails.upiId.trim() !== '';
-            }
-            if (paymentMethod === 'netbanking') {
-                return paymentDetails.bankName.trim() !== '' && paymentDetails.accountNumber.trim() !== '';
-            }
-            if (paymentMethod === 'wallet') {
-                return paymentDetails.walletProvider.trim() !== '';
-            }
-            return true; // COD needs no extra fields
+    try {
+        const token = localStorage.getItem("token");
+
+        const orderData = {
+            orderItems: cartItems.map(item => ({
+                product: item.id, // ⚠️ must exist
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                finalPrice: item.price,
+                image: item.image,
+            })),
+
+            shippingAddress: {
+                fullName: shippingDetails.name,
+                phone: "9999999999",
+                addressLine1: shippingDetails.address,
+                city: shippingDetails.city,
+                state: "WB",
+                postalCode: shippingDetails.zip,
+            },
+
+            paymentMethod: paymentMethod.toUpperCase(),
+
+            itemsPrice: cartTotal,
+            taxPrice: cartTotal * 0.05,
+            shippingPrice: 0,
+            totalPrice: cartTotal + cartTotal * 0.05,
+            
         };
 
-        if (!validatePayment()) {
-            alert("Please fill out all required payment information for the selected method.");
-            return;
-        }
+        const response = await axios.post(
+            "/API/orders",
+            orderData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
-        const orderId = generateOrderId();
-        const orderTotal = Number(cartTotal + cartTotal * 0.05).toFixed(2);
-        const order = {
-            id: orderId,
-            date: new Date().toLocaleString(),
-            items: cartItems,
-            shippingDetails,
-            paymentMethod,
-            paymentDetails: paymentMethod === 'card'
-                ? {
-                      cardName: paymentDetails.cardName,
-                      last4: paymentDetails.cardNumber.slice(-4),
-                      expiry: paymentDetails.expiry,
-                  }
-                : paymentMethod === 'upi'
-                ? { upiId: paymentDetails.upiId }
-                : paymentMethod === 'netbanking'
-                ? { bankName: paymentDetails.bankName }
-                : paymentMethod === 'wallet'
-                ? { walletProvider: paymentDetails.walletProvider }
-                : { paymentType: 'Cash on Delivery' },
-            total: orderTotal,
-            status: 'Processing',
-        };
+        console.log("Order saved:", response.data);
 
-        saveOrderHistory(order);
-
-        const orderPayload = {
-            ...order,
-            cartItems,
-        };
-
-        console.log("Processing Order:", orderPayload);
         clearCart();
-        navigate('/order-success');
-    };
+        navigate("/order-success");
+
+    } catch (error) {
+       console.error("Order failed:", error.response?.data || error.message);
+        alert("Order failed. Try again.");
+    }
+    console.log("Cart Items:", cartItems);
+};
 
     if (cartItems.length === 0 && cartTotal > 0) {
         return (
