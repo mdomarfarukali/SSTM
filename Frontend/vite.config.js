@@ -15,5 +15,8 @@ export default defineConfig({
     proxy: {
       '/API': 'http://localhost:5000'
     }
-  }
+  },
+  // build: {
+  //   sourcemap: false
+  // }
 })

@@ -8,16 +8,73 @@ import { useWishlistContext } from "../context/WishListContext.jsx";
 import { showToast } from "../utils/toastUtils.js";
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 
+const useProductData = (id) => {
+    const [product, setProducts] = useState(null);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                // setLoading(true);
+                const { data } = await axios.get(`/API/products/${id}`);
+                // The products are inside data.products
+                console.log("Fetched product data:", data);
+                setProducts(data.product || null);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+            finally {
+                // setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, [id]);
+    return product;
+};
+
+const useRecommendedProducts = (id) => { //id is for personalized prodct, will use later.
+    const [recommended, setRecommended] = useState([]);
+
+    useEffect(() => {
+        const fetchRecommendedProducts = async () => {
+            try {
+                // setLoading(true);
+                const { data } = await axios.get("/API/products");
+
+                console.log("Recommended data: ", data);
+                const filtered = data.products
+                    .filter(p => p._id !== id)
+                    .slice(0, 4);
+
+                setRecommended(filtered);
+            } catch (error) {
+                console.error("Error fetching recommended products:", error);
+            } finally {
+                // setLoading(false);
+            }
+        };
+
+        fetchRecommendedProducts();
+    }, [id]); // important dependency
+
+    console.log("Filtered: ", recommended);
+    return recommended;
+};
+
 function ProductDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    console.log("\n\nCurrent Product:", id);
     const { addItemToCart } = useCartContext();
     const { toggleWishlistItem, isItemWished } = useWishlistContext();
 
-    const [product, setProduct] = useState(null);
-    const [recommended, setRecommended] = useState([]);
-    const [mainImage, setMainImage] = useState("");
+    const product = useProductData(id);
+
+    // const [product, setProduct] = useState(null);
+    // const [recommended, setRecommended] = useState([]);
+    const recommended = useRecommendedProducts(id);
+    const [mainImage, setMainImage] = useState("/placeholder.png");
     const [selectedSize, setSelectedSize] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -40,30 +97,52 @@ function ProductDetails() {
     ];
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const { data } = await axios.get(`/API/products/${id}`);
-                setProduct(data.product);
-                setMainImage(data.product.images?.[0]?.url);
-                setSelectedSize(data.product?.sizes?.[0] || "");
+        try {
+            setLoading(true);
+            if (product) {
+                // console.log("Product data loaded:", product);
+                setMainImage(product.images?.[0]?.url || "/placeholder.png");
+                setSelectedSize(product?.sizes?.[0] || "R");
                 setQuantity(1);
 
-                const rec = await axios.get(`/API/products`);
-                setRecommended(rec.data.products.filter(p => p._id !== id).slice(0, 4));
+                console.log("Selected size: ", selectedSize);
+                // const rec = await axios.get(`/API/products`);
+                // setRecommended(rec.data.products.filter(p => p._id !== id).slice(0, 4));
                 setReviews(staticReviews);
-            } catch (err) {
-                console.error("Error:", err);
-            } finally {
-                setLoading(false);
             }
-        };
-        fetchData();
-    }, [id]);
+        } catch (error) {
+            console.error("Error setting product data:", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [product]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             setLoading(true);
+    //             const { data } = await axios.get(`/API/products/${id}`);
+    //             setProduct(data.product);
+    //             setMainImage(data.product.images?.[0]?.url);
+    //             setSelectedSize(data.product?.sizes?.[0] || "");
+    //             setQuantity(1);
+
+    //             const rec = await axios.get(`/API/products`);
+    //             setRecommended(rec.data.products.filter(p => p._id !== id).slice(0, 4));
+    //             setReviews(staticReviews);
+    //         } catch (err) {
+    //             console.error("Error:", err);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //     fetchData();
+    // }, [id]);
 
     // 🛠️ Action Handlers Fixed
     const handleAddToCart = (item, size, qty) => {
         if (!size) {
+            console.log("\nsize is undefined.\n");
             showToast("Please select a size/variant first.", "error");
             return;
         }
@@ -103,18 +182,32 @@ function ProductDetails() {
         setZoomPos({ x, y });
     };
 
-    if (loading) return <LoadingSpinner />;
-    if (!product) return <div className="pt-32 text-center">Product not found.</div>;
+    if (loading || !product) return <LoadingSpinner />;
+    // if (!product) return <div className="pt-32 text-center">Product not found.</div>;
+
+    if (product === undefined) {
+        return (
+            <div className="min-h-screen pt-32 text-center bg-brand-light">
+                <h2 className="text-3xl font-bold text-brand-danger">Product Not Found!</h2>
+                <p className="mt-4 text-brand-muted">
+                    The item you are looking for does not exist. Go back to{" "}
+                    <Link to="/products" className="text-brand-primary hover:underline">
+                        Collections
+                    </Link>
+                </p>
+            </div>
+        );
+    }
 
     const wished = isItemWished(product._id);
 
     return (
         <div className="min-h-screen pt-24 bg-white pb-20">
             <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16">
-                
+
                 {/* LEFT: Image Gallery */}
                 <div className="flex flex-col gap-6">
-                    <div 
+                    <div
                         className="relative overflow-hidden rounded-3xl bg-gray-50 border border-gray-100 aspect-square cursor-crosshair"
                         onMouseMove={handleMouseMove}
                         onMouseEnter={() => setIsHovering(true)}
@@ -129,7 +222,7 @@ function ProductDetails() {
                             }}
                             alt={product.name}
                         />
-                        <button 
+                        <button
                             onClick={handleToggleWishlist}
                             className="absolute top-6 right-6 bg-white/90 backdrop-blur p-4 rounded-full shadow-lg z-10 transition-transform active:scale-90"
                         >
@@ -156,7 +249,7 @@ function ProductDetails() {
                         <div className="flex text-sm"><FaStar /><FaStar /><FaStar /><FaStar /><FaStar /></div>
                         <span className="text-gray-400 text-sm ml-2 font-sans">(4.8 / 5.0)</span>
                     </div>
-                    
+
                     <p className="text-3xl text-pink-600 font-bold mt-6">₹{product.price}</p>
 
                     {/* Variant Selector */}
@@ -187,7 +280,7 @@ function ProductDetails() {
 
                     {/* Pink Action Buttons */}
                     <div className="flex gap-4 mt-10">
-                        <button 
+                        <button
                             onClick={() => handleBuyNow(product, selectedSize, quantity)}
                             className="flex-1 border-2 border-pink-500 text-pink-600 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-pink-50 transition-all"
                         >
@@ -235,7 +328,7 @@ function ProductDetails() {
                     <h2 className="text-3xl font-serif font-bold text-gray-900">Customer Reviews</h2>
                     <div className="flex-1 h-px bg-gray-100"></div>
                 </div>
-                
+
                 <div className="grid lg:grid-cols-3 gap-12">
                     {/* Write a review */}
                     <div className="lg:col-span-1 bg-gray-50 p-8 rounded-3xl h-fit">
@@ -245,8 +338,8 @@ function ProductDetails() {
                                 <FaStar key={s} onClick={() => setRating(s)} className={`cursor-pointer text-2xl ${s <= rating ? "text-yellow-400" : "text-gray-200"}`} />
                             ))}
                         </div>
-                        <textarea 
-                            value={comment} 
+                        <textarea
+                            value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             placeholder="Write your experience..."
                             className="w-full h-32 p-4 rounded-2xl border border-gray-200 mb-4 outline-none focus:ring-2 focus:ring-pink-200"
@@ -283,7 +376,7 @@ function ProductDetails() {
                     <h2 className="text-3xl font-serif font-bold text-gray-900">You May Also Like</h2>
                     <div className="h-[2px] bg-pink-100 flex-1 ml-8"></div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {recommended.map((item) => (
                         <div key={item._id} className="group bg-white p-5 rounded-[2rem] border border-gray-100 hover:shadow-2xl transition-all duration-300 flex flex-col">
@@ -294,10 +387,10 @@ function ProductDetails() {
                                 <h3 className="font-bold text-gray-800 truncate mb-1 px-1">{item.name}</h3>
                                 <p className="text-pink-600 font-bold mb-5 px-1">₹{item.price}</p>
                             </Link>
-                            
+
                             <div className="flex flex-col gap-2 mt-auto">
-                                <button onClick={() => handleBuyNow(item, item.sizes?.[0], 1)} className="w-full py-3 rounded-full border border-pink-500 text-pink-600 text-xs font-bold hover:bg-pink-50 transition-colors uppercase tracking-widest">Quick Buy</button>
-                                <button onClick={() => handleAddToCart(item, item.sizes?.[0], 1)} className="w-full py-3 rounded-full bg-pink-500 text-white text-xs font-bold hover:bg-pink-600 transition-colors uppercase tracking-widest">Add to Cart</button>
+                                <button onClick={() => handleBuyNow(item, item.sizes?.[0] || "R", 1)} className="w-full py-3 rounded-full border border-pink-500 text-pink-600 text-xs font-bold hover:bg-pink-50 transition-colors uppercase tracking-widest">Quick Buy</button>
+                                <button onClick={() => handleAddToCart(item, item.sizes?.[0] || "R", 1)} className="w-full py-3 rounded-full bg-pink-500 text-white text-xs font-bold hover:bg-pink-600 transition-colors uppercase tracking-widest">Add to Cart</button>
                             </div>
                         </div>
                     ))}
