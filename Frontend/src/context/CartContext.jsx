@@ -30,25 +30,45 @@ export const CartProvider = ({ children }) => {
     // =========================================================
     //  ADD ITEM TO CART
     // =========================================================
-    const addItemToCart = (item) => {
-        setCartItems((prevCart) => {
-            const existingItemIndex = prevCart.findIndex(
-                (p) => p.id === item.id && p.selectedSize === item.selectedSize
-            );
+    //const addItemToCart = (item) => {
+       // setCartItems((prevCart) => {
+            //const existingItemIndex = prevCart.findIndex(
+                //(p) => p.id === item.id && p.selectedSize === item.selectedSize
+           // );
 
             // If item (same size/variant) exists, increase quantity
-            if (existingItemIndex !== -1) {
-                const updatedCart = [...prevCart];
-                updatedCart[existingItemIndex].quantity += item.quantity;
-                showToast(`${item.name} quantity updated in cart.`, "info");
-                return updatedCart;
-            }
+            //if (existingItemIndex !== -1) {
+               // const updatedCart = [...prevCart];
+                //updatedCart[existingItemIndex].quantity += item.quantity;
+                //showToast(`${item.name} quantity updated in cart.`, "info");
+               // return updatedCart;
+           // }
 
             // Otherwise, add new item
-            showToast(`${item.name} added to cart!`, "success");
-            return [...prevCart, item];
-        });
-    };
+           // showToast(`${item.name} added to cart!`, "success");
+            //return [...prevCart, item];
+       // });
+   // };
+    const addItemToCart = (item) => {
+    setCartItems((prevCart) => {
+        const existingItem = prevCart.find(
+            (p) => p.id === item.id && p.selectedSize === item.selectedSize
+        );
+
+        if (existingItem) {
+            showToast(`${item.name} quantity updated in cart.`, "info");
+
+            return prevCart.map((p) =>
+                p.id === item.id && p.selectedSize === item.selectedSize
+                    ? { ...p, quantity: p.quantity + item.quantity } // ✅ NO mutation
+                    : p
+            );
+        }
+
+        showToast(`${item.name} added to cart!`, "success");
+        return [...prevCart, { ...item }]; // ✅ clone item
+    });
+};
 
     // =========================================================
     //  REMOVE ITEM FROM CART

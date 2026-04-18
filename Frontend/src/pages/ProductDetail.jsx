@@ -230,12 +230,12 @@ function ProductDetails() {
                         </button>
                     </div>
 
-                    <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                    <div className="flex gap-4 w-full">
                         {product.images?.map((img, i) => (
                             <img
                                 key={i}
                                 src={img.url}
-                                className={`w-24 h-24 object-cover cursor-pointer rounded-2xl border-2 transition-all ${img.url === mainImage ? "border-pink-500 scale-105" : "border-transparent opacity-60"}`}
+                                className={`w-28 h-28 object-cover cursor-pointer rounded-2xl border-2 transition-all ${img.url === mainImage ? "border-pink-500 scale-105" : "border-transparent opacity-60"}`}
                                 onClick={() => setMainImage(img.url)}
                             />
                         ))}
