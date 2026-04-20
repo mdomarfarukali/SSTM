@@ -3,7 +3,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
-
+import { useWishlistContext } from "../context/WishListContext.jsx";
+import { useCartContext } from "../context/CartContext";
 const ProductCard = ({ product, index }) => {
     // Destructure with fallback
     const {
@@ -22,46 +23,81 @@ const ProductCard = ({ product, index }) => {
     const imageUrl = images[0]?.url
         ? `${images[0].url}`
         : "/placeholder.png"; // fallback image
+    
+    const { toggleWishlistItem, isItemWished } = useWishlistContext();
+
+    const wished = isItemWished(_id);
+    const { addItemToCart } = useCartContext();
+
+    const handleAddToCart = () => {
+     addItemToCart({
+    id: _id,
+    name,
+    price: finalPrice,
+    image: imageUrl,
+    quantity: 1,
+    selectedSize: "default",
+  });
+};
+
+    const handleWishlist = () => {
+    toggleWishlistItem({
+      _id,
+      name,
+      price: finalPrice,
+      image: imageUrl,
+    });
+  };
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
+            transition={{ delay: index * 0.1, duration: 0.5}}
             viewport={{ once: true }}
-            className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2 group overflow-hidden"
+           //className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2 group overflow-hidden"
+           className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition hover:-translate-y-2 overflow-hidden"
         >
             {/* Discount Badge */}
             {discount > 0 && (
-                <span className="absolute top-4 left-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                //<span className="absolute top-4 left-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                <span className="absolute top-4 left-4 z-40 bg-red-500 text-white text-xs px-3 py-1 rounded-full">
                     -{discount}% OFF
                 </span>
             )}
 
             {/* Wishlist Icon */}
             <button
-                className="absolute top-4 right-4 text-gray-400 hover:text-pink-500 transition"
-                title="Add to Wishlist"
-            >
-                <FaHeart className="w-5 h-5" />
-            </button>
+                onClick={(e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
+                handleWishlist();
+        }}
+               // className="absolute top-4 right-4 text-gray-400 hover:text-pink-500 transition"
+                className="absolute top-4 right-4 z-50 bg-white p-2 rounded-full shadow-md"
+      >
+        <FaHeart
+          className={`w-5 h-5 ${
+            wished ? "text-pink-600" : "text-gray-400"
+          }`}
+        />
+      </button>
 
             {/* Product Image */}
-            <Link to={`/product/${_id}`}>
-                <div className="overflow-hidden rounded-t-2xl">
-                    <img
-                        src={imageUrl}
-                        alt={name}
-                        className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                    />
-                </div>
-            </Link>
+      <div className="overflow-hidden rounded-t-2xl">
+        <Link to={`/product/${_id}`} className="block">
+          <img
+            src={imageUrl}
+            alt={name}
+            className="w-full h-72 object-cover transition-transform duration-500 hover:scale-105"
+          />
+        </Link>
+      </div>
 
             {/* Product Info */}
             <div className="p-5">
                 <Link to={`/product/${_id}`}>
-                    <h3 className="text-lg font-semibold text-gray-800 group-hover:text-pink-600 transition">
+                    <h3 className="text-lg font-semibold text-gray-800 hover:text-pink-600">
                         {name}
                     </h3>
                 </Link>
@@ -86,14 +122,12 @@ const ProductCard = ({ product, index }) => {
                         </p>
                     )}
                 </div>
-
-                {/* View Details Button */}
-                <Link
-                    to={`/product/${_id}`}
-                    className="block text-center mt-5 bg-pink-600 text-white font-semibold py-2 rounded-full hover:bg-pink-700 transition shadow-md"
-                >
-                    View Details
-                </Link>
+                <button
+                onClick={handleAddToCart}
+                className="block w-full mt-5 bg-pink-600 text-white font-semibold py-2 rounded-full hover:bg-pink-700 transition shadow-md"
+>
+                 Add to Cart
+                </button>
             </div>
         </motion.div>
     );

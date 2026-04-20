@@ -14,13 +14,18 @@ const wishlistReducer = (state, action) => {
     case 'TOGGLE_ITEM': {
       const newItem = action.payload;
       // Check if item already exists in the wishlist
-      const isExisting = state.wishlistItems.some((item) => item.id === newItem.id);
-
+      //const isExisting = state.wishlistItems.some((item) => item.id === newItem.id);
+            const isExisting = state.wishlistItems.some(
+        (item) => item._id === newItem._id   // ✅ FIXED
+      );
       if (isExisting) {
         // If it exists, remove it
         return {
           ...state,
-          wishlistItems: state.wishlistItems.filter((item) => item.id !== newItem.id),
+          // wishlistItems: state.wishlistItems.filter((item) => item.id !== newItem.id),
+                  wishlistItems: state.wishlistItems.filter(
+            (item) => item._id !== newItem._id   // ✅ FIXED
+          ),
         };
       } else {
         // If it's new, add it
@@ -31,7 +36,10 @@ const wishlistReducer = (state, action) => {
     case 'REMOVE_ITEM':
       return {
         ...state,
-        wishlistItems: state.wishlistItems.filter((item) => item.id !== action.payload),
+        //wishlistItems: state.wishlistItems.filter((item) => item.id !== action.payload),
+      wishlistItems: state.wishlistItems.filter(
+          (item) => item._id !== action.payload   // ✅ FIXED
+        ),
       };
 
     case 'CLEAR_WISHLIST':
@@ -58,7 +66,8 @@ export const WishlistProvider = ({ children }) => {
   };
   
   const isItemWished = (id) => {
-    return state.wishlistItems.some(item => item.id === id);
+    //return state.wishlistItems.some(item => item.id === id);
+    return state.wishlistItems.some((item) => item._id === id); // ✅ FIXED
   };
 
   const removeItemFromWishlist = (id) => {
