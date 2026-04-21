@@ -70,7 +70,7 @@ function ProductDetails() {
         addItemToCart({
             id: item._id,
             name: item.name,
-            price: item.price,
+            price: item.finalPrice || item.price,
             image: item.images[0].url,
             selectedSize: size,
             quantity: qty,
@@ -91,7 +91,7 @@ function ProductDetails() {
         toggleWishlistItem({
             id: product._id,
             name: product.name,
-            price: product.price,
+            price: product.finalPrice||product.price,
             image: product.images[0].url,
         });
     };
@@ -204,7 +204,23 @@ function ProductDetails() {
                         <span className="text-gray-400 text-sm ml-2 font-sans">(4.8 / 5.0)</span>
                     </div>
 
-                    <p className="text-3xl text-pink-600 font-bold mt-6">₹{product.price}</p>
+                    <div className="flex items-center gap-4 mt-6">
+                <span className="text-3xl text-pink-600 font-bold">
+              ₹{product.finalPrice || product.price}
+                </span>
+
+            {product.discount > 0 && (
+              <>
+             <span className="text-lg text-gray-400 line-through">
+                ₹{product.price}
+            </span>
+
+            <span className="text-sm text-green-600 font-semibold">
+                {product.discount}% OFF
+            </span>
+        </>
+    )}
+</div>
 
                     {/* Variant Selector */}
                     <div className="mt-10">
@@ -351,7 +367,23 @@ function ProductDetails() {
                                     <img src={item.images?.[0]?.url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
                                 </div>
                                 <h3 className="font-bold text-gray-800 truncate mb-1 px-1">{item.name}</h3>
-                                <p className="text-pink-600 font-bold mb-5 px-1">₹{item.price}</p>
+                                <div className="flex items-center gap-2 mb-5 px-1">
+    <span className="text-pink-600 font-bold">
+        ₹{item.finalPrice || item.price}
+    </span>
+
+    {item.discount > 0 && (
+        <>
+            <span className="text-sm text-gray-400 line-through">
+                ₹{item.price}
+            </span>
+
+            <span className="text-xs text-green-600 font-semibold">
+                {item.discount}% OFF
+            </span>
+        </>
+    )}
+</div>
                             </button>
 
                             <div className="flex flex-col gap-2 mt-auto">

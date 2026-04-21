@@ -33,7 +33,7 @@ const ProductCard = ({ product, index }) => {
     addItemToCart({
       id: _id,
       name,
-      price: finalPrice,
+      price: finalPrice || price,
       image: imageUrl,
       quantity: 1,
       selectedSize: "R",
@@ -44,7 +44,7 @@ const ProductCard = ({ product, index }) => {
     toggleWishlistItem({
       _id,
       name,
-      price: finalPrice,
+      price: finalPrice || price,
       image: imageUrl,
     });
   };
@@ -112,13 +112,18 @@ const ProductCard = ({ product, index }) => {
 
         {/* Price Section */}
         <div className="mt-3 flex items-center gap-2">
-          <p className="text-xl font-bold text-pink-600">
+          <span className="text-xl font-bold text-pink-600">
             ₹{finalPrice?.toLocaleString()}
-          </p>
+          </span>
           {discount > 0 && (
-            <p className="text-gray-400 text-sm line-through">
+          <>
+            <span className="text-gray-400 text-sm line-through">
               ₹{price?.toLocaleString()}
-            </p>
+              </span>
+                    <span className="text-xs text-green-600 font-semibold">
+        {discount}% OFF
+            </span>
+            </>
           )}
         </div>
         <button
