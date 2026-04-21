@@ -64,8 +64,9 @@ export const logoutUser = catchAsyncErrors(async (req, res, next) => {
         expires: new Date(Date.now()),
         httpOnly: true,
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+        // secure: process.env.NODE_ENV === 'production',
+        secure: false
+        // domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
     });
 
     res.status(200).json({
