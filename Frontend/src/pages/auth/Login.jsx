@@ -32,6 +32,7 @@ export default function LoginPage() {
                 localStorage.setItem("role", data.user.role);
                 localStorage.setItem("token", data.token);
 
+                // console.log("Login: ", localStorage.getItem("user"));
                 // Redirect based on role
                 if (data.user.role === "admin") {
                     Navigate("/admin");

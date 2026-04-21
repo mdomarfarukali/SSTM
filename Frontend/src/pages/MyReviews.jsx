@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+
 
 function MyReviews() {
     const [reviews, setReviews] = useState([]);
@@ -62,14 +64,14 @@ function MyReviews() {
     const handleSave = async (id) => {
         try {
             await axios.put(
-                `/api/reviews/${id}`,
+                `/API/reviews/${id}`,
                 {
                     rating: editData.rating,
                     review: editData.review
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${user.token}`
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 }
             );
@@ -92,7 +94,7 @@ function MyReviews() {
         try {
             await axios.delete(`/api/reviews/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${user.token}`
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
 
@@ -209,16 +211,20 @@ function MyReviews() {
                         className="flex flex-col md:flex-row bg-white rounded-xl shadow-sm border border-gray-200 mb-6 overflow-hidden hover:shadow-md transition-shadow duration-300"
                     >
                         {/* Left Side: Product Info */}
-                        <div className="w-full md:w-1/3 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50/50">
-                            <img
-                                src={review.product_id?.thumbnail}
-                                alt={review.product_id?.name}
-                                className="w-24 h-24 object-cover rounded-lg shadow-sm mb-4"
-                            />
-                            <h3 className="font-semibold text-gray-800 text-center text-lg">
-                                {review.product_id?.name}
-                            </h3>
-                        </div>
+                        <Link to={`/product/${review.product_id._id}`}
+                            className="w-full md:w-1/3 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50/50"
+                        >
+                            {/* <div className="w-full md:w-1/3 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50/50"> */}
+                                <img
+                                    src={review.product_id?.thumbnail}
+                                    alt={review.product_id?.name}
+                                    className="w-24 h-24 object-cover rounded-lg shadow-sm mb-4"
+                                />
+                                <h3 className="font-semibold text-gray-800 text-center text-lg">
+                                    {review.product_id?.name}
+                                </h3>
+                            {/* </div> */}
+                        </Link>
 
                         {/* Right Side: Rating, Comment & Actions */}
                         <div className="w-full md:w-2/3 p-6 flex flex-col justify-between bg-white">
@@ -295,26 +301,4 @@ function MyReviews() {
     );
 }
 
-
-// Styles
-const styles = {
-    card: {
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        padding: "12px",
-        marginTop: "10px",
-        background: "#fff",
-    },
-    textarea: {
-        width: "100%",
-        marginTop: "10px",
-        padding: "8px",
-        borderRadius: "5px",
-    },
-    actions: {
-        marginTop: "10px",
-        display: "flex",
-        gap: "10px",
-    },
-};
 export default MyReviews;

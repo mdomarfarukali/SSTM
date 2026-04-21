@@ -65,24 +65,34 @@ function App() {
         // }
 
         try {
-            const storedUser = localStorage.getItem("user");
+            const storedUser = localStorage.getItem("token");
 
+            // console.log("User Local: ", storedUser);
             if (storedUser && storedUser !== "undefined") {
                 // user = JSON.parse(storedUser);
-                setUser(JSON.parse(storedUser));
+                // setUser(JSON.parse(storedUser));
+                setUser(storedUser);
             } else {
+                localStorage.removeItem("email");
                 localStorage.removeItem("user");
+                localStorage.removeItem("role");
+                localStorage.removeItem("token");
+                // console.log("Home cleared.");
             }
         } catch (error) {
             console.error("Invalid user data in localStorage. Clearing stored user.");
+
+            localStorage.removeItem("email");
             localStorage.removeItem("user");
+            localStorage.removeItem("role");
+            localStorage.removeItem("token");
         }
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem("user");
-        setUser(null);
-    };
+    // const handleLogout = () => {
+    //     localStorage.removeItem("user");
+    //     setUser(null);
+    // };
 
     return (
         // Context Providers should ideally wrap this Router (e.g., CartProvider, AuthProvider)
@@ -123,7 +133,7 @@ function App() {
                     <Route path="/help-center" element={<HelpCenter />} />
 
 
-                    
+
                     {/* ⭐️ 2. USER ACCOUNT DASHBOARD (Panel Routing) ⭐️ */}
                     <Route
                         path="/account/*"
@@ -175,10 +185,10 @@ function App() {
                         }
                     /> */}
 
-                    {/* ✅ My Stuff */}
-                    {/* <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} /> */}
-                    {/* <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} /> */}
-                    {/* <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} /> */}
+                {/* ✅ My Stuff */}
+                {/* <Route path="coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} /> */}
+                {/* <Route path="reviews" element={<ProtectedRoute><MyReviews /></ProtectedRoute>} /> */}
+                {/* <Route path="notifications" element={<ProtectedRoute><MyNotifications /></ProtectedRoute>} /> */}
 
                 {/* </Route> */}
 
