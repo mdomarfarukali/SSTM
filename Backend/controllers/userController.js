@@ -72,7 +72,11 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-        return next(new ErrorHandler("User not found with this email", 404));
+        // res.status(404).json({
+        //     success: false,
+        //     message: `User doesn't exist on this email: ${user.email}`,
+        // });
+        return next(new ErrorHandler(`User doesn't exist on this email: ${req.body.email}`, 404));
     }
 
     // Generate reset token
@@ -119,6 +123,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 ========================================================= */
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
     // Hash the token from URL
+    // console.log("############************&&&&&&&&&&&WE're here.\n\n", req.body);
     const resetPasswordToken = crypto
         .createHash("sha256")
         .update(req.params.token)

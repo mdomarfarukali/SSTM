@@ -4,18 +4,14 @@
 ```bash
 curl -X POST http://localhost:5000/API/auth/register \
   -H "Content-Type: application/json" \
-  -d '{
-  "name":"Tamanna Parvin",
-  "email":"tamannaparvin124@gmail.com",
-  "role":"admin",
-  "password":"NewPassword123"}'
+  -d '{"name":"Tamanna ","email":"tamannaparvin1@gmail.com","password":"NewPassword123"}'
 ```
 
 # 2️⃣ Login
 ```bash
 curl -X POST http://localhost:5000/API/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"sohanaparvin202@gmail.com","password":"NewPassword123"}'
+  -d '{"email":"umara.loves@gmail.com","password":"NewPassword123"}'
 ```
 
 # 3️⃣ Get Profile (Requires JWT)
@@ -53,16 +49,8 @@ curl -X PUT http://localhost:5000/API/auth/password/reset/<Token> \
 
 ### Logout
 ```bash
-curl -X POST http://localhost:5000/API/auth/logout 
+curl -X GET http://localhost:5000/API/auth/logout 
 ```
-
-
-curl -X GET http://localhost:5000/API/auth/admin/users \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDEzMzgzY2ViYzA1OWYyYmNkMWNhYSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTY4ODgzNiwiZXhwIjoxNzYyMjkzNjM2fQ.iup1FRDt2QejoPdVoM2XvCDgz-8IESK6CV5DzT679ds"
-
-
-
 
 
 ### Product
@@ -169,7 +157,7 @@ Base URL assumed: http://localhost:5000/API/orders
 ```bash
 curl -X POST http://localhost:5000/API/orders \
 -H "Content-Type: application/json" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxNjQ4NTQzLCJleHAiOjE3NjIyNTMzNDN9.1XgLMjTxUAedrzyNlBrv0d4Q42wMN4l7YkT_RkA4zY0" \
 -d '{
   "orderItems": [
     {
