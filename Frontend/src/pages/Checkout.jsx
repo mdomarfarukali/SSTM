@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FaLock, FaCreditCard, FaMapMarkedAlt, FaShoppingCart, FaWallet, FaUniversity, FaMobileAlt, FaMoneyBillWave } from 'react-icons/fa';
 import { useCartContext } from '../context/CartContext';
 
+
 function Checkout() {
     const { cartItems, cartTotal, clearCart } = useCartContext();
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    const [shippingDetails, setShippingDetails] = useState({
-        name: '',
-        email: '',
-        address: '',
-        city: '',
-        zip: '',
-        country: 'India',
-    });
+    
 
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [paymentDetails, setPaymentDetails] = useState({
@@ -42,11 +39,11 @@ function Checkout() {
         navigate('/products');
         return;
     }
-
-    if (Object.values(shippingDetails).some(v => v === '')) {
-        alert("Please fill all shipping details");
-        return;
-    }
+   
+if (!selectedAddress) {
+  alert("Please select an address");
+  return;
+}
 
     try {
         const token = localStorage.getItem("token");
@@ -61,14 +58,7 @@ function Checkout() {
                 image: item.image,
             })),
 
-            shippingAddress: {
-                fullName: shippingDetails.name,
-                phone: "9999999999",
-                addressLine1: shippingDetails.address,
-                city: shippingDetails.city,
-                state: "WB",
-                postalCode: shippingDetails.zip,
-            },
+          shippingAddress: selectedAddress,
 
             paymentMethod: paymentMethod.toUpperCase(),
 
@@ -113,14 +103,124 @@ function Checkout() {
     const shippingFee = 0.00;
     const estimatedTax = subtotal * 0.05;
     const finalTotal = subtotal + shippingFee + estimatedTax;
+   
+   
+   
+    useEffect(() => {
+  const fetchAddresses = async () => {
+    try {
+      setLoading(true);
 
+      const res = await fetch("http://localhost:5000/API/addresses", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+     
+
+      const data = await res.json();
+      setAddresses(data.addresses || []);
+
+      // auto-select first address
+      if (data.addresses?.length > 0) {
+        setSelectedAddress(data.addresses[0]);
+      }
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchAddresses();
+}, []);
+   
+
+
+
+
+if (loading) {
+  return <p>Loading checkout...</p>;
+}
     return (
         <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <h1 className="text-5xl font-serif font-extrabold bg-brand-warning mb-10 text-center">
                     Secure Checkout 🔒
                 </h1>
+             
+                {selectedAddress && (
+  <div style={{
+    border: "2px solid green",
+    padding: "15px",
+    marginBottom: "20px",
+    borderRadius: "10px",
+    background: "#f0fff0"
+  }}>
+    <h3>Delivering to:</h3>
+    <p><strong>{selectedAddress.fullName}</strong></p>
+    <p>{selectedAddress.addressLine1}, {selectedAddress.city}</p>
+    <p>{selectedAddress.state}, {selectedAddress.postalCode}</p>
+    <p>{selectedAddress.phone}</p>
 
+    <button
+      onClick={() => setSelectedAddress(null)}
+      style={{
+        marginTop: "10px",
+        padding: "5px 10px",
+        background: "orange",
+        border: "none",
+        cursor: "pointer"
+      }}
+    >
+      Change Address
+    </button>
+  </div>
+)}
+        {!selectedAddress && <h2>Select Shipping Address</h2>}
+
+{!selectedAddress && (
+  addresses.length === 0 ? (
+  <p>No address found</p>
+) : (
+  addresses.map((addr) => (
+    <div
+  key={addr._id}
+  style={{
+    border:
+      selectedAddress?._id === addr._id
+        ? "2px solid green"
+        : "1px solid gray",
+    padding: "10px",
+    marginBottom: "10px",
+  }}
+>
+  <p><strong>{addr.fullName}</strong></p>
+  <p>{addr.addressLine1}, {addr.city}</p>
+  <p>{addr.state}, {addr.postalCode}</p>
+  <p>{addr.phone}</p>
+
+ <button
+  onClick={() => setSelectedAddress(addr)}
+  disabled={selectedAddress?._id === addr._id}
+  style={{
+    marginTop: "10px",
+    padding: "6px 12px",
+    background:
+      selectedAddress?._id === addr._id ? "gray" : "green",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+  }}
+>
+  {selectedAddress?._id === addr._id
+    ? "Selected"
+    : "Use this address"}
+</button>
+</div>
+  ))
+))}
                 {cartItems.length === 0 ? (
                     <div className="text-center py-20">
                         <p className="text-2xl font-semibold text-brand-info mb-6">
@@ -130,253 +230,124 @@ function Checkout() {
                 ) : (
                     <form onSubmit={handlePlaceOrder} className="lg:grid lg:grid-cols-5 lg:gap-12">
                         {/* Left Column */}
-                        <div className="lg:col-span-3 space-y-10">
-                            {/* Shipping Address */}
-                            <div className="bg-brand p-8 rounded-xl shadow-lg border border-brand-muted">
-                                <h2 className="text-3xl font-semibold text-brand mb-6 flex items-center gap-3">
-                                    <FaMapMarkedAlt className="text-brand-primary" /> 1. Shipping Address
-                                </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input
-                                        required type="text" placeholder="Full Name"
-                                        className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand placeholder:text-brand-muted hover:placeholder:text-brand"
-                                        onChange={(e) => setShippingDetails({ ...shippingDetails, name: e.target.value })}
-                                    />
-                                    <input
-                                        required type="email" placeholder="Email Address"
-                                        className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand placeholder:text-brand-muted hover:placeholder:text-brand"
-                                        onChange={(e) => setShippingDetails({ ...shippingDetails, email: e.target.value })}
-                                    />
-                                    <input
-                                        required type="text" placeholder="Street Address"
-                                        className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand placeholder:text-brand-muted hover:placeholder:text-brand md:col-span-2"
-                                        onChange={(e) => setShippingDetails({ ...shippingDetails, address: e.target.value })}
-                                    />
-                                    <input
-                                        required type="text" placeholder="City"
-                                        className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand placeholder:text-brand-muted hover:placeholder:text-brand"
-                                        onChange={(e) => setShippingDetails({ ...shippingDetails, city: e.target.value })}
-                                    />
-                                    <input
-                                        required type="text" placeholder="Postal Code"
-                                        className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand placeholder:text-brand-muted hover:placeholder:text-brand"
-                                        onChange={(e) => setShippingDetails({ ...shippingDetails, zip: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-
+         
                             {/* Payment Details */}
-                            <div className="bg-brand p-8 rounded-xl shadow-lg border border-brand-muted">
-                                <h2 className="text-3xl font-semibold text-brand mb-6 flex items-center gap-3">
-                                    <FaCreditCard className="text-brand-primary" /> 2. Payment Method
-                                </h2>
-                                <p className="text-sm text-brand-muted mb-4 flex items-center gap-2">
-                                    <FaLock /> All transactions are secure and encrypted.
-                                </p>
+                           <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 space-y-6">
 
-                                <div className="grid gap-3 mb-6">
-                                    <label className={`cursor-pointer rounded-2xl border px-4 py-3 flex items-center gap-3 ${paymentMethod === 'card' ? 'border-brand-primary bg-brand-dark' : 'border-brand-muted bg-brand'}`}>
-                                        <input
-                                            type="radio"
-                                            name="paymentMethod"
-                                            value="card"
-                                            checked={paymentMethod === 'card'}
-                                            onChange={() => setPaymentMethod('card')}
-                                            className="sr-only"
-                                        />
-                                        <FaCreditCard className="text-brand-primary w-5 h-5" />
-                                        <div>
-                                            <div className="font-semibold">Credit / Debit Card</div>
-                                            <div className="text-sm text-brand-muted">Visa, MasterCard, Amex</div>
-                                        </div>
-                                    </label>
+  <h2 className="text-2xl font-bold flex items-center gap-2 text-gray-800">
+    💳 Payment Method
+  </h2>
 
-                                    <label className={`cursor-pointer rounded-2xl border px-4 py-3 flex items-center gap-3 ${paymentMethod === 'upi' ? 'border-brand-primary bg-brand-dark' : 'border-brand-muted bg-brand'}`}>
-                                        <input
-                                            type="radio"
-                                            name="paymentMethod"
-                                            value="upi"
-                                            checked={paymentMethod === 'upi'}
-                                            onChange={() => setPaymentMethod('upi')}
-                                            className="sr-only"
-                                        />
-                                        <FaMobileAlt className="text-brand-primary w-5 h-5" />
-                                        <div>
-                                            <div className="font-semibold">UPI / QR Payment</div>
-                                            <div className="text-sm text-brand-muted">Google Pay, PhonePe, Paytm</div>
-                                        </div>
-                                    </label>
+  <p className="text-sm text-gray-500 flex items-center gap-2">
+    🔒 All transactions are secure and encrypted
+  </p>
 
-                                    <label className={`cursor-pointer rounded-2xl border px-4 py-3 flex items-center gap-3 ${paymentMethod === 'netbanking' ? 'border-brand-primary bg-brand-dark' : 'border-brand-muted bg-brand'}`}>
-                                        <input
-                                            type="radio"
-                                            name="paymentMethod"
-                                            value="netbanking"
-                                            checked={paymentMethod === 'netbanking'}
-                                            onChange={() => setPaymentMethod('netbanking')}
-                                            className="sr-only"
-                                        />
-                                        <FaUniversity className="text-brand-primary w-5 h-5" />
-                                        <div>
-                                            <div className="font-semibold">Net Banking</div>
-                                            <div className="text-sm text-brand-muted">Secure bank transfer</div>
-                                        </div>
-                                    </label>
+  <div className="space-y-4">
 
-                                    <label className={`cursor-pointer rounded-2xl border px-4 py-3 flex items-center gap-3 ${paymentMethod === 'wallet' ? 'border-brand-primary bg-brand-dark' : 'border-brand-muted bg-brand'}`}>
-                                        <input
-                                            type="radio"
-                                            name="paymentMethod"
-                                            value="wallet"
-                                            checked={paymentMethod === 'wallet'}
-                                            onChange={() => setPaymentMethod('wallet')}
-                                            className="sr-only"
-                                        />
-                                        <FaWallet className="text-brand-primary w-5 h-5" />
-                                        <div>
-                                            <div className="font-semibold">Wallet</div>
-                                            <div className="text-sm text-brand-muted">Amazon Pay, Paytm, Mobikwik</div>
-                                        </div>
-                                    </label>
+    {/* CARD OPTION */}
+    <label className={`block rounded-xl border p-4 cursor-pointer transition-all duration-300
+      ${paymentMethod === 'card'
+        ? 'border-red-500 bg-red-50 shadow-lg scale-[1.02]'
+        : 'border-gray-200 hover:border-red-300 hover:shadow-md'}`}>
 
-                                    <label className={`cursor-pointer rounded-2xl border px-4 py-3 flex items-center gap-3 ${paymentMethod === 'cod' ? 'border-brand-primary bg-brand-dark' : 'border-brand-muted bg-brand'}`}>
-                                        <input
-                                            type="radio"
-                                            name="paymentMethod"
-                                            value="cod"
-                                            checked={paymentMethod === 'cod'}
-                                            onChange={() => setPaymentMethod('cod')}
-                                            className="sr-only"
-                                        />
-                                        <FaMoneyBillWave className="text-brand-primary w-5 h-5" />
-                                        <div>
-                                            <div className="font-semibold">Cash on Delivery</div>
-                                            <div className="text-sm text-brand-muted">Pay when your package arrives</div>
-                                        </div>
-                                    </label>
-                                </div>
+      <div className="flex items-center gap-4">
+        <input
+          type="radio"
+          name="paymentMethod"
+          value="card"
+          checked={paymentMethod === 'card'}
+          onChange={() => setPaymentMethod('card')}
+        />
+        <span className="text-xl">💳</span>
+        <div>
+          <p className="font-semibold">Credit / Debit Card</p>
+          <p className="text-sm text-gray-500">Visa, MasterCard, Amex</p>
+        </div>
+      </div>
 
-                                <div className="space-y-4">
-                                    {paymentMethod === 'card' && (
-                                        <>
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder="Name on Card"
-                                                className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand w-full"
-                                                value={paymentDetails.cardName}
-                                                onChange={(e) => setPaymentDetails({ ...paymentDetails, cardName: e.target.value })}
-                                            />
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder="Card Number"
-                                                maxLength="16"
-                                                className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand placeholder:text-brand-muted hover:placeholder:text-brand w-full"
-                                                value={paymentDetails.cardNumber}
-                                                onChange={(e) => setPaymentDetails({ ...paymentDetails, cardNumber: e.target.value.replace(/[^0-9]/g, '') })}
-                                            />
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <input
-                                                    required
-                                                    type="text"
-                                                    placeholder="MM/YY"
-                                                    maxLength="5"
-                                                    className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand"
-                                                    value={paymentDetails.expiry}
-                                                    onChange={(e) => setPaymentDetails({ ...paymentDetails, expiry: e.target.value })}
-                                                />
-                                                <input
-                                                    required
-                                                    type="text"
-                                                    placeholder="CVC"
-                                                    maxLength="4"
-                                                    className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand"
-                                                    value={paymentDetails.cvc}
-                                                    onChange={(e) => setPaymentDetails({ ...paymentDetails, cvc: e.target.value.replace(/[^0-9]/g, '') })}
-                                                />
-                                            </div>
-                                        </>
-                                    )}
+      {/* 👇 SHOW ONLY WHEN SELECTED */}
+      <div className={`overflow-hidden transition-all duration-500 ${
+        paymentMethod === 'card' ? 'max-h-96 mt-4' : 'max-h-0'
+      }`}>
 
-                                    {paymentMethod === 'upi' && (
-                                        <>
-                                            <label className="text-sm text-brand-muted">Enter your UPI ID</label>
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder="example@upi"
-                                                className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand w-full"
-                                                value={paymentDetails.upiId}
-                                                onChange={(e) => setPaymentDetails({ ...paymentDetails, upiId: e.target.value })}
-                                            />
-                                            <p className="text-sm text-brand-success">Quick, secure UPI checkout with zero card entry.</p>
-                                        </>
-                                    )}
+        <div className="grid gap-3 mt-3">
 
-                                    {paymentMethod === 'netbanking' && (
-                                        <>
-                                            <label className="text-sm text-brand-muted">Choose your bank</label>
-                                            <select
-                                                required
-                                                className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand w-full"
-                                                value={paymentDetails.bankName}
-                                                onChange={(e) => setPaymentDetails({ ...paymentDetails, bankName: e.target.value })}
-                                            >
-                                                <option value="">Select bank</option>
-                                                <option>State Bank of India</option>
-                                                <option>HDFC Bank</option>
-                                                <option>ICICI Bank</option>
-                                                <option>Axis Bank</option>
-                                                <option>Yes Bank</option>
-                                            </select>
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder="Account Number"
-                                                className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand w-full"
-                                                value={paymentDetails.accountNumber}
-                                                onChange={(e) => setPaymentDetails({ ...paymentDetails, accountNumber: e.target.value.replace(/[^0-9]/g, '') })}
-                                            />
-                                        </>
-                                    )}
+          <input
+            type="text"
+            placeholder="Card Number"
+            className="p-3 border rounded-lg w-full"
+          />
 
-                                    {paymentMethod === 'wallet' && (
-                                        <>
-                                            <label className="text-sm text-brand-muted">Select wallet provider</label>
-                                            <select
-                                                required
-                                                className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand w-full"
-                                                value={paymentDetails.walletProvider}
-                                                onChange={(e) => setPaymentDetails({ ...paymentDetails, walletProvider: e.target.value })}
-                                            >
-                                                <option value="">Select wallet</option>
-                                                <option>Paytm</option>
-                                                <option>Amazon Pay</option>
-                                                <option>Mobikwik</option>
-                                                <option>PhonePe Wallet</option>
-                                            </select>
-                                            <p className="text-sm text-brand-muted">You’ll be redirected to your wallet app to complete payment.</p>
-                                        </>
-                                    )}
+          <div className="flex gap-3">
+            <input
+              type="text"
+              placeholder="MM/YY"
+              className="p-3 border rounded-lg w-full"
+            />
+            <input
+              type="text"
+              placeholder="CVV"
+              className="p-3 border rounded-lg w-full"
+            />
+          </div>
 
-                                    {paymentMethod === 'cod' && (
-                                        <div className="rounded-2xl border border-brand-muted bg-brand-dark p-4 text-brand-muted">
-                                            <p className="font-semibold text-brand">Cash on Delivery selected</p>
-                                            <p>Pay when your order is delivered. Keep exact change ready for a faster handoff.</p>
-                                        </div>
-                                    )}
+          <input
+            type="text"
+            placeholder="Card Holder Name"
+            className="p-3 border rounded-lg w-full"
+          />
 
-                                    <input
-                                        type="text"
-                                        placeholder="Promo Code (optional)"
-                                        className="p-3 border border-brand-muted rounded-lg focus:ring-brand-primary focus:border-brand-primary bg-brand-dark text-brand w-full"
-                                        value={paymentDetails.voucherCode}
-                                        onChange={(e) => setPaymentDetails({ ...paymentDetails, voucherCode: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+        </div>
+      </div>
+    </label>
+
+    {/* UPI */}
+    <label className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-300
+      ${paymentMethod === 'upi'
+        ? 'border-red-500 bg-red-50 shadow-lg scale-[1.02]'
+        : 'border-gray-200 hover:border-red-300 hover:shadow-md'}`}>
+
+      <input
+        type="radio"
+        name="paymentMethod"
+        value="upi"
+        checked={paymentMethod === 'upi'}
+        onChange={() => setPaymentMethod('upi')}
+      />
+
+      <span className="text-xl">📱</span>
+
+      <div>
+        <p className="font-semibold">UPI Payment</p>
+        <p className="text-sm text-gray-500">GPay, PhonePe</p>
+      </div>
+    </label>
+
+    {/* COD */}
+    <label className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-300
+      ${paymentMethod === 'cod'
+        ? 'border-red-500 bg-red-50 shadow-lg scale-[1.02]'
+        : 'border-gray-200 hover:border-red-300 hover:shadow-md'}`}>
+
+      <input
+        type="radio"
+        name="paymentMethod"
+        value="cod"
+        checked={paymentMethod === 'cod'}
+        onChange={() => setPaymentMethod('cod')}
+      />
+
+      <span className="text-xl">💵</span>
+
+      <div>
+        <p className="font-semibold">Cash on Delivery</p>
+        <p className="text-sm text-gray-500">Pay when delivered</p>
+      </div>
+    </label>
+
+  </div>
+</div>
+                       
 
                         {/* Right Column */}
                         <div className="lg:col-span-2 mt-8 lg:mt-0">
