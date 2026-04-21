@@ -22,12 +22,12 @@ const useUserProfile = (defaultProfile) => {
                 if (data?.user) {
                     const updatedProfile = {
                         ...defaultProfile,
-                        name: data.user.name,
+                        name: data.user.name || "Guest",
                         email: data.user.email,
-                        city: data.user.city,
-                        phone: data.user.phone,
-                        country: data.user.country,
-                        postal: data.user.postal,
+                        city: data.user.city || "Not Updated Yet",
+                        phone: data.user.phone || "Not Updated Yet",
+                        country: data.user.country || "Not Updated Yet",
+                        postal: data.user.postal || "Not Updated Yet",
                         photo: data.user.avater || "/userAvatarTrimmed.png",
                     };
 
