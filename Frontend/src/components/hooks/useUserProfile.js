@@ -28,6 +28,7 @@ const useUserProfile = (defaultProfile) => {
                         phone: data.user.phone,
                         country: data.user.country,
                         postal: data.user.postal,
+                        photo: data.user.avater || "/userAvatarTrimmed.png",
                     };
 
                     setProfile(updatedProfile);
