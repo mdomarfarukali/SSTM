@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { FaMapMarkerAlt, FaPlus, FaTrashAlt, FaEdit } from 'react-icons/fa';
 
 const emptyAddress = {
-  id: null,
-  name: '',
+  fullName: '',
   email: '',
-  street: '',
+  addressLine1: '',
   city: '',
-  zip: '',
+  state: '',
+  postalCode: '',
   country: 'India',
   phone: '',
 };
@@ -17,63 +17,99 @@ function UserAddress() {
   const [addresses, setAddresses] = useState([]);
   const [form, setForm] = useState(emptyAddress);
   const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('userAddresses');
-    if (stored) {
-      try {
-        setAddresses(JSON.parse(stored));
-      } catch (error) {
-        console.warn('Failed to parse saved addresses', error);
-      }
+useEffect(() => {
+  
+  const fetchAddresses = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:5000/API/addresses", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const data = await res.json();
+      setAddresses(data.addresses || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false); // 🔥 important
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    localStorage.setItem('userAddresses', JSON.stringify(addresses));
-  }, [addresses]);
-
+  fetchAddresses();
+}, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, street, city, zip } = form;
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!name || !email || !street || !city || !zip) {
-      alert('Please fill in all required address fields.');
-      return;
-    }
+  const method = editingId ? "PUT" : "POST";
+const url = editingId
+  ? `http://localhost:5000/API/addresses/${editingId}`
+  : "http://localhost:5000/API/addresses";
 
-    if (editingId) {
-      setAddresses((prev) =>
-        prev.map((address) =>
-          address.id === editingId ? { ...form, id: editingId } : address,
-        ),
-      );
-      setEditingId(null);
-    } else {
-      setAddresses((prev) => [
-        ...prev,
-        { ...form, id: Date.now().toString() },
-      ]);
-    }
+  console.log("FORM DATA:", form);
+  const res = await fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(form),
+  });
 
-    setForm(emptyAddress);
-  };
+  const data = await res.json();
+  if (!data.success) {
+  alert(data.message);
+  return;
+}
+ setAddresses(data.addresses || []);
+  setForm(emptyAddress);
+  setEditingId(null);
+};
 
   const handleEdit = (address) => {
-    setForm(address);
-    setEditingId(address.id);
+setForm({
+  fullName: address.fullName,
+  email: address.email,
+  addressLine1: address.addressLine1,
+  city: address.city,
+  state: address.state,
+  postalCode: address.postalCode,
+  country: address.country,
+  phone: address.phone,
+});
+    setEditingId(address._id);
   };
 
-  const handleDelete = (id) => {
-    if (!window.confirm('Delete this address?')) return;
-    setAddresses((prev) => prev.filter((address) => address.id !== id));
-  };
 
+const handleDelete = async (id) => {
+  if (!window.confirm('Delete this address?')) return;
+
+  const res = await fetch(`http://localhost:5000/API/addresses/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+  const data = await res.json();
+  if (!data.success) {
+  alert(data.message);
+  return;
+}
+ setAddresses(data.addresses || []);
+};
+if (loading) {
+  return <p>Loading addresses...</p>;
+}
   return (
     <div className="min-h-screen bg-brand-light py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -98,7 +134,7 @@ function UserAddress() {
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-semibold text-brand">Add New Address</h2>
-                <p className="mt-1 text-sm text-brand-muted">Your addresses are stored locally in the browser.</p>
+                <p className="mt-1 text-sm text-brand-muted">Your addresses are securely stored in your account.</p>
               </div>
               <span className="inline-flex items-center gap-2 rounded-full bg-brand-light px-4 py-2 text-sm text-brand-muted">
                 <FaPlus /> {editingId ? 'Update Address' : 'New Address'}
@@ -108,8 +144,8 @@ function UserAddress() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <input
-                  name="name"
-                  value={form.name}
+                  name="fullName"
+                  value={form.fullName}
                   onChange={handleChange}
                   placeholder="Full Name"
                   className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
@@ -124,8 +160,8 @@ function UserAddress() {
                 />
               </div>
               <input
-                name="street"
-                value={form.street}
+                name="addressLine1"
+                value={form.addressLine1}
                 onChange={handleChange}
                 placeholder="Street Address"
                 className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
@@ -139,8 +175,15 @@ function UserAddress() {
                   className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
                 />
                 <input
-                  name="zip"
-                  value={form.zip}
+                 name="state"
+                 value={form.state}
+                  onChange={handleChange}
+                placeholder="State"
+                 className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
+                />
+                <input
+                  name="postalCode"
+                  value={form.postalCode}
                   onChange={handleChange}
                   placeholder="Postal Code"
                   className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
@@ -189,20 +232,20 @@ function UserAddress() {
               <h2 className="text-2xl font-semibold text-brand">Saved Addresses</h2>
             </div>
 
-            {addresses.length === 0 ? (
+{!addresses || addresses.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-brand-muted bg-brand-light px-5 py-10 text-center text-brand-muted">
                 No saved addresses yet. Add one to speed up checkout.
               </div>
             ) : (
               <div className="space-y-4">
                 {addresses.map((address) => (
-                  <article key={address.id} className="rounded-3xl border border-brand-muted bg-brand-light p-5 shadow-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-md">
+                  <article key={address._id} className="rounded-3xl border border-brand-muted bg-brand-light p-5 shadow-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-md">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div>
-                        <p className="text-lg font-semibold text-brand">{address.name}</p>
+                        <p className="text-lg font-semibold text-brand">{address.fullName}</p>
                         <p className="mt-1 text-sm text-brand-muted">{address.email}</p>
                         <p className="mt-3 text-sm text-brand">
-                          {address.street}, {address.city}, {address.zip}
+                          {address.addressLine1}, {address.city}, {address.postalCode}
                         </p>
                         <p className="text-sm text-brand">{address.country}</p>
                         {address.phone && <p className="text-sm text-brand">{address.phone}</p>}
@@ -217,7 +260,7 @@ function UserAddress() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => handleDelete(address.id)}
+                          onClick={() => handleDelete(address._id)}
                           className="inline-flex items-center gap-2 rounded-full border border-brand-danger bg-brand-danger/10 px-4 py-2 text-sm font-medium text-brand-danger transition hover:bg-brand-danger/20"
                         >
                           <FaTrashAlt /> Delete
