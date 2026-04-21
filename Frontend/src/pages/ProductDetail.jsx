@@ -8,136 +8,57 @@ import { useWishlistContext } from "../context/WishListContext.jsx";
 import { showToast } from "../utils/toastUtils.js";
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 
-const useProductData = (id) => {
-    const [product, setProducts] = useState(null);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                // setLoading(true);
-                const { data } = await axios.get(`/API/products/${id}`);
-                // The products are inside data.products
-                console.log("Fetched product data:", data);
-                setProducts(data.product || null);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-            finally {
-                // setLoading(false);
-            }
-        };
-
-        fetchProducts();
-    }, [id]);
-    return product;
-};
-
-const useRecommendedProducts = (id) => { //id is for personalized prodct, will use later.
-    const [recommended, setRecommended] = useState([]);
-
-    useEffect(() => {
-        const fetchRecommendedProducts = async () => {
-            try {
-                // setLoading(true);
-                const { data } = await axios.get("/API/products");
-
-                console.log("Recommended data: ", data);
-                const filtered = data.products
-                    .filter(p => p._id !== id)
-                    .slice(0, 4);
-
-                setRecommended(filtered);
-            } catch (error) {
-                console.error("Error fetching recommended products:", error);
-            } finally {
-                // setLoading(false);
-            }
-        };
-
-        fetchRecommendedProducts();
-    }, [id]); // important dependency
-
-    console.log("Filtered: ", recommended);
-    return recommended;
-};
+import useProductData from "../components/hooks/useProductData.js";
+import useReviews from "../components/hooks/useReviews.js";
+import useRecommendedProducts from "../components/hooks/useRecommendedProducts.js";
 
 function ProductDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    console.log("\n\nCurrent Product:", id);
+    // console.log("\n\nCurrent Product:", id);
     const { addItemToCart } = useCartContext();
     const { toggleWishlistItem, isItemWished } = useWishlistContext();
 
-    const product = useProductData(id);
+    const { product, loading } = useProductData(id);
+    // console.log("\nProduct: ", product);
 
-    // const [product, setProduct] = useState(null);
-    // const [recommended, setRecommended] = useState([]);
     const recommended = useRecommendedProducts(id);
     const [mainImage, setMainImage] = useState("/placeholder.png");
     const [selectedSize, setSelectedSize] = useState("");
     const [quantity, setQuantity] = useState(1);
-    const [loading, setLoading] = useState(true);
 
     const [pincode, setPincode] = useState("");
     const [isPincodeValid, setIsPincodeValid] = useState(null);
     const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
 
-    const [reviews, setReviews] = useState([]);
+    const {reviews, refetchReviews} = useReviews(id);
+    // console.log("Rdata: ", reviews);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
 
-    const staticReviews = [
-        { id: "rev_001", user: { name: "Amit Sharma", avatar: "https://i.pravatar.cc/150?img=1" }, rating: 4.5, comment: "Great video quality and smooth streaming experience!", createdAt: "2026-04-10T14:32:00Z" },
-        { id: "rev_002", user: { name: "Priya Das", avatar: "https://i.pravatar.cc/150?img=2" }, rating: 5, comment: "Loved the content! Very informative and well explained.", createdAt: "2026-04-11T09:15:00Z" },
-        { id: "rev_003", user: { name: "Rahul Verma", avatar: "https://i.pravatar.cc/150?img=3" }, rating: 3.5, comment: "Good video but buffering could be improved.", createdAt: "2026-04-12T18:45:00Z" },
-        { id: "rev_004", user: { name: "Sneha Roy", avatar: "https://i.pravatar.cc/150?img=4" }, rating: 4, comment: "Nice UI and playback controls. Enjoyed watching!", createdAt: "2026-04-13T12:20:00Z" },
-        { id: "rev_005", user: { name: "Arjun Singh", avatar: "https://i.pravatar.cc/150?img=5" }, rating: 2.5, comment: "Content is okay but needs better audio clarity.", createdAt: "2026-04-14T20:05:00Z" }
-    ];
+    // const staticReviews = [
+    //     { id: "rev_001", user: { name: "Amit Sharma", avatar: "https://i.pravatar.cc/150?img=1" }, rating: 4.5, comment: "Great video quality and smooth streaming experience!", createdAt: "2026-04-10T14:32:00Z" },
+    //     { id: "rev_002", user: { name: "Priya Das", avatar: "https://i.pravatar.cc/150?img=2" }, rating: 5, comment: "Loved the content! Very informative and well explained.", createdAt: "2026-04-11T09:15:00Z" },
+    //     { id: "rev_003", user: { name: "Rahul Verma", avatar: "https://i.pravatar.cc/150?img=3" }, rating: 3.5, comment: "Good video but buffering could be improved.", createdAt: "2026-04-12T18:45:00Z" },
+    //     { id: "rev_004", user: { name: "Sneha Roy", avatar: "https://i.pravatar.cc/150?img=4" }, rating: 4, comment: "Nice UI and playback controls. Enjoyed watching!", createdAt: "2026-04-13T12:20:00Z" },
+    //     { id: "rev_005", user: { name: "Arjun Singh", avatar: "https://i.pravatar.cc/150?img=5" }, rating: 2.5, comment: "Content is okay but needs better audio clarity.", createdAt: "2026-04-14T20:05:00Z" }
+    // ];
 
     useEffect(() => {
         try {
-            setLoading(true);
+            // console.log("Hey we're here. loading: ", loading, "\nId: ", id);
             if (product) {
-                // console.log("Product data loaded:", product);
+                // console.log("Product data loaded:", product._id);
                 setMainImage(product.images?.[0]?.url || "/placeholder.png");
                 setSelectedSize(product?.sizes?.[0] || "R");
                 setQuantity(1);
-
-                console.log("Selected size: ", selectedSize);
-                // const rec = await axios.get(`/API/products`);
-                // setRecommended(rec.data.products.filter(p => p._id !== id).slice(0, 4));
-                setReviews(staticReviews);
             }
         } catch (error) {
             console.error("Error setting product data:", error);
-        } finally {
-            setLoading(false);
         }
     }, [product]);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             setLoading(true);
-    //             const { data } = await axios.get(`/API/products/${id}`);
-    //             setProduct(data.product);
-    //             setMainImage(data.product.images?.[0]?.url);
-    //             setSelectedSize(data.product?.sizes?.[0] || "");
-    //             setQuantity(1);
-
-    //             const rec = await axios.get(`/API/products`);
-    //             setRecommended(rec.data.products.filter(p => p._id !== id).slice(0, 4));
-    //             setReviews(staticReviews);
-    //         } catch (err) {
-    //             console.error("Error:", err);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-    //     fetchData();
-    // }, [id]);
 
     // 🛠️ Action Handlers Fixed
     const handleAddToCart = (item, size, qty) => {
@@ -180,6 +101,47 @@ function ProductDetails() {
         const x = ((e.pageX - left) / width) * 100;
         const y = ((e.pageY - top) / height) * 100;
         setZoomPos({ x, y });
+    };
+
+    // const handleSubmitReview = () => {
+    //     if(!comment) return;
+
+    //     try {
+
+    //     }
+    // }
+
+    const handleSubmitReview = async () => {
+        if (!comment || !rating) return;
+
+        try {
+            // setSubmitting(true);
+            // need to add loading animation here.
+
+            await axios.post(
+                "/API/reviews",
+                {
+                    product_id: product._id,
+                    review: comment,
+                    rating
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}` // adjust based on your auth
+                    }
+                }
+            );
+
+            setComment("");
+            setRating(0);
+
+            // ✅ Refresh reviews (IMPORTANT)
+            await refetchReviews();
+        } catch (err) {
+            console.error("Error submitting review:", err);
+        } finally {
+            // setSubmitting(false);
+        }
     };
 
     if (loading || !product) return <LoadingSpinner />;
@@ -344,18 +306,22 @@ function ProductDetails() {
                             placeholder="Write your experience..."
                             className="w-full h-32 p-4 rounded-2xl border border-gray-200 mb-4 outline-none focus:ring-2 focus:ring-pink-200"
                         />
-                        <button className="w-full bg-black text-white py-4 rounded-full font-bold">Post Review</button>
+                        <button
+                            onClick={() => handleSubmitReview()}
+                            className="w-full bg-black text-white py-4 rounded-full font-bold">
+                            Post Review
+                        </button>
                     </div>
 
                     {/* Review List */}
                     <div className="lg:col-span-2 space-y-6">
                         {reviews.map((rev) => (
-                            <div key={rev.id} className="p-8 border border-gray-100 rounded-3xl hover:bg-gray-50 transition-colors">
+                            <div key={rev._id} className="p-8 border border-gray-100 rounded-3xl hover:bg-gray-50 transition-colors">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-4">
-                                        <img src={rev.user.avatar} className="w-12 h-12 rounded-full" alt="avatar" />
+                                        <img src={"/userAvatarTrimmed.png"} className="w-12 h-12 rounded-full" alt="avatar" />
                                         <div>
-                                            <p className="font-bold text-gray-900">{rev.user.name}</p>
+                                            <p className="font-bold text-gray-900">{rev.user_id.name}</p>
                                             <div className="flex text-yellow-400 text-xs">
                                                 {[...Array(5)].map((_, i) => <FaStar key={i} className={i < Math.floor(rev.rating) ? "text-yellow-400" : "text-gray-200"} />)}
                                             </div>
@@ -363,7 +329,7 @@ function ProductDetails() {
                                     </div>
                                     <span className="text-xs text-gray-400 uppercase tracking-widest">{new Date(rev.createdAt).toLocaleDateString()}</span>
                                 </div>
-                                <p className="text-gray-600 leading-relaxed italic">"{rev.comment}"</p>
+                                <p className="text-gray-600 leading-relaxed italic">"{rev.review}"</p>
                             </div>
                         ))}
                     </div>
@@ -380,13 +346,21 @@ function ProductDetails() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {recommended.map((item) => (
                         <div key={item._id} className="group bg-white p-5 rounded-[2rem] border border-gray-100 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                            <Link to={`/product/${item._id}`}>
+                            {/* <Link to={`/product/${item._id}`}>
                                 <div className="overflow-hidden rounded-2xl aspect-square mb-5">
                                     <img src={item.images?.[0]?.url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
                                 </div>
                                 <h3 className="font-bold text-gray-800 truncate mb-1 px-1">{item.name}</h3>
                                 <p className="text-pink-600 font-bold mb-5 px-1">₹{item.price}</p>
-                            </Link>
+                            </Link> */}
+
+                            <button onClick={() => navigate(`/product/${item._id}`)}>
+                                <div className="overflow-hidden rounded-2xl aspect-square mb-5">
+                                    <img src={item.images?.[0]?.url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
+                                </div>
+                                <h3 className="font-bold text-gray-800 truncate mb-1 px-1">{item.name}</h3>
+                                <p className="text-pink-600 font-bold mb-5 px-1">₹{item.price}</p>
+                            </button>
 
                             <div className="flex flex-col gap-2 mt-auto">
                                 <button onClick={() => handleBuyNow(item, item.sizes?.[0] || "R", 1)} className="w-full py-3 rounded-full border border-pink-500 text-pink-600 text-xs font-bold hover:bg-pink-50 transition-colors uppercase tracking-widest">Quick Buy</button>

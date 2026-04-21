@@ -47,6 +47,9 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 import UploadImage from "./components/UploadImage.jsx";
 
+import ScrollToTop from "./components/common/ScrollToTop.jsx";
+// import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
+
 function App() {
     const [user, setUser] = useState(null);
 
@@ -84,6 +87,8 @@ function App() {
     return (
         // Context Providers should ideally wrap this Router (e.g., CartProvider, AuthProvider)
         <Router>
+            {/* <LoadingSpinner /> */}
+            <ScrollToTop />
             <Routes>
 
                 {/* <Route path="/upload-image" element={<UploadImage />} /> */}

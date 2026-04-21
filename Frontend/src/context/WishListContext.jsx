@@ -15,7 +15,7 @@ const wishlistReducer = (state, action) => {
       const newItem = action.payload;
       // Check if item already exists in the wishlist
       //const isExisting = state.wishlistItems.some((item) => item.id === newItem.id);
-            const isExisting = state.wishlistItems.some(
+      const isExisting = state.wishlistItems.some(
         (item) => item._id === newItem._id   // ✅ FIXED
       );
       if (isExisting) {
@@ -23,7 +23,7 @@ const wishlistReducer = (state, action) => {
         return {
           ...state,
           // wishlistItems: state.wishlistItems.filter((item) => item.id !== newItem.id),
-                  wishlistItems: state.wishlistItems.filter(
+          wishlistItems: state.wishlistItems.filter(
             (item) => item._id !== newItem._id   // ✅ FIXED
           ),
         };
@@ -37,7 +37,7 @@ const wishlistReducer = (state, action) => {
       return {
         ...state,
         //wishlistItems: state.wishlistItems.filter((item) => item.id !== action.payload),
-      wishlistItems: state.wishlistItems.filter(
+        wishlistItems: state.wishlistItems.filter(
           (item) => item._id !== action.payload   // ✅ FIXED
         ),
       };
@@ -64,7 +64,7 @@ export const WishlistProvider = ({ children }) => {
     // The item should be the basic product object {id, name, price, image}
     dispatch({ type: 'TOGGLE_ITEM', payload: item });
   };
-  
+
   const isItemWished = (id) => {
     //return state.wishlistItems.some(item => item.id === id);
     return state.wishlistItems.some((item) => item._id === id); // ✅ FIXED
