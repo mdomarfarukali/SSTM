@@ -4,9 +4,22 @@ import Order from "../models/Order.js";
 // 📦 Create new address
 export const createAddress = async (req, res) => {
   try {
-    const address = await UserAddress.create({ ...req.body, user: req.user._id });
-    res.status(201).json({ success: true, message: "Address added successfully", address });
+    console.log("USER:", req.user);
+    console.log("BODY:", req.body);
+
+    await UserAddress.create({ ...req.body, user: req.user._id });
+
+    // ✅ fetch ALL addresses again
+    const addresses = await UserAddress.find({ user: req.user._id });
+
+    res.status(201).json({
+      success: true,
+      message: "Address added successfully",
+      addresses, // 🔥 IMPORTANT
+    });
+
   } catch (error) {
+    console.error("CREATE ADDRESS ERROR:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -40,8 +53,19 @@ export const updateAddress = async (req, res) => {
       req.body,
       { new: true }
     );
-    if (!address) return res.status(404).json({ success: false, message: "Address not found" });
-    res.status(200).json({ success: true, message: "Address updated", address });
+
+    if (!address) {
+      return res.status(404).json({ success: false, message: "Address not found" });
+    }
+
+    const addresses = await UserAddress.find({ user: req.user._id });
+
+    res.status(200).json({
+      success: true,
+      message: "Address updated",
+      addresses, // 🔥 IMPORTANT
+    });
+
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -50,9 +74,24 @@ export const updateAddress = async (req, res) => {
 // ❌ Delete address
 export const deleteAddress = async (req, res) => {
   try {
-    const address = await UserAddress.findOneAndDelete({ _id: req.params.id, user: req.user._id });
-    if (!address) return res.status(404).json({ success: false, message: "Address not found" });
-    res.status(200).json({ success: true, message: "Address deleted" });
+    const address = await UserAddress.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user._id
+    });
+
+    if (!address) {
+      return res.status(404).json({ success: false, message: "Address not found" });
+    }
+
+    // ✅ fetch updated list
+    const addresses = await UserAddress.find({ user: req.user._id });
+
+    res.status(200).json({
+      success: true,
+      message: "Address deleted",
+      addresses, // 🔥 IMPORTANT
+    });
+
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
