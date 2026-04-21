@@ -103,14 +103,6 @@ function ProductDetails() {
         setZoomPos({ x, y });
     };
 
-    // const handleSubmitReview = () => {
-    //     if(!comment) return;
-
-    //     try {
-
-    //     }
-    // }
-
     const handleSubmitReview = async () => {
         if (!comment || !rating) return;
 
@@ -127,7 +119,7 @@ function ProductDetails() {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}` // adjust based on your auth
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 }
             );
