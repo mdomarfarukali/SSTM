@@ -9,6 +9,7 @@ import addressRoutes from "../routes/userAddress.js";
 // import uploadRoutes from '../routes/upload.js';
 // import dashboardRoutes from '../routes/dashboard.js';
 import cloud from '../routes/cloudinary.js';
+import reviewRoutes from '../routes/reviewRoutes.js';
 
 const Route = express.Router();
 
@@ -22,5 +23,6 @@ Route.use("/addresses", addressRoutes);
 // Route.use('/upload', uploadRoutes);
 // Route.use('/dashboard', dashboardRoutes);
 Route.use('/cloudinary', cloud);
+Route.use('/reviews', reviewRoutes);
 
 export default Route;
