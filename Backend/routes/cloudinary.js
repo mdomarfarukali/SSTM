@@ -127,22 +127,25 @@
 import express from "express";
 import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
+import { isAuthenticatedUser } from "../middleware/auth.js";
 
 const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Single image upload
-router.post("/upload", upload.single("images"), async (req, res) => {
+router.post("/upload", upload.single("images"), isAuthenticatedUser, async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" });
         }
 
+        // console.log("\n########################################\nReceived file: ", req.file);
+        // console.log("\nFolder: ", req.body.folder);
         // Wrap upload_stream in a promise to use async/await
         const result = await new Promise((resolve, reject) => {
             const stream = cloudinary.uploader.upload_stream(
-                { folder: "products" },
+                { folder: req.body.folder || "Unknown" },
                 (error, result) => {
                     if (error) return reject(error);
                     resolve(result);

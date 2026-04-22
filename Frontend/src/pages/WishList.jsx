@@ -16,7 +16,7 @@ function WishList() {
         };
 
         addItemToCart(cartItem);
-        removeItemFromWishlist(item.id);
+        removeItemFromWishlist(item._id);
     };
 
     // console.log("Wishlist Items:", wishlistItems); // Debugging line
@@ -46,12 +46,12 @@ function WishList() {
                     <div className="space-y-6">
                         {wishlistItems.map((item) => (
                             <div
-                                key={item.id}
+                                key={item._id}
                                 className="flex flex-col sm:flex-row items-center justify-between p-4 bg-brand rounded-xl shadow-md border-l-4 border-brand-primary"
                             >
                                 {/* Item Details */}
                                 <div className="flex items-center space-x-4 w-full sm:w-1/2">
-                                    <Link to={`/product/${item.id}`}>
+                                    <Link to={`/product/${item._id}`}>
                                         <img
                                             src={item.image}
                                             alt={item.name}
@@ -60,7 +60,7 @@ function WishList() {
                                     </Link>
                                     <div>
                                         <Link
-                                            to={`/product/${item.id}`}
+                                            to={`/product/${item._id}`}
                                             className="text-xl font-semibold text-brand hover:text-brand-primary transition"
                                         >
                                             {item.name}
@@ -80,7 +80,7 @@ function WishList() {
                                         <FaShoppingCart /> Move to Cart
                                     </button>
                                     <button
-                                        onClick={() => removeItemFromWishlist(item.id)}
+                                        onClick={() => removeItemFromWishlist(item._id)}
                                         className="px-4 py-2 border border-brand-danger text-brand-danger font-semibold rounded-full hover:bg-brand-light transition flex items-center gap-2 text-sm"
                                     >
                                         <FaTimesCircle /> Remove

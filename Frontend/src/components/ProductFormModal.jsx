@@ -44,10 +44,12 @@ const ProductFormModal = ({ isEditing, currentProduct, setCurrentProduct, handle
         setUploading(true);
         const formData = new FormData();
         formData.append("images", file); // backend expects 'images' field
+        formData.append("folder", "products");
 
         try {
             const res = await axios.post("/API/cloudinary/upload", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 timeout: 60000
             });
             // console.log("Upload response:", res.data);

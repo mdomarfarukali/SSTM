@@ -23,7 +23,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = ['https://sastakart.vercel.app', 'http://localhost:5173', 'http://localhost:3000'];
+    const allowedOrigins = ['https://sastakart.vercel.app', 'http://localhost:5173', process.env.FRONTEND_URL , 'http://localhost:3000'];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {

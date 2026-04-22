@@ -1,14 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { FaShoppingBag, FaClock, FaCheckCircle } from "react-icons/fa";
 
 function OrderHistory() {
   const [orders, setOrders] = useState([]);
-
   useEffect(() => {
-    const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    setOrders(storedOrders);
-  }, []);
+  const fetchOrders = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        "/API/orders/my-orders",
+        {
+          headers: {
+      
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = response.data;
+       
+      console.log(data);
+
+      if (data?.orders) {
+        setOrders(data.orders);
+
+        // ✅ Optional: store in localStorage as backup
+        localStorage.setItem("orders", JSON.stringify(data.orders));
+      } else {
+        setOrders([]);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+
+      // ✅ fallback to localStorage if API fails
+      const storedOrders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+      setOrders(storedOrders);
+    }
+  };
+
+  fetchOrders();
+}, []);
 
   return (
     <div className="min-h-screen bg-brand-light pt-24 px-6 md:px-12 transition-colors duration-300">
@@ -54,7 +89,7 @@ function OrderHistory() {
 
                 {/* Ordered Items */}
                 <div>
-                  {order.items.map((item, idx) => (
+                  {order.orderItems.map((item, idx) => (
                     <div key={idx}>
                       <div className="flex flex-col sm:flex-row items-center gap-4 py-4">
                         <img
@@ -78,7 +113,7 @@ function OrderHistory() {
                         </p>
                       </div>
                       {/* Manual divider between items (except last one) */}
-                      {idx !== order.items.length - 1 && (
+                      {idx !== order.orderItems.length - 1 && (
                         <hr className="border-t border-brand-muted" />
                       )}
                     </div>
@@ -87,13 +122,13 @@ function OrderHistory() {
 
                 {/* Order Footer */}
                 <div className="mt-6 flex justify-between items-center border-t border-brand-muted pt-4">
-                  <div className="flex items-center gap-2 text-brand-success">
-                    <FaCheckCircle />
-                    <span className="font-medium">Delivered</span>
+                  <div className={`flex items-center gap-2 ${order.status === 'Delivered' ? 'text-brand-success' : 'text-brand-warning'}`}>
+                    {order.status === 'Delivered' ? <FaCheckCircle /> : <FaClock />}
+                    <span className="font-medium">{order.status || 'Processing'}</span>
                   </div>
                   <p className="text-xl font-bold text-brand">
                     Total: $
-                    {order.items
+                    {order.orderItems
                       .reduce(
                         (total, item) => total + item.price * item.quantity,
                         0
