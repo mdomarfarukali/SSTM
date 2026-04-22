@@ -98,7 +98,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     const message = `Your password reset token is:\n\n${resetUrl}\n\nIf you did not request this, please ignore.`;
 
     try {
-        console.log("Message to be sent:", message);
+        // console.log("Message to be sent:", message);
         await sendPasswordResetEmail({
             email: user.email,
             name: user.name,
@@ -154,7 +154,7 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
     // sendToken(user, 200, res); //Don't use, we already are using reset confirm email token.
 
     try {
-        console.log("*********************Message to be sent:", user.email);
+        // console.log("*********************Message to be sent:", user.email);
         await sendPasswordResetConfirmationEmail({
             email: user.email,
             name: user.name,

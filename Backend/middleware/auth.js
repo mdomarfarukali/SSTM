@@ -19,11 +19,11 @@ export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     }
   }
 
-  console.log(`\n===================================\nRequest path: ${req.method} ${req.originalUrl}`);
-  console.log(`Token found: ${!!token} (from ${tokenSource})`);
-  console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
-  console.log('Request cookies:', req.cookies);
-  console.log('\nAuth header:', req.headers.authorization, "\n");
+  // console.log(`\n===================================\nRequest path: ${req.method} ${req.originalUrl}`);
+  // console.log(`Token found: ${!!token} (from ${tokenSource})`);
+  // console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
+  // console.log('Request cookies:', req.cookies);
+  // console.log('\nAuth header:', req.headers.authorization, "\n");
 
   if (!token) {
     return next(new ErrorHandler('Login first to access this resource.', 401));
@@ -31,16 +31,16 @@ export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Token decoded successfully:', decoded.id);
+    // console.log('Token decoded successfully:', decoded.id);
 
     req.user = await User.findById(decoded.id);
 
     if (!req.user) {
-      console.log('User not found with token ID:', decoded.id);
+      // console.log('User not found with token ID:', decoded.id);
       return next(new ErrorHandler('User not found with this token.', 401));
     }
 
-    console.log('User authenticated:', req.user.email, "\n\n");
+    // console.log('User authenticated:', req.user.email, "\n\n");
     next();
   } catch (error) {
     console.error('JWT Verification Error:', error.message);

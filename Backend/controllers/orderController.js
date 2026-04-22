@@ -32,7 +32,7 @@ export const createOrder = async (req, res) => {
         });
 
         try {
-            console.log("*********************Message to be sent:", req.user.email);
+            // console.log("*********************Message to be sent:", req.user.email);
             await sendOrderConfirmationEmail({
                 email: req.user.email,
                 order: order,

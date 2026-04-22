@@ -9,7 +9,7 @@ export default (err, req, res, next) => {
   error.message = err.message;
 
   // Log to console for dev
-  console.log(err);
+  // console.log(err);
 
   // Wrong Mongoose Object ID Error
   if (err.name === 'CastError') {

@@ -4,8 +4,8 @@ import Order from "../models/Order.js";
 // 📦 Create new address
 export const createAddress = async (req, res) => {
   try {
-    console.log("USER:", req.user);
-    console.log("BODY:", req.body);
+    // console.log("USER:", req.user);
+    // console.log("BODY:", req.body);
 
     await UserAddress.create({ ...req.body, user: req.user._id });
 

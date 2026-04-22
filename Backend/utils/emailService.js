@@ -323,7 +323,7 @@ export const sendPasswordResetEmail = async (options) => {
   };
 
   try {
-    console.log("Sending password reset email to:", email);
+    // console.log("Sending password reset email to:", email);
     const info = await transporter.sendMail(message);
     logger.debug('Password reset email sent:', info.messageId);
     return { success: true, messageId: info.messageId };
@@ -341,7 +341,7 @@ export const sendPasswordResetEmail = async (options) => {
 export const sendPasswordResetConfirmationEmail = async (options) => {
   const { email, name, subject } = options;
 
-  console.log("Preparing to send password reset confirmation email to:", email);
+  // console.log("Preparing to send password reset confirmation email to:", email);
   const message = {
     from: `"${process.env.EMAIL_FROM_NAME || 'DIVA'}" <${process.env.SMTP_EMAIL || 'noreply@divastore.com'}>`,
     to: email,
