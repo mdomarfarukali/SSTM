@@ -48,6 +48,7 @@ const ProductFormModal = ({ isEditing, currentProduct, setCurrentProduct, handle
 
         try {
             const res = await axios.post("/API/cloudinary/upload", formData, {
+                withCredentials: true,
                 headers: { "Content-Type": "multipart/form-data" },
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 timeout: 60000

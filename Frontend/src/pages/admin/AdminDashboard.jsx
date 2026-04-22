@@ -30,9 +30,11 @@ export default function AdminDashboard() {
 
                 const productsRes = await axios.get("/API/products?page=1&limit=1000000");
                 const ordersRes = await axios.get("/API/orders", {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const usersRes = await axios.get("/API/auth/admin/users", {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -63,6 +65,7 @@ export default function AdminDashboard() {
                 }
 
                 const res = await axios.get("/API/orders", {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

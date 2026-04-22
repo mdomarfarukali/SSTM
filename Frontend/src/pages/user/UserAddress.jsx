@@ -19,97 +19,100 @@ function UserAddress() {
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  
-  const fetchAddresses = async () => {
-    try {
-      setLoading(true);
+  useEffect(() => {
 
-      const res = await fetch("http://localhost:5000/API/addresses", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+    const fetchAddresses = async () => {
+      try {
+        setLoading(true);
 
-      const data = await res.json();
-      setAddresses(data.addresses || []);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false); // 🔥 important
-    }
-  };
+        const res = await fetch("http://localhost:5000/API/addresses", {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
-  fetchAddresses();
-}, []);
+        const data = await res.json();
+        setAddresses(data.addresses || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false); // 🔥 important
+      }
+    };
+
+    fetchAddresses();
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const method = editingId ? "PUT" : "POST";
-const url = editingId
-  ? `http://localhost:5000/API/addresses/${editingId}`
-  : "http://localhost:5000/API/addresses";
+    const method = editingId ? "PUT" : "POST";
+    const url = editingId
+      ? `http://localhost:5000/API/addresses/${editingId}`
+      : "http://localhost:5000/API/addresses";
 
-  console.log("FORM DATA:", form);
-  const res = await fetch(url, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-    body: JSON.stringify(form),
-  });
+    console.log("FORM DATA:", form);
+    const res = await fetch(url, {
+      method,
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(form),
+    });
 
-  const data = await res.json();
-  if (!data.success) {
-  alert(data.message);
-  return;
-}
- setAddresses(data.addresses || []);
-  setForm(emptyAddress);
-  setEditingId(null);
-};
+    const data = await res.json();
+    if (!data.success) {
+      alert(data.message);
+      return;
+    }
+    setAddresses(data.addresses || []);
+    setForm(emptyAddress);
+    setEditingId(null);
+  };
 
   const handleEdit = (address) => {
-setForm({
-  fullName: address.fullName,
-  email: address.email,
-  addressLine1: address.addressLine1,
-  city: address.city,
-  state: address.state,
-  postalCode: address.postalCode,
-  country: address.country,
-  phone: address.phone,
-});
+    setForm({
+      fullName: address.fullName,
+      email: address.email,
+      addressLine1: address.addressLine1,
+      city: address.city,
+      state: address.state,
+      postalCode: address.postalCode,
+      country: address.country,
+      phone: address.phone,
+    });
     setEditingId(address._id);
   };
 
 
-const handleDelete = async (id) => {
-  if (!window.confirm('Delete this address?')) return;
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this address?')) return;
 
-  const res = await fetch(`http://localhost:5000/API/addresses/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+    const res = await fetch(`http://localhost:5000/API/addresses/${id}`, {
+      method: "DELETE",
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
 
-  const data = await res.json();
-  if (!data.success) {
-  alert(data.message);
-  return;
-}
- setAddresses(data.addresses || []);
-};
-if (loading) {
-  return <p>Loading addresses...</p>;
-}
+    const data = await res.json();
+    if (!data.success) {
+      alert(data.message);
+      return;
+    }
+    setAddresses(data.addresses || []);
+  };
+  if (loading) {
+    return <p>Loading addresses...</p>;
+  }
   return (
     <div className="min-h-screen bg-brand-light py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -175,11 +178,11 @@ if (loading) {
                   className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
                 />
                 <input
-                 name="state"
-                 value={form.state}
+                  name="state"
+                  value={form.state}
                   onChange={handleChange}
-                placeholder="State"
-                 className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
+                  placeholder="State"
+                  className="w-full rounded-2xl border border-brand-muted bg-brand-light px-4 py-3 text-sm text-brand outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary"
                 />
                 <input
                   name="postalCode"
@@ -232,7 +235,7 @@ if (loading) {
               <h2 className="text-2xl font-semibold text-brand">Saved Addresses</h2>
             </div>
 
-{!addresses || addresses.length === 0 ? (
+            {!addresses || addresses.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-brand-muted bg-brand-light px-5 py-10 text-center text-brand-muted">
                 No saved addresses yet. Add one to speed up checkout.
               </div>

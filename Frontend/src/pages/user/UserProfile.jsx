@@ -117,6 +117,7 @@ export default function ProfilePage() {
                ========================================== */
             try {
                 const res = await axios.post("/API/cloudinary/upload", formData, {
+                    withCredentials: true,
                     headers: {
                         "Content-Type": "multipart/form-data",
                         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -133,6 +134,7 @@ export default function ProfilePage() {
 
                 try {
                     const res = await axios.put("/API/auth/me/update", { "avatar": newImage }, {
+                        withCredentials: true,
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${localStorage.getItem("token")}`

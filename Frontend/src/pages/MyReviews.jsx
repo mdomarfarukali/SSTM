@@ -20,6 +20,7 @@ function MyReviews() {
                 setLoading(true);
 
                 const { data } = await axios.get("/API/reviews/me", {
+                    withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
@@ -70,6 +71,7 @@ function MyReviews() {
                     review: editData.review
                 },
                 {
+                    withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
@@ -93,6 +95,7 @@ function MyReviews() {
     const handleDelete = async (id) => {
         try {
             await axios.delete(`/api/reviews/${id}`, {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -215,14 +218,14 @@ function MyReviews() {
                             className="w-full md:w-1/3 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50/50"
                         >
                             {/* <div className="w-full md:w-1/3 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50/50"> */}
-                                <img
-                                    src={review.product_id?.thumbnail}
-                                    alt={review.product_id?.name}
-                                    className="w-24 h-24 object-cover rounded-lg shadow-sm mb-4"
-                                />
-                                <h3 className="font-semibold text-gray-800 text-center text-lg">
-                                    {review.product_id?.name}
-                                </h3>
+                            <img
+                                src={review.product_id?.thumbnail}
+                                alt={review.product_id?.name}
+                                className="w-24 h-24 object-cover rounded-lg shadow-sm mb-4"
+                            />
+                            <h3 className="font-semibold text-gray-800 text-center text-lg">
+                                {review.product_id?.name}
+                            </h3>
                             {/* </div> */}
                         </Link>
 
