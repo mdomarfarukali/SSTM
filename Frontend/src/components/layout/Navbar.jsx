@@ -139,7 +139,7 @@ export default function Navbar() {
                                         )}
                                     </Link>
                                 </li>
-                                <ThemeToggle />
+                                {/* <ThemeToggle /> */}
                             </ul>
                         </div>
                     </div>

@@ -13,6 +13,7 @@ const useReviews = (productId) => {
                 `/API/reviews/product/${productId}`
             );
 
+            // console.log("\nReview data: ", data);
             setReviews(data.reviews);
         } catch (err) {
             console.error(err);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '../../utils/cropImage'; // Import the utility from step 2
-// import axios from 'axios';
+import axios from 'axios';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import useUserProfile from '../../components/hooks/useUserProfile';
 
@@ -85,7 +85,9 @@ export default function ProfilePage() {
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
+            if (!file) return;
             const reader = new FileReader();
+            // console.log("\nReader: ", typeof reader);
             reader.readAsDataURL(file);
             reader.onload = () => {
                 setImageSrc(reader.result);
@@ -107,25 +109,51 @@ export default function ProfilePage() {
 
             // Prepare for backend upload
             const formData = new FormData();
-            formData.append('avatar', croppedImageBlob, 'profile.jpg');
+            formData.append('images', croppedImageBlob, 'profile.jpg');
+            formData.append("folder", "UserAvatars"); //cloudinary folder name
 
             /* ==========================================
                REPLACE THIS FETCH WITH YOUR ACTUAL API
                ========================================== */
-            // const response = await fetch('/api/user/avatar', {
-            //     method: 'POST',
-            //     body: formData,
-            // });
-            // const data = await response.json();
+            try {
+                const res = await axios.post("/API/cloudinary/upload", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    },
+                    timeout: 60000
+                });
 
-            // Simulating a successful upload response
-            const fakeUploadedUrl = URL.createObjectURL(croppedImageBlob);
+                const newImage = res.data.url; // first image returned
+                // console.log("Image res: ", res);
 
-            // Update the profile state with the new image
-            setProfile((prev) => ({ ...prev, photo: fakeUploadedUrl }));
+                // Simulating a successful upload response
+                // const fakeUploadedUrl = URL.createObjectURL(croppedImageBlob);
+                const previewUrl = URL.createObjectURL(croppedImageBlob);
 
-            // Close the modal
-            setImageSrc(null);
+                try {
+                    const res = await axios.put("/API/auth/me/update", { "avatar": newImage }, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                        }
+                    });
+                } catch (err) {
+                    console.error("Upload Image in DB failed: ", err);
+                    setIsUploading(false);
+                }
+
+                // Update the profile state with the new image
+                setProfile((prev) => ({ ...prev, photo: newImage }));
+
+                // Close the modal
+                setImageSrc(null);
+            } catch (err) {
+                console.error("Upload failed", err);
+            } finally {
+                setIsUploading(false);
+            }
+
         } catch (e) {
             console.error("Error cropping or uploading image", e);
         } finally {
@@ -341,6 +369,7 @@ export default function ProfilePage() {
                                 </button>
                                 <button
                                     type="submit"
+                                    // onClick={handleUpdate}
                                     className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 hover:shadow"
                                 >
                                     Save Changes

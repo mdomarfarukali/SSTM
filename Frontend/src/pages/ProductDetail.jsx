@@ -33,7 +33,7 @@ function ProductDetails() {
     const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
 
-    const {reviews, refetchReviews} = useReviews(id);
+    const { reviews, refetchReviews } = useReviews(id);
     // console.log("Rdata: ", reviews);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
@@ -91,7 +91,7 @@ function ProductDetails() {
         toggleWishlistItem({
             id: product._id,
             name: product.name,
-            price: product.finalPrice||product.price,
+            price: product.finalPrice || product.price,
             image: product.images[0].url,
         });
     };
@@ -205,22 +205,22 @@ function ProductDetails() {
                     </div>
 
                     <div className="flex items-center gap-4 mt-6">
-                <span className="text-3xl text-pink-600 font-bold">
-              ₹{product.finalPrice || product.price}
-                </span>
+                        <span className="text-3xl text-pink-600 font-bold">
+                            ₹{product.finalPrice || product.price}
+                        </span>
 
-            {product.discount > 0 && (
-              <>
-             <span className="text-lg text-gray-400 line-through">
-                ₹{product.price}
-            </span>
+                        {product.discount > 0 && (
+                            <>
+                                <span className="text-lg text-gray-400 line-through">
+                                    ₹{product.price}
+                                </span>
 
-            <span className="text-sm text-green-600 font-semibold">
-                {product.discount}% OFF
-            </span>
-        </>
-    )}
-</div>
+                                <span className="text-sm text-green-600 font-semibold">
+                                    {product.discount}% OFF
+                                </span>
+                            </>
+                        )}
+                    </div>
 
                     {/* Variant Selector */}
                     <div className="mt-10">
@@ -327,7 +327,7 @@ function ProductDetails() {
                             <div key={rev._id} className="p-8 border border-gray-100 rounded-3xl hover:bg-gray-50 transition-colors">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-4">
-                                        <img src={"/userAvatarTrimmed.png"} className="w-12 h-12 rounded-full" alt="avatar" />
+                                        <img src={rev.user_id.avatar ||"/userAvatarTrimmed.png"} className="w-12 h-12 rounded-full" alt="avatar" />
                                         <div>
                                             <p className="font-bold text-gray-900">{rev.user_id.name}</p>
                                             <div className="flex text-yellow-400 text-xs">
@@ -368,22 +368,22 @@ function ProductDetails() {
                                 </div>
                                 <h3 className="font-bold text-gray-800 truncate mb-1 px-1">{item.name}</h3>
                                 <div className="flex items-center gap-2 mb-5 px-1">
-    <span className="text-pink-600 font-bold">
-        ₹{item.finalPrice || item.price}
-    </span>
+                                    <span className="text-pink-600 font-bold">
+                                        ₹{item.finalPrice || item.price}
+                                    </span>
 
-    {item.discount > 0 && (
-        <>
-            <span className="text-sm text-gray-400 line-through">
-                ₹{item.price}
-            </span>
+                                    {item.discount > 0 && (
+                                        <>
+                                            <span className="text-sm text-gray-400 line-through">
+                                                ₹{item.price}
+                                            </span>
 
-            <span className="text-xs text-green-600 font-semibold">
-                {item.discount}% OFF
-            </span>
-        </>
-    )}
-</div>
+                                            <span className="text-xs text-green-600 font-semibold">
+                                                {item.discount}% OFF
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
                             </button>
 
                             <div className="flex flex-col gap-2 mt-auto">

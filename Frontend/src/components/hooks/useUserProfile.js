@@ -17,7 +17,7 @@ const useUserProfile = (defaultProfile) => {
                     }
                 });
 
-                // console.log("\nFetchedData: ", data.user);
+                // console.log("\nFetchedD ata: ", data.user);
 
                 if (data?.user) {
                     const updatedProfile = {
@@ -28,7 +28,7 @@ const useUserProfile = (defaultProfile) => {
                         phone: data.user.phone || "Not Updated Yet",
                         country: data.user.country || "Not Updated Yet",
                         postal: data.user.postal || "Not Updated Yet",
-                        photo: data.user.avater || "/userAvatarTrimmed.png",
+                        photo: data.user.avatar || "/userAvatarTrimmed.png",
                     };
 
                     setProfile(updatedProfile);

@@ -31,6 +31,7 @@ export default function LoginPage() {
                 localStorage.setItem("user", data.user.name);
                 localStorage.setItem("role", data.user.role);
                 localStorage.setItem("token", data.token);
+                localStorage.setItem("avatar", data.user.avatar);
 
                 // console.log("Login: ", localStorage.getItem("user"));
                 // Redirect based on role
