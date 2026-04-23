@@ -13,6 +13,7 @@ export default function AdminUsers() {
                 const token = localStorage.getItem("token");
                 // console.log("Using token:", token);
                 const res = await axios.get("/API/auth/admin/users", {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 // console.log("Fetched users:", res);

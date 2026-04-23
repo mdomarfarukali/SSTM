@@ -18,6 +18,7 @@ export default function AdminOrders() {
                 }
 
                 const res = await axios.get("/API/orders", {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -61,6 +62,7 @@ export default function AdminOrders() {
                 `http://localhost:5000/API/orders/${id}/status`,
                 { status: status },
                 {
+                    withCredentials: true,
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,

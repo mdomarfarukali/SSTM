@@ -64,6 +64,7 @@ export default function AdminProducts() {
             const response = await axios.delete(
                 `/API/products/${productId}`,
                 {
+                    withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${adminToken}`,
                     },
@@ -111,11 +112,13 @@ export default function AdminProducts() {
             const token = localStorage.getItem("token");
             if (isEditing) {
                 await axios.put(`/API/products/${productData._id}`, productData, {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setProducts(products.map(p => p._id === productData._id ? productData : p));
             } else {
                 const res = await axios.post("/API/products", productData, {
+                    withCredentials: true,
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

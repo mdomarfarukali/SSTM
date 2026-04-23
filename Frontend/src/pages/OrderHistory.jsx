@@ -6,44 +6,44 @@ import { FaShoppingBag, FaClock, FaCheckCircle } from "react-icons/fa";
 function OrderHistory() {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-  const fetchOrders = async () => {
-    try {
-      const token = localStorage.getItem("token");
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
 
-      const response = await axios.get(
-        "/API/orders/my-orders",
-        {
-          headers: {
-      
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await axios.get(
+          "/API/orders/my-orders",
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = response.data;
+
+        console.log(data);
+
+        if (data?.orders) {
+          setOrders(data.orders);
+
+          // ✅ Optional: store in localStorage as backup
+          localStorage.setItem("orders", JSON.stringify(data.orders));
+        } else {
+          setOrders([]);
         }
-      );
+      } catch (error) {
+        console.error("Error fetching orders:", error);
 
-      const data = response.data;
-       
-      console.log(data);
-
-      if (data?.orders) {
-        setOrders(data.orders);
-
-        // ✅ Optional: store in localStorage as backup
-        localStorage.setItem("orders", JSON.stringify(data.orders));
-      } else {
-        setOrders([]);
+        // ✅ fallback to localStorage if API fails
+        const storedOrders =
+          JSON.parse(localStorage.getItem("orders")) || [];
+        setOrders(storedOrders);
       }
-    } catch (error) {
-      console.error("Error fetching orders:", error);
+    };
 
-      // ✅ fallback to localStorage if API fails
-      const storedOrders =
-        JSON.parse(localStorage.getItem("orders")) || [];
-      setOrders(storedOrders);
-    }
-  };
-
-  fetchOrders();
-}, []);
+    fetchOrders();
+  }, []);
 
   return (
     <div className="min-h-screen bg-brand-light pt-24 px-6 md:px-12 transition-colors duration-300">
