@@ -22,7 +22,7 @@ function OrderHistory() {
 
         const data = response.data;
 
-        console.log(data);
+        // console.log(data);
 
         if (data?.orders) {
           setOrders(data.orders);
