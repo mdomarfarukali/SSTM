@@ -10,8 +10,15 @@
     }
   ],
   "routes": [
+    { "handle": "filesystem" },
+
     {
-      "src": "/(.*)",
+      "src": "^/API/(.*)",
+      "dest": "https://diva-backbone.onrender.com/API/$1"
+    },
+
+    {
+      "src": "^(?!/API/).*",
       "dest": "/index.html"
     }
   ]
