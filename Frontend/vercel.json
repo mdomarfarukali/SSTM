@@ -4,5 +4,11 @@
       "source": "/API/:path*",
       "destination": "https://diva-backbone.onrender.com/API/:path*"
     }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
