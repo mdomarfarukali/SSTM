@@ -5,7 +5,7 @@
       "destination": "https://diva-backbone.onrender.com/API/:path*"
     },
     {
-      "source": "/((?!assets|.*\\..*).*)",
+      "source": "/:path((?!API/|assets/|favicon.ico|robots.txt|.*\\..*).*)",
       "destination": "/index.html"
     }
   ],
