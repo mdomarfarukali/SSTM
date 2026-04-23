@@ -3,6 +3,10 @@
     {
       "source": "/API/:path*",
       "destination": "https://diva-backbone.onrender.com/API/:path*"
+    },
+    {
+      "source": "/((?!assets|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ],
   "routes": [
