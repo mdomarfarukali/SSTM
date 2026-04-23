@@ -23,7 +23,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = ['https://diva-ten-ebon.vercel.app/', process.env.FRONTEND_URL ];
+    const allowedOrigins = ['https://diva-ten-ebon.vercel.app', process.env.FRONTEND_URL ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
