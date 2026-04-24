@@ -10,11 +10,14 @@ import addressRoutes from "../routes/userAddress.js";
 // import dashboardRoutes from '../routes/dashboard.js';
 import cloud from '../routes/cloudinary.js';
 import reviewRoutes from '../routes/reviewRoutes.js';
-
+import wishlist from '../routes/wishlist.js';
+import cartRoutes from '../routes/cart.js';
 const Route = express.Router();
 
 Route.use('/auth', authRoutes);
 Route.use('/products', productRoutes);
+Route.use('/wishlist', wishlist);
+Route.use('/cart', cartRoutes);
 // Route.use('/users', userRoutes);
 Route.use('/orders', orderRoutes);
 Route.use('/payment', paymentRoutes);
