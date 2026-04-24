@@ -61,13 +61,13 @@ function ProductDetails() {
     }, [product]);
 
     // 🛠️ Action Handlers Fixed
-    const handleAddToCart = (item, size, qty) => {
+    const handleAddToCart = async (item, size, qty) => {
         if (!size) {
             console.log("\nsize is undefined.\n");
             showToast("Please select a size/variant first.", "error");
             return;
         }
-        addItemToCart({
+        await addItemToCart({
             id: item._id,
             name: item.name,
             price: item.finalPrice || item.price,
@@ -88,12 +88,7 @@ function ProductDetails() {
     };
 
     const handleToggleWishlist = () => {
-        toggleWishlistItem({
-            id: product._id,
-            name: product.name,
-            price: product.finalPrice || product.price,
-            image: product.images[0].url,
-        });
+        toggleWishlistItem(product._id);
     };
 
     const handleMouseMove = (e) => {

@@ -57,7 +57,7 @@ function ProductDetails() {
 
     const wished = product ? isItemWished(product._id) : false;
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         if (!selectedSize) {
             showToast("Please select a size or variant before adding to cart.", "error");
             return;
@@ -72,19 +72,12 @@ function ProductDetails() {
             quantity: quantity,
         };
 
-        addItemToCart(itemToAdd);
+        await addItemToCart(itemToAdd);
         showToast(`${product.name} (x${quantity}) added! View cart.`, "success");
     };
 
     const handleToggleWishlist = () => {
-        const itemToToggle = {
-            id: product._id,
-            name: product.name,
-            price: product.price,
-            image: product.images[0].url,
-        };
-
-        toggleWishlistItem(itemToToggle);
+        toggleWishlistItem(product._id);
 
         if (wished) {
             showToast(`${product.name} removed from Wishlist.`, "info");
