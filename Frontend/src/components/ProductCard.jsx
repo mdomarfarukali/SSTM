@@ -9,6 +9,7 @@ const ProductCard = ({ product, index }) => {
   // Destructure with fallback
   const {
     _id,
+    id,
     slug,
     name,
     description,
@@ -18,6 +19,8 @@ const ProductCard = ({ product, index }) => {
     discount,
     category,
   } = product;
+
+  const productId = _id || id;
 
   // Use first image or fallback
   const imageUrl = images[0]?.url
@@ -29,24 +32,25 @@ const ProductCard = ({ product, index }) => {
   const wished = isItemWished(_id);
   const { addItemToCart } = useCartContext();
 
-  const handleAddToCart = () => {
-    addItemToCart({
-      id: _id,
+  const handleAddToCart = async () => {
+    const cartItem = {
+      id: productId,
       name,
       price: finalPrice || price,
       image: imageUrl,
       quantity: 1,
       selectedSize: "R",
-    });
+    };
+
+    try {
+      await addItemToCart(cartItem);
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   };
 
   const handleWishlist = () => {
-    toggleWishlistItem({
-      _id,
-      name,
-      price: finalPrice || price,
-      image: imageUrl,
-    });
+    toggleWishlistItem(_id);
   };
 
   return (
@@ -84,7 +88,7 @@ const ProductCard = ({ product, index }) => {
 
       {/* Product Image */}
       <div className="overflow-hidden rounded-t-2xl">
-        <Link to={`/product/${_id}`} className="block">
+        <Link to={`/product/${productId}`} className="block">
           <img
             src={imageUrl}
             alt={name}
@@ -95,7 +99,7 @@ const ProductCard = ({ product, index }) => {
 
       {/* Product Info */}
       <div className="p-5">
-        <Link to={`/product/${_id}`}>
+        <Link to={`/product/${productId}`}>
           <h3 className="text-lg font-semibold text-gray-800 hover:text-pink-600">
             {name}
           </h3>

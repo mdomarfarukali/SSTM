@@ -46,7 +46,7 @@ export default ({ mode }) => {
           changeOrigin: true,
         },
         // build: {
-        //   sourcemap: false
+        //   sourcemap: false; Wait, late me check something
         // }
       },
     },

@@ -13,6 +13,9 @@ const emptyAddress = {
   phone: '',
 };
 
+
+import axios from "axios";
+
 function UserAddress() {
   const [addresses, setAddresses] = useState([]);
   const [form, setForm] = useState(emptyAddress);
@@ -20,24 +23,44 @@ function UserAddress() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const fetchAddresses = async () => {
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:5000/API/addresses", {
+        const token = localStorage.getItem("token");
+
+        const response = await axios.get("/API/addresses", {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
-        const data = await res.json();
-        setAddresses(data.addresses || []);
-      } catch (err) {
-        console.error(err);
+        const data = response.data;
+
+        console.log("Addresses:", data);
+
+        if (data?.addresses) {
+          setAddresses(data.addresses);
+
+          // ✅ optional backup
+          localStorage.setItem("addresses", JSON.stringify(data.addresses));
+        } else {
+          setAddresses([]);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching addresses:",
+          error.response?.data || error.message
+        );
+
+        // ✅ fallback (same as OrderHistory)
+        const storedAddresses =
+          JSON.parse(localStorage.getItem("addresses")) || [];
+
+        setAddresses(storedAddresses);
       } finally {
-        setLoading(false); // 🔥 important
+        setLoading(false);
       }
     };
 
@@ -48,35 +71,45 @@ function UserAddress() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    const method = editingId ? "PUT" : "POST";
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const method = editingId ? "put" : "post";
     const url = editingId
       ? `http://localhost:5000/API/addresses/${editingId}`
       : "http://localhost:5000/API/addresses";
 
     console.log("FORM DATA:", form);
-    const res = await fetch(url, {
+
+    const res = await axios({
       method,
+      url,
+      data: form,
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify(form),
     });
 
-    const data = await res.json();
+    const data = res.data;
+
     if (!data.success) {
       alert(data.message);
       return;
     }
+
     setAddresses(data.addresses || []);
     setForm(emptyAddress);
     setEditingId(null);
-  };
 
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert(error.response?.data?.message || "Something went wrong");
+  }
+};
   const handleEdit = (address) => {
     setForm({
       fullName: address.fullName,
@@ -92,24 +125,36 @@ function UserAddress() {
   };
 
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this address?')) return;
 
-    const res = await fetch(`http://localhost:5000/API/addresses/${id}`, {
-      method: "DELETE",
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
 
-    const data = await res.json();
+const handleDelete = async (id) => {
+  if (!window.confirm("Delete this address?")) return;
+
+  try {
+    const res = await axios.delete(
+      `http://localhost:5000/API/addresses/${id}`,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const data = res.data;
+
     if (!data.success) {
       alert(data.message);
       return;
     }
+
     setAddresses(data.addresses || []);
-  };
+
+  } catch (error) {
+    console.error(error);
+    alert(error.response?.data?.message || "Delete failed");
+  }
+};
   if (loading) {
     return <p>Loading addresses...</p>;
   }
