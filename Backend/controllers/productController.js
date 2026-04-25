@@ -61,6 +61,7 @@ export const createProduct = async (req, res) => {
    🟢 GET ALL PRODUCTS (with Filters, Sorting, Pagination)
 ========================================================= */
 export const getAllProducts = async (req, res) => {
+    // console.log("\n+++++++++++++++++++++++++++++++++++++\nReq:\n", req.query, "\n+++++++++++++++++++++++++++++++++++++\n");
     try {
         const {
             category,

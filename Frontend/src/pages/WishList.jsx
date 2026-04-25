@@ -3,23 +3,33 @@ import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaTimesCircle } from 'react-icons/fa';
 import { useCartContext } from '../context/CartContext'; // Need cart context to move items
 import { useWishlistContext } from '../context/WishListContext';
+import { useEffect } from "react";
 
 function WishList() {
-    const { wishlistItems, removeItemFromWishlist } = useWishlistContext();
+   // const { wishlistItems, removeItemFromWishlist } = useWishlistContext();
     const { addItemToCart } = useCartContext(); // Get cart function
+    const { wishlistItems, removeItemFromWishlist } = useWishlistContext();
 
-    const handleMoveToCart = (item) => {
+    const handleMoveToCart = async (item) => {
+        const itemId = item._id || item.id;
         const cartItem = {
-            ...item,
+            id: itemId,
+            name: item.name,
+            price: item.finalPrice || item.price,
+            image: item.image || item.images?.[0]?.url,
             quantity: 1,
             selectedSize: item.selectedSize || 'Default',
         };
 
-        addItemToCart(cartItem);
-        removeItemFromWishlist(item._id);
+        await addItemToCart(cartItem);
+        removeItemFromWishlist(itemId);
     };
 
-    // console.log("Wishlist Items:", wishlistItems); // Debugging line
+    
+
+    useEffect(() => {
+        // console.log("Wishlist Items:", wishlistItems); // Debugging line
+    }, [wishlistItems]);
 
     return (
         <div className="min-h-screen bg-brand-light transition-colors duration-500 pt-20">

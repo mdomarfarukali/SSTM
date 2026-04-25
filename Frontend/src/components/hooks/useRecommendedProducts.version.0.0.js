@@ -1,33 +1,24 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useWishlistContext } from "../../context/WishListContext";
 
-const useRecommendedProducts = (id) => {
+
+const useRecommendedProducts = (id) => { //id is for personalized prodct, will use later.
     const [recommended, setRecommended] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const { isItemWished } = useWishlistContext();
-
     useEffect(() => {
         if (!id) return;
-
         const fetchRecommendedProducts = async () => {
             try {
                 setLoading(true);
-
                 const { data } = await axios.get("/API/products");
 
+                // console.log("Recommended data: ", data);
                 const filtered = data.products
                     .filter(p => p._id !== id)
-                    .slice(0, 6)
-                    .map(product => ({
-                        ...product,
-                        isWished: isItemWished(product._id),
-                    }));
+                    .slice(0, 6);
 
                 setRecommended(filtered);
-                // console.log("Filtered: ", filtered);
-
             } catch (error) {
                 console.error("Error fetching recommended products:", error);
             } finally {
@@ -36,7 +27,7 @@ const useRecommendedProducts = (id) => {
         };
 
         fetchRecommendedProducts();
-    }, [id, isItemWished]); // ⚠️ include dependency
+    }, [id]);
 
     return recommended;
 };

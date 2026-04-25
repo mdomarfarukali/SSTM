@@ -60,6 +60,7 @@ export const logoutUser = catchAsyncErrors(async (req, res, next) => {
         httpOnly: true,
         secure: true,
         sameSite: "none"
+
     });
 
     res.status(200).json({
