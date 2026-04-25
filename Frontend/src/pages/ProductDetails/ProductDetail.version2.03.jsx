@@ -170,8 +170,7 @@ function ProductDetails() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-5 lg:gap-20">
 
                 {/* LEFT: Image Gallery */}
-                {/* Changed 'sticky top-16' to 'lg:sticky lg:top-28' so it scrolls normally on mobile */}
-                <div className="flex flex-col gap-2.5 lg:gap-6 lg:sticky lg:top-28 h-fit">
+                <div className="flex flex-col gap-2.5 lg:gap-6 sticky top-16 lg:top-28 h-fit">
                     {/* Main Image */}
                     <div
                         // restricted mobile height to 40vh so it leaves room for text
