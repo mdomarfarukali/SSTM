@@ -1,17 +1,27 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaTrash, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
+import { FaHeart, FaTrash, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
 import { useCartContext } from '../context/CartContext';
-import LoginPage from './auth/Login';
+import { useWishlistContext } from "../context/WishListContext.jsx";
+// import LoginPage from './auth/Login';
 
 // Helper component for displaying a single item in the cart
 const CartItem = ({ item }) => {
     const { updateItemQuantity, removeItemFromCart } = useCartContext();
+    const { toggleWishlistItem } = useWishlistContext();
 
     const handleQuantityChange = (e) => {
         const newQuantity = parseInt(e.target.value, 10);
         if (!isNaN(newQuantity) && newQuantity >= 1) {
             updateItemQuantity(item.id, item.selectedSize, newQuantity);
+        }
+    };
+
+    const handleAddToWishlist = async (id) => {
+        try {
+            await toggleWishlistItem(id);
+        } catch (error) {
+            console.error('Error adding item to Wishlist again:', error);
         }
     };
 
@@ -57,14 +67,26 @@ const CartItem = ({ item }) => {
                 <p className="text-lg font-bold text-brand-secondary">
                     ${(item.price * item.quantity).toFixed(2)}
                 </p>
-                <button
-                    onClick={() => removeItemFromCart(item.id, item.selectedSize)}
-                    // Remove button uses the danger/red color
-                    className="mt-1 text-brand-danger hover:text-red-700 transition flex items-center gap-1 ml-auto"
-                >
-                    <FaTrash className="w-4 h-4" />
-                    <span className="text-sm">Remove</span>
-                </button>
+                <div className="mt-2 flex justify-end gap-3">
+                    <button
+                        onClick={() => {
+                            handleAddToWishlist(item.id);
+                            removeItemFromCart(item.id, item.selectedSize);
+                        }}
+                        className="text-brand-danger hover:text-red-700 transition flex items-center gap-1"
+                    >
+                        <FaHeart className="w-4 h-4" />
+                        <span className="text-sm">Wishlist</span>
+                    </button>
+
+                    <button
+                        onClick={() => removeItemFromCart(item.id, item.selectedSize)}
+                        className="text-brand-danger hover:text-red-700 transition flex items-center gap-1"
+                    >
+                        <FaTrash className="w-4 h-4" />
+                        <span className="text-sm">Remove</span>
+                    </button>
+                </div>
             </div>
         </div>
     );

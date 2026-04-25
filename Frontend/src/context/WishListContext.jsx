@@ -72,7 +72,7 @@ export const WishlistProvider = ({ children }) => {
 // 3. Custom Hook to consume the Wishlist Context easily
 export const useWishlistContext = () => {
   const context = useContext(WishlistContext);
-  if (context === undefined) {
+  if (!context || context === undefined) {
     throw new Error('useWishlistContext must be used within a WishlistProvider');
   }
   return context;

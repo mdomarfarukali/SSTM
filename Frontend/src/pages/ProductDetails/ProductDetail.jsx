@@ -81,13 +81,8 @@ function ProductDetails() {
         navigate("/cart");
     };
 
-    const handleToggleWishlist = () => {
-        toggleWishlistItem({
-            id: product._id,
-            name: product.name,
-            price: product.finalPrice || product.price,
-            image: product.images[0].url,
-        });
+    const handleToggleWishlist = (productId) => {
+        toggleWishlistItem(productId);
     };
 
     const handleMouseMove = (e) => {
@@ -183,7 +178,11 @@ function ProductDetails() {
                         />
                         {/* Wished Button */}
                         <button
-                            onClick={handleToggleWishlist}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleToggleWishlist(product._id);
+                            }}
                             className="absolute top-3 right-3 lg:top-6 lg:right-6 bg-white/90 backdrop-blur-md p-2.5 lg:p-4 rounded-full shadow-md z-10 transition-all hover:scale-105 active:scale-95"
                         >
                             <FaHeart className={`transition-colors duration-300 ${wished ? "text-red-500" : "text-gray-300 hover:text-gray-400"}`} size={18} />
@@ -413,10 +412,11 @@ function ProductDetails() {
                                 className="absolute top-4 right-4 lg:top-5 lg:right-5 z-10 bg-white/90 backdrop-blur p-1.5 lg:p-2 rounded-full shadow-sm hover:scale-110 active:scale-95 transition-all"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    // Add your logic to toggle wishlist for this item
+                                    e.stopPropagation();
+                                    handleToggleWishlist(item._id);
                                 }}
                             >
-                                <FaHeart className={`text-[10px] lg:text-sm ${item.wished ? "text-red-500" : "text-gray-300 hover:text-red-400"}`} />
+                                <FaHeart className={`text-[10px] lg:text-sm ${item.isWished ? "text-red-500" : "text-gray-300 hover:text-red-400"}`} />
                             </button>
 
                             <button onClick={() => navigate(`/product/${item._id}`)} className="text-left w-full h-full flex flex-col outline-none">
@@ -465,7 +465,7 @@ function ProductDetails() {
                 </button>
             </div>
 
-        </div>
+        </div >
     );
 }
 

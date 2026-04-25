@@ -4,7 +4,7 @@ import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 
-// 🔹 Helper to extract unique filter options
+// Helper to extract unique filter options
 const getUniqueOptions = (products, key) => {
     const options = new Set();
     products.forEach((product) => {
@@ -15,7 +15,7 @@ const getUniqueOptions = (products, key) => {
     return Array.from(options).sort();
 };
 
-// 🔹 Define filter categories (match your DB fields)
+// Define filter categories (match your DB fields)
 const FILTER_OPTIONS = {
     category: { label: "Jewelry Type", key: "category" },
     material: { label: "Material/Stone", key: "material" },
@@ -33,7 +33,7 @@ const Products = () => {
     const [openFilter, setOpenFilter] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // 🔹 Fetch products
+    // Fetch products
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -183,7 +183,7 @@ const Products = () => {
     }
     // 🔹 Render
     return (
-        <div className="min-h-screen bg-gray-50 pt-20">
+        <div className="min-h-screen bg-gray-50">
             <div className="container mx-auto px-4 py-8">
                 <div className="text-center mb-16 pt-8">
                     <h1 className="text-6xl font-serif font-bold text-gray-400 mb-4">
