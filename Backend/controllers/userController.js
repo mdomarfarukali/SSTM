@@ -47,7 +47,8 @@ export const loginUser = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Email or Password", 401));
     }
 
-    sendToken(user, 200, res);
+    // sendToken(user, 200, res);
+    sendToken(user, 200, req, res);
 });
 
 /* =========================================================
@@ -207,24 +208,55 @@ export const updatePassword = catchAsyncErrors(async (req, res, next) => {
 /* =========================================================
    🧾 UPDATE PROFILE
 ========================================================= */
+// export const updateProfile = catchAsyncErrors(async (req, res, next) => {
+//     const newUserData = {
+//         name: req.body.name,
+//         email: req.body.email,
+//         phone: req.body.phone,
+//         address: req.body.address,
+//         city: req.body.city,
+//         state: req.body.state,
+//         postalCode: req.body.postalCode,
+//         country: req.body.country,
+//     };
+
+//     if (req.body.avatar) newUserData.avatar = req.body.avatar;
+
+//     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+//         new: true,
+//         runValidators: true,
+//     });
+
+//     res.status(200).json({
+//         success: true,
+//         user,
+//     });
+// });
+
 export const updateProfile = catchAsyncErrors(async (req, res, next) => {
-    const newUserData = {
-        name: req.body.name,
-        email: req.body.email,
-        phone: req.body.phone,
-        address: req.body.address,
-        city: req.body.city,
-        state: req.body.state,
-        postalCode: req.body.postalCode,
-        country: req.body.country,
-    };
+    const updateData = {};
 
-    if (req.body.avatar) newUserData.avatar = req.body.avatar;
+    // Dynamically add only provided fields
+    if (req.body.name) updateData.name = req.body.name;
+    if (req.body.email) updateData.email = req.body.email;
+    if (req.body.phone) updateData.phone = req.body.phone;
+    if (req.body.address) updateData.address = req.body.address;
+    if (req.body.city) updateData.city = req.body.city;
+    if (req.body.state) updateData.state = req.body.state;
+    if (req.body.postalCode) updateData.postalCode = req.body.postalCode;
+    if (req.body.country) updateData.country = req.body.country;
 
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-        new: true,
-        runValidators: true,
-    });
+    // ✅ Avatar update (your main goal)
+    if (req.body.avatar) updateData.avatar = req.body.avatar;
+
+    const user = await User.findByIdAndUpdate(
+        req.user.id,
+        { $set: updateData }, // ✅ important
+        {
+            new: true,
+            runValidators: true,
+        }
+    );
 
     res.status(200).json({
         success: true,
