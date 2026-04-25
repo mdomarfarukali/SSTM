@@ -3,14 +3,14 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaStar, FaPlus, FaMinus } from "react-icons/fa";
 import axios from "axios";
 
-import { useCartContext } from "../context/CartContext.jsx";
-import { useWishlistContext } from "../context/WishListContext.jsx";
-import { showToast } from "../utils/toastUtils.js";
-import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
+import { useCartContext } from "../../context/CartContext.jsx";
+import { useWishlistContext } from "../../context/WishListContext.jsx";
+import { showToast } from "../../utils/toastUtils.js";
+import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
 
-import useProductData from "../components/hooks/useProductData.js";
-import useReviews from "../components/hooks/useReviews.js";
-import useRecommendedProducts from "../components/hooks/useRecommendedProducts.js";
+import useProductData from "../../components/hooks/useProductData.js";
+import useReviews from "../../components/hooks/useReviews.js";
+import useRecommendedProducts from "../../components/hooks/useRecommendedProducts.js";
 
 function ProductDetails() {
     const { id } = useParams();

@@ -15,7 +15,7 @@ const useRecommendedProducts = (id) => { //id is for personalized prodct, will u
                 // console.log("Recommended data: ", data);
                 const filtered = data.products
                     .filter(p => p._id !== id)
-                    .slice(0, 4);
+                    .slice(0, 6);
 
                 setRecommended(filtered);
             } catch (error) {
