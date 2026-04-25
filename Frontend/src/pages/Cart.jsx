@@ -11,7 +11,7 @@ const CartItem = ({ item }) => {
     const handleQuantityChange = (e) => {
         const newQuantity = parseInt(e.target.value, 10);
         if (!isNaN(newQuantity) && newQuantity >= 1) {
-            updateItemQuantity(item.id, newQuantity);
+            updateItemQuantity(item.id, item.selectedSize, newQuantity);
         }
     };
 

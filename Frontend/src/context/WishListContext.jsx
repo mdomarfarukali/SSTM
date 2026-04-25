@@ -1,83 +1,64 @@
-import React, { createContext, useReducer, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 
 // 1. Define the Context
 const WishlistContext = createContext();
 
-// 2. Initial State (Load wishlist from Local Storage if available)
-const initialState = {
-  wishlistItems: JSON.parse(localStorage.getItem('wishlistItems')) || [],
-};
+const authConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+  },
+  withCredentials: true,
+});
 
-// 3. Define the Reducer Function
-const wishlistReducer = (state, action) => {
-  switch (action.type) {
-    case 'TOGGLE_ITEM': {
-      const newItem = action.payload;
-      // Check if item already exists in the wishlist
-      //const isExisting = state.wishlistItems.some((item) => item.id === newItem.id);
-      const isExisting = state.wishlistItems.some(
-        (item) => item._id === newItem._id   // ✅ FIXED
-      );
-      if (isExisting) {
-        // If it exists, remove it
-        return {
-          ...state,
-          // wishlistItems: state.wishlistItems.filter((item) => item.id !== newItem.id),
-          wishlistItems: state.wishlistItems.filter(
-            (item) => item._id !== newItem._id   // ✅ FIXED
-          ),
-        };
-      } else {
-        // If it's new, add it
-        return { ...state, wishlistItems: [...state.wishlistItems, newItem] };
-      }
-    }
-
-    case 'REMOVE_ITEM':
-      return {
-        ...state,
-        //wishlistItems: state.wishlistItems.filter((item) => item.id !== action.payload),
-        wishlistItems: state.wishlistItems.filter(
-          (item) => item._id !== action.payload   // ✅ FIXED
-        ),
-      };
-
-    case 'CLEAR_WISHLIST':
-      return { ...state, wishlistItems: [] };
-
-    default:
-      return state;
-  }
-};
-
-// 4. Wishlist Provider Component
+// 2. Wishlist Provider Component
 export const WishlistProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(wishlistReducer, initialState);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
-  // Effect to sync wishlist state with Local Storage
+  const fetchWishlist = async () => {
+    try {
+      const { data } = await axios.get('/API/wishlist', authConfig());
+      setWishlistItems(data.wishlist || []);
+    } catch (error) {
+      console.error('Error fetching wishlist:', error.response?.data || error.message || error);
+      setWishlistItems([]);
+    }
+  };
+
   useEffect(() => {
-    localStorage.setItem('wishlistItems', JSON.stringify(state.wishlistItems));
-  }, [state.wishlistItems]);
+    fetchWishlist();
+  }, []);
 
-  // Actions/Functions to be exposed to consumers
-  const toggleWishlistItem = (item) => {
-    // The item should be the basic product object {id, name, price, image}
-    dispatch({ type: 'TOGGLE_ITEM', payload: item });
+  const toggleWishlistItem = async (productId) => {
+    try {
+      const exists = wishlistItems.some((item) => item._id === productId);
+      if (exists) {
+        const { data } = await axios.delete(`/API/wishlist/${productId}`, authConfig());
+        setWishlistItems(data.wishlist || []);
+      } else {
+        const { data } = await axios.post('/API/wishlist', { productId }, authConfig());
+        setWishlistItems(data.wishlist || []);
+      }
+    } catch (error) {
+      console.error('Error toggling wishlist item:', error.response?.data || error.message || error);
+    }
   };
 
-  const isItemWished = (id) => {
-    //return state.wishlistItems.some(item => item.id === id);
-    return state.wishlistItems.some((item) => item._id === id); // ✅ FIXED
+  const removeItemFromWishlist = async (id) => {
+    try {
+      const { data } = await axios.delete(`/API/wishlist/${id}`, authConfig());
+      setWishlistItems(data.wishlist || []);
+    } catch (error) {
+      console.error('Error removing wishlist item:', error.response?.data || error.message || error);
+    }
   };
 
-  const removeItemFromWishlist = (id) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: id });
-  };
+  const isItemWished = (id) => wishlistItems.some((item) => item._id === id);
 
   return (
     <WishlistContext.Provider
       value={{
-        wishlistItems: state.wishlistItems,
+        wishlistItems,
         toggleWishlistItem,
         isItemWished,
         removeItemFromWishlist,
@@ -88,7 +69,7 @@ export const WishlistProvider = ({ children }) => {
   );
 };
 
-// 5. Custom Hook to consume the Wishlist Context easily
+// 3. Custom Hook to consume the Wishlist Context easily
 export const useWishlistContext = () => {
   const context = useContext(WishlistContext);
   if (context === undefined) {
