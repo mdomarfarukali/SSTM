@@ -3,6 +3,23 @@
     {
       "source": "/API/:path*",
       "destination": "https://diva-backbone.onrender.com/API/:path*"
+    },
+    {
+      "source": "/:path((?!API/|assets/|favicon.ico|robots.txt|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+
+    {
+      "src": "^/API/(.*)",
+      "dest": "https://diva-backbone.onrender.com/API/$1"
+    },
+
+    {
+      "src": "^(?!/API/).*",
+      "dest": "/index.html"
     }
   ]
 }
