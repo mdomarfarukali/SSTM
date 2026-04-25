@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { FaHeart, FaUser } from "react-icons/fa";
 
-import ThemeToggle from "../common/ThemeToggle";
+import ThemeToggle from "../common/ThemeToggle.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import lightLogo from "/DIVA_LightCut-removebg-preview.png";
 import darkLogo from "/DIVA_Cut-removebg-preview.png";

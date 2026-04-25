@@ -14,7 +14,7 @@ import {
     X,
 } from "lucide-react";
 
-import ThemeToggle from "../common/ThemeToggle";
+import ThemeToggle from "../common/ThemeToggle.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import lightLogo from "/DIVA_LightCut-removebg-preview.png";
 import darkLogo from "/DIVA_Cut-removebg-preview.png";
