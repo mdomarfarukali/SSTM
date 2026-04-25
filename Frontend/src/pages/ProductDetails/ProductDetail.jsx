@@ -40,14 +40,6 @@ function ProductDetails() {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
 
-    // const staticReviews = [
-    //     { id: "rev_001", user: { name: "Amit Sharma", avatar: "https://i.pravatar.cc/150?img=1" }, rating: 4.5, comment: "Great video quality and smooth streaming experience!", createdAt: "2026-04-10T14:32:00Z" },
-    //     { id: "rev_002", user: { name: "Priya Das", avatar: "https://i.pravatar.cc/150?img=2" }, rating: 5, comment: "Loved the content! Very informative and well explained.", createdAt: "2026-04-11T09:15:00Z" },
-    //     { id: "rev_003", user: { name: "Rahul Verma", avatar: "https://i.pravatar.cc/150?img=3" }, rating: 3.5, comment: "Good video but buffering could be improved.", createdAt: "2026-04-12T18:45:00Z" },
-    //     { id: "rev_004", user: { name: "Sneha Roy", avatar: "https://i.pravatar.cc/150?img=4" }, rating: 4, comment: "Nice UI and playback controls. Enjoyed watching!", createdAt: "2026-04-13T12:20:00Z" },
-    //     { id: "rev_005", user: { name: "Arjun Singh", avatar: "https://i.pravatar.cc/150?img=5" }, rating: 2.5, comment: "Content is okay but needs better audio clarity.", createdAt: "2026-04-14T20:05:00Z" }
-    // ];
-
     useEffect(() => {
         try {
             // console.log("Hey we're here. loading: ", loading, "\nId: ", id);
@@ -166,7 +158,7 @@ function ProductDetails() {
     };
 
     return (
-        <div className="min-h-screen pt-16 lg:pt-28 bg-white pb-32 lg:pb-24 relative selection:bg-pink-100 selection:text-pink-900">
+        <div className="min-h-screen pt-4 lg:pt-28 bg-white pb-32 lg:pb-24 relative selection:bg-pink-100 selection:text-pink-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-5 lg:gap-20">
 
                 {/* LEFT: Image Gallery */}
