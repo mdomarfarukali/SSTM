@@ -43,47 +43,10 @@ app.use(cookieParser());
 
 app.use('/API', Route);
 
-// Database connection with improved configuration
-// const connectDB = async () => {
-//   try {
-//     const mongoOptions = {
-//       serverSelectionTimeoutMS: 15000,
-//       socketTimeoutMS: 45000,
-//       connectTimeoutMS: 15000,
-//       maxPoolSize: 50,
-//       minPoolSize: 10,
-//       maxIdleTimeMS: 60000,
-//       writeConcern: { w: 'majority' },
-//       retryWrites: true,
-//       retryReads: true
-//     };
-
-//     // await mongoose.connect('mongodb://localhost:27017/ecommerce', mongoOptions);
-//     await mongoose.connect( process.env.MONGO_URI, mongoOptions);
-//     console.log('MongoDB Connected Successfully');
-//   } catch (error) {
-//     console.error('MongoDB Connection Error:', error.message);
-//     // If initial connection fails, retry after 5 seconds
-//     setTimeout(connectDB, 5000);
-//   }
-// };
-
-// // Handle MongoDB connection events
-// mongoose.connection.on('error', err => {
-//   console.error('MongoDB Connection Error:', err.message);
-// });
-
-// mongoose.connection.on('disconnected', () => {
-//   console.log('MongoDB Disconnected, trying to reconnect...');
-//   connectDB();
-// });
-
-// mongoose.connection.on('reconnected', () => {
-//   console.log('MongoDB Reconnected Successfully');
-// });
-
-// Initialize database connection
-// connectDB();
+// For render hosting
+app.get("/a5asd4f45asdf4", (req, res) => {
+  res.status(200).send("OK");
+});
 
 // Error handling middleware
 app.use(errorMiddleware);
