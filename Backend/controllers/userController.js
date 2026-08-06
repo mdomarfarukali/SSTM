@@ -11,6 +11,8 @@ import { sendPasswordResetEmail, sendPasswordResetConfirmationEmail } from "../u
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
     const { name, email, password, role } = req.body;
 
+    console.log(req.body);
+    
     const user = await User.create({
         name,
         email,
@@ -19,7 +21,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
         avatar: "default-avatar.jpg",
     });
 
-    sendToken(user, 201, res);
+    sendToken(user, 201, req, res);
 });
 
 /* =========================================================
