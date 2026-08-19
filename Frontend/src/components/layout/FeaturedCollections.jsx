@@ -4,7 +4,7 @@ import { FaRing, FaGem, FaLink, FaStar } from 'react-icons/fa';
 import ring from '../../assets/6.jpg';
 import necklace from '../../assets/7.jpg';
 import earrings from '../../assets/8.jpg';
-import bestsellers from '../../assets/9.jpg';
+import bestsellers from '../../assets/11.jpg';
 
 const collections = [
     // { name: "Rings", description: "Symbol of eternal love.", icon: FaRing, link: "/products?category=rings", image: "https://images.unsplash.com/photo-1600185365483-26d7c0e9d0e7?auto=format&fit=crop&w=400&q=80" },
