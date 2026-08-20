@@ -29,8 +29,12 @@ export default function AdminUsers() {
     }, []);
 
     const handleDelete = async (id) => {
+        const token = localStorage.getItem("token");
         try {
-            await axios.delete(`/API/auth/users/${id}`);
+            await axios.delete(`/API/auth/admin/user/${id}`, {
+                    withCredentials: true,
+                    headers: { Authorization: `Bearer ${token}` },
+                });
             setUsers((prev) => prev.filter((u) => u._id !== id));
             alert("User deleted successfully");
         } catch (error) {
@@ -70,7 +74,7 @@ export default function AdminUsers() {
                             <td className="px-6 py-4">
                                 <button
                                     className="px-3 py-1 bg-admin-danger text-admin-light rounded hover:bg-admin-secondary transition"
-                                    onClick={() => handleDelete(user.id)}
+                                    onClick={() => handleDelete(user._id)}
                                 >
                                     Delete
                                 </button>
