@@ -26,7 +26,7 @@ const useRecommendedProducts = (id) => {
                     }));
 
                 setRecommended(filtered);
-                // console.log("Filtered: ", filtered);
+                console.log("Filtered: ", filtered);
 
             } catch (error) {
                 console.error("Error fetching recommended products:", error);
