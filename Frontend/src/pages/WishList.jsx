@@ -28,7 +28,7 @@ function WishList() {
     
 
     useEffect(() => {
-        // console.log("Wishlist Items:", wishlistItems); // Debugging line
+        console.log("Wishlist Items:", wishlistItems); // Debugging line
     }, [wishlistItems]);
 
     return (

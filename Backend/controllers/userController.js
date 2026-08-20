@@ -11,15 +11,17 @@ import { sendPasswordResetEmail, sendPasswordResetConfirmationEmail } from "../u
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
     const { name, email, password, role } = req.body;
 
+    console.log(req.body);
+    
     const user = await User.create({
         name,
         email,
         password,
         role,
-        avatar: "default-avatar.jpg",
+        avatar: "/userAvatarTrimmed.png",
     });
 
-    sendToken(user, 201, res);
+    sendToken(user, 201, req, res);
 });
 
 /* =========================================================
@@ -58,9 +60,6 @@ export const logoutUser = catchAsyncErrors(async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
         httpOnly: true,
-        secure: true,
-        sameSite: "none"
-
     });
 
     res.status(200).json({
@@ -101,7 +100,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     const message = `Your password reset token is:\n\n${resetUrl}\n\nIf you did not request this, please ignore.`;
 
     try {
-        // console.log("Message to be sent:", message);
+        console.log("Message to be sent:", message);
         await sendPasswordResetEmail({
             email: user.email,
             name: user.name,
@@ -157,7 +156,7 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
     // sendToken(user, 200, res); //Don't use, we already are using reset confirm email token.
 
     try {
-        // console.log("*********************Message to be sent:", user.email);
+        console.log("*********************Message to be sent:", user.email);
         await sendPasswordResetConfirmationEmail({
             email: user.email,
             name: user.name,
