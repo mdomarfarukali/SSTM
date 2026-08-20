@@ -10,19 +10,19 @@ import { isAuthenticatedUser } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Get Cart
+// 🟢 Get Cart
 router.get("/", isAuthenticatedUser, getCart);
 
-// Add to Cart
+// 🟢 Add to Cart
 router.post("/", isAuthenticatedUser, addToCart);
 
-// Update quantity
+// 🟡 Update quantity
 router.put("/:id", isAuthenticatedUser, updateCartItem);
 
-// Remove single item
+// 🔴 Remove single item
 router.delete("/:id", isAuthenticatedUser, deleteCartItem);
 
-// Clear entire cart
+// 🧹 Clear entire cart
 router.delete("/", isAuthenticatedUser, clearCart);
 
 export default router;
