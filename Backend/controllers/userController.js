@@ -18,7 +18,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
         email,
         password,
         role,
-        avatar: "default-avatar.jpg",
+        avatar: "/userAvatarTrimmed.png",
     });
 
     sendToken(user, 201, req, res);
