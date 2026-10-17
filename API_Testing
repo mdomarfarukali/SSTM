@@ -151,7 +151,7 @@ curl -X GET http://localhost:5000/API/products/collections/best
 
 
 
-Base URL assumed: http://localhost:5000/API/orders
+# Base URL assumed: http://localhost:5000/API/orders
 
 🧾 Create Order (User)
 ```bash
@@ -221,4 +221,85 @@ curl -X PUT http://localhost:5000/api/orders/<ORDER_ID>/status \
 ```bash
 curl -X GET http://localhost:5000/API/orders/admin/stats/overview \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2Y2MzOGEwYjZmYjAyZjI4OTFjYSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYxMjQyMzA3LCJleHAiOjE3NjE4NDcxMDd9.Qs3t3ab8-0O80WIwEaFAdpD29DR4PlA_SikHwZcG-No"
+```
+
+
+
+
+### REviews sectin
+
+# 1. CREATE REVIEW
+```bash
+curl -X POST http://localhost:5000/API/reviews \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_TOKEN" \
+-d '{
+  "product_id": "PRODUCT_ID",
+  "review": "Awesome product!",
+  "rating": 5
+}'
+```
+
+```bash
+curl -X POST http://localhost:5000/api/reviews \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc2NzAxODc1LCJleHAiOjE3NzczMDY2NzV9.H2Pd5zJUol4BsHwfzAMoj9NPqouQOCYM1BbtEln7s7w" \
+-d '{
+  "product_id": "690231daac83a2fe72965b4b",
+  "review": "Awesome product!",
+  "rating": 2.5
+}'
+```
+
+# 2. UPDATE REVIEW
+```bash
+curl -X PUT http://localhost:5000/api/reviews/REVIEW_ID \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_TOKEN" \
+-d '{
+  "review": "Updated review",
+  "rating": 4
+}'
+```
+
+```bash
+curl -X PUT http://localhost:5000/api/reviews/69e6b712166b3110e587222d \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc2NzAxODc1LCJleHAiOjE3NzczMDY2NzV9.H2Pd5zJUol4BsHwfzAMoj9NPqouQOCYM1BbtEln7s7w" \
+-d '{
+  "review": "Updated review",
+  "rating": 3.5
+}'
+```
+
+# 3. GET PRODUCT REVIEWS (Public)
+```bash
+curl http://localhost:5000/api/reviews/product/PRODUCT_ID
+```
+
+```bash
+curl http://localhost:5000/api/reviews/product/69022ea4ac83a2fe729658e4
+```
+
+# 👤 4. GET MY REVIEWS (AUTH)
+```bash
+curl http://localhost:5000/api/reviews/me \
+-H "Authorization: Bearer YOUR_TOKEN"
+```
+
+```bash
+curl http://localhost:5000/api/reviews/me \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc2NzAxODc1LCJleHAiOjE3NzczMDY2NzV9.H2Pd5zJUol4BsHwfzAMoj9NPqouQOCYM1BbtEln7s7w"
+```
+
+
+# 👤 4. DELETE MY REVIEWS (AUTH)
+```bash
+curl -X DELETE http://localhost:5000/api/reviews/REVIEW_ID \
+-H "Authorization: Bearer YOUR_TOKEN"
+```
+
+```bash
+curl -X DELETE http://localhost:5000/api/reviews/69e6b712166b3110e587222d \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjk0ZGU0NTBiMjg2YjNjNDM3ZjhkNSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc2NzAxODc1LCJleHAiOjE3NzczMDY2NzV9.H2Pd5zJUol4BsHwfzAMoj9NPqouQOCYM1BbtEln7s7w"
 ```
