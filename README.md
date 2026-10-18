@@ -1,2 +1,2 @@
 # SSTM
-We are coocked somehow! IDK why!!?
+We got new design to work
