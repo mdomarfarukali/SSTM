@@ -1,145 +1,233 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  Globe2,
+  ShieldCheck,
+  CreditCard,
+  ChevronDown,
+  ArrowRight,
+} from "lucide-react";
+import "./Footer.css";
 
-import { useTheme } from "../../context/ThemeContext.jsx";
-import lightLogo from "/DIVA_LightCut-removebg-preview.png";
-import darkLogo from "/DIVA_Cut-removebg-preview.png";
+const footerGroups = [
+  {
+    title: "Client Care",
+    links: [
+      ["Contact the Maison", "/contact"],
+      ["Care & Restoration", "/help-center"],
+      ["Jewellery Sizing", "/help-center"],
+      ["Shipping & Delivery", "/shipping-returns"],
+      ["Returns & Exchanges", "/shipping-returns"],
+      ["Frequently Asked Questions", "/faqs"],
+    ],
+  },
+  {
+    title: "The Collections",
+    links: [
+      ["High Jewellery", "/products?category=high-jewellery"],
+      ["Rings", "/products?category=rings"],
+      ["Earrings", "/products?category=earrings"],
+      ["Necklaces & Pendants", "/products?category=necklaces"],
+      ["Bracelets", "/products?category=bracelets"],
+      ["View All Collections", "/products"],
+    ],
+  },
+  {
+    title: "The Maison",
+    links: [
+      ["Our Story", "/about"],
+      ["The Art of Craftsmanship", "/about"],
+      ["Gemstone Guide", "/help-center"],
+      ["Bespoke Creations", "/contact"],
+      ["Private Appointments", "/contact"],
+    ],
+  },
+  {
+    title: "Legal & Account",
+    links: [
+      ["My Account", "/account"],
+      ["Order Tracking", "/track-order"],
+      ["Privacy Policy", "/privacy-policy"],
+      ["Terms & Conditions", "/terms-condition"],
+      ["Cookie Preferences", "/privacy-policy"],
+      ["Accessibility", "/contact"],
+    ],
+  },
+];
 
-// export default function Footer() {
-//     const { theme } = useTheme();
-
-//     return (
-//         <footer className="bg-brand-dark text-brand-primary py-12">
-//             <div className="container mx-auto px-6 lg:px-12 py-16">
-//                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-//                     {/* Brand Info */}
-//                     <div>
-//                         <h3 className="text-4xl text-brand font-serif font-bold ">
-//                             <img
-//                                 src={theme === "dark" ? darkLogo : lightLogo}
-//                                 alt="DIVA Logo"
-//                                 className="w-20 h-20 inline-block mr-2 mb-1"
-//                             />
-//                             DIVA
-//                         </h3>
-//                         <p className="text-brand-muted">
-//                             Crafting memories with elegance and shine.
-//                             Jewellery that defines timeless beauty.
-//                         </p>
-//                     </div>
-
-//                     {/* Quick Links */}
-//                     <div>
-//                         <h4 className="font-semibold text-lg mb-4 text-brand-secondary">
-//                             Quick Links
-//                         </h4>
-//                         <ul className="space-y-2">
-//                             <li><Link to="/" className="text-brand-muted ">Home</Link></li>
-//                             <li><Link to="/products" className="text-brand-muted ">Collections</Link></li>
-//                             <li><Link to="/about" className="text-brand-muted ">About Us</Link></li>
-//                             <li><Link to="/contact" className="text-brand-muted ">Contact</Link></li>
-//                         </ul>
-//                     </div>
-
-//                     {/* Support */}
-//                     <div>
-//                         <h4 className="font-semibold text-lg mb-4 text-brand-secondary">
-//                             Customer Support
-//                         </h4>
-//                         <ul className="space-y-2">
-//                             <li><Link to="/faqs" className="text-brand-muted ">FAQs</Link></li>
-//                             <li><Link to="/shipping-returns" className="text-brand-muted ">Shipping & Returns</Link></li>
-//                             <li><Link to="/privacy-policy" className="text-brand-muted ">Privacy Policy</Link></li>
-//                             <li><Link to="/terms-condition" className="text-brand-muted">Terms & Condition</Link></li>
-//                         </ul>
-//                     </div>
-//                 </div>
-
-//                 {/* Bottom Bar */}
-//                 <div className="mt-12 border-t border-brand-muted pt-6 text-center text-brand-muted text-sm">
-//                     <p>© {new Date().getFullYear()} DIVA. All rights reserved.</p>
-//                 </div>
-//             </div>
-//         </footer>
-//     );
-// }
-
-
-// import { Link } from "react-router-dom"; // Ensure this is imported if using React Router
+function FooterLink({ to, children, className = "" }) {
+  return (
+    <Link className={className} to={to}>
+      {children}
+    </Link>
+  );
+}
 
 export default function Footer() {
-    const { theme } = useTheme();
-    
-    return (
-        <footer className="bg-brand-dark text-brand-primary border-t border-brand-muted/20">
-            {/* Standardized max-width container with responsive padding */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
-                
-                {/* Main Content Layout */}
-                <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-16">
-                    
-                    {/* Brand Info - Left side on desktop, top on mobile */}
-                    <div className="lg:w-1/3 flex flex-col items-start">
-                        <Link to="/" className="flex items-center gap-3 mb-4 group">
-                            <img
-                                src={theme === "dark" ? darkLogo : lightLogo}
-                                alt="DIVA Logo"
-                                className="w-12 h-12 lg:w-16 lg:h-16 object-contain transition-transform group-hover:scale-105"
-                            />
-                            <span className="text-3xl lg:text-4xl text-brand font-serif font-bold tracking-wide">
-                                DIVA
-                            </span>
-                        </Link>
-                        <p className="text-brand-muted text-sm lg:text-base leading-relaxed max-w-sm">
-                            Crafting memories with elegance and shine.
-                            Jewellery that defines timeless beauty.
-                        </p>
-                    </div>
+  const [email, setEmail] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [feedbackType, setFeedbackType] = useState("success");
 
-                    {/* Quick Links & Support - Side by side on mobile to save space! */}
-                    <div className="grid grid-cols-2 gap-8 lg:w-1/2 lg:flex lg:justify-end lg:gap-24">
-                        
-                        {/* Quick Links */}
-                        <div>
-                            <h4 className="font-serif font-semibold text-base lg:text-lg mb-4 text-brand-secondary uppercase tracking-widest">
-                                Explore
-                            </h4>
-                            <ul className="space-y-3">
-                                <li><Link to="/" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">Home</Link></li>
-                                <li><Link to="/products" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">Collections</Link></li>
-                                <li><Link to="/about" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">About Us</Link></li>
-                                <li><Link to="/contact" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">Contact</Link></li>
-                            </ul>
-                        </div>
+  function handleSubscribe(event) {
+    event.preventDefault();
+    const value = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      setFeedbackType("error");
+      setFeedback("Please enter a valid email address.");
+      return;
+    }
 
-                        {/* Support */}
-                        <div>
-                            <h4 className="font-serif font-semibold text-base lg:text-lg mb-4 text-brand-secondary uppercase tracking-widest">
-                                Support
-                            </h4>
-                            <ul className="space-y-3">
-                                <li><Link to="/faqs" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">FAQs</Link></li>
-                                <li><Link to="/shipping-returns" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">Shipping & Returns</Link></li>
-                                <li><Link to="/privacy-policy" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">Privacy Policy</Link></li>
-                                <li><Link to="/terms-condition" className="text-sm lg:text-base text-brand-muted hover:text-brand transition-colors duration-200">Terms & Conditions</Link></li>
-                            </ul>
-                        </div>
+    // Frontend-only until a newsletter endpoint is connected.
+    setFeedbackType("success");
+    setFeedback("Thank you. Newsletter signup will be available when the subscription service is connected.");
+  }
 
-                    </div>
-                </div>
+  return (
+    <footer className="diva-footer" aria-labelledby="diva-footer-heading">
+      <h2 className="diva-footer-sr-only" id="diva-footer-heading">DIVA footer</h2>
 
-                {/* Bottom Bar - Elegant thin border separator */}
-                <div className="mt-10 lg:mt-16 border-t border-brand-muted/30 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-                    <p className="text-brand-muted text-xs lg:text-sm">
-                        © {new Date().getFullYear()} DIVA. All rights reserved.
-                    </p>
-                    
-                    {/* Optional: Extra subtle links for the bottom bar */}
-                    <div className="flex gap-4 text-xs lg:text-sm text-brand-muted">
-                        <span className="hover:text-brand cursor-pointer transition-colors duration-200">Privacy</span>
-                        <span className="hover:text-brand cursor-pointer transition-colors duration-200">Terms</span>
-                    </div>
-                </div>
+      <div className="diva-footer-container">
+        <section className="diva-footer-intro" aria-label="Brand and newsletter">
+          <div className="diva-footer-brand">
+            <div className="diva-footer-brand-lockup">
+              <img
+                className="diva-footer-emblem"
+                src="/DIVA_LightCut-removebg-preview.png"
+                alt=""
+                aria-hidden="true"
+              />
+              <span className="diva-footer-brand-divider" aria-hidden="true" />
+              <span className="diva-footer-brand-copy">
+                <span className="diva-footer-wordmark">DIVA</span>
+                <span className="diva-footer-brand-subtitle">Maison de Haute Joaillerie · Paris</span>
+              </span>
             </div>
-        </footer>
-    );
+            <p className="diva-footer-description">
+              Exceptional jewellery, rare gemstones and bespoke creations shaped by Parisian craftsmanship.
+            </p>
+            <p className="diva-footer-address">18 Place Vendôme, 75001 Paris · Salons Privés</p>
+          </div>
+
+          <div className="diva-footer-newsletter">
+            <h3>Letters from the Maison</h3>
+            <p>Discover new collections, exceptional stones and selected stories from the DIVA ateliers.</p>
+            <form className="diva-footer-newsletter-form" onSubmit={handleSubscribe} noValidate>
+              <label className="diva-footer-sr-only" htmlFor="diva-footer-email">Your email address</label>
+              <div className="diva-footer-email-row">
+                <input
+                  id="diva-footer-email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                    if (feedback) setFeedback("");
+                  }}
+                  placeholder="Your email address"
+                  aria-describedby="diva-footer-newsletter-feedback diva-footer-newsletter-privacy"
+                />
+                <button type="submit">
+                  Subscribe <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
+                </button>
+              </div>
+              <p
+                id="diva-footer-newsletter-feedback"
+                className={`diva-footer-feedback ${feedback ? `is-${feedbackType}` : ""}`}
+                role="status"
+                aria-live="polite"
+              >
+                {feedback}
+              </p>
+              <p className="diva-footer-privacy-note" id="diva-footer-newsletter-privacy">
+                By subscribing, you agree to receive communications from DIVA. You may unsubscribe at any time.
+              </p>
+            </form>
+          </div>
+        </section>
+
+        <div className="diva-footer-rule" aria-hidden="true" />
+
+        <nav className="diva-footer-directory" aria-label="Footer navigation">
+          <div className="diva-footer-directory-desktop">
+            {footerGroups.map((group) => (
+              <div className="diva-footer-group" key={group.title}>
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.links.map(([label, to]) => (
+                    <li key={label}><FooterLink to={to}>{label}</FooterLink></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="diva-footer-directory-mobile">
+            {footerGroups.map((group) => (
+              <details className="diva-footer-accordion" key={group.title}>
+                <summary>
+                  <span>{group.title}</span>
+                  <ChevronDown size={15} strokeWidth={1.5} aria-hidden="true" />
+                </summary>
+                <ul>
+                  {group.links.map(([label, to]) => (
+                    <li key={label}><FooterLink to={to}>{label}</FooterLink></li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </nav>
+
+        <div className="diva-footer-rule" aria-hidden="true" />
+
+        <section className="diva-footer-trust" aria-label="Trust and payment information">
+          <div className="diva-footer-trust-item">
+            <Globe2 size={17} strokeWidth={1.5} aria-hidden="true" />
+            <div>
+              <h3>Personal Client Care</h3>
+              <p>Assistance with jewellery and bespoke orders.</p>
+              <FooterLink to="/contact" className="diva-footer-trust-link">
+                Contact the Maison <ArrowRight size={12} aria-hidden="true" />
+              </FooterLink>
+            </div>
+          </div>
+          <div className="diva-footer-trust-item">
+            <ShieldCheck size={17} strokeWidth={1.5} aria-hidden="true" />
+            <div>
+              <h3>Secure Shopping</h3>
+              <p>Protected checkout and confidential customer information.</p>
+            </div>
+          </div>
+          <div className="diva-footer-trust-item">
+            <CreditCard size={17} strokeWidth={1.5} aria-hidden="true" />
+            <div>
+              <h3>Payment Options</h3>
+              <p>Available payment methods are shown securely at checkout.</p>
+            </div>
+          </div>
+        </section>
+
+        <div className="diva-footer-rule" aria-hidden="true" />
+
+        <div className="diva-footer-bottom">
+          <div className="diva-footer-legal">
+            <span>© {new Date().getFullYear()} DIVA. All rights reserved.</span>
+            <span className="diva-footer-dot" aria-hidden="true">·</span>
+            <FooterLink to="/privacy-policy">Privacy</FooterLink>
+            <span className="diva-footer-dot" aria-hidden="true">·</span>
+            <FooterLink to="/terms-condition">Terms</FooterLink>
+            <span className="diva-footer-dot" aria-hidden="true">·</span>
+            <FooterLink to="/privacy-policy">Cookies</FooterLink>
+            <span className="diva-footer-dot" aria-hidden="true">·</span>
+            <FooterLink to="/terms-condition">Legal Notice</FooterLink>
+          </div>
+          <div className="diva-footer-locale" aria-label="Regional preferences">
+            <span>India (INR ₹)</span>
+            <span className="diva-footer-locale-divider" aria-hidden="true" />
+            <span>English</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 }

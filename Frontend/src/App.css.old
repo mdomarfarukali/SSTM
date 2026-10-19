@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+/* @import "./styles/global-colors-HEX.css"; */
+
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+} */
+#root {
+  /* max-width: 1280px; */
+  width: 100%;
+  margin: 0 auto;
+  /* padding: 2rem; */
+  /* text-align: center; */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+@keyframes spinnerDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotation)) translate(35px);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.5) rotate(var(--rotation)) translate(35px);
+  }
+}
+
+
+/* Loading Spinner Styles */
+
+/* Animated dots for "Loading..." */
+.dots::after {
+  content: "";
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: ""; }
+  40% { content: "."; }
+  60% { content: ".."; }
+  80%, 100% { content: "..."; }
+}
+.spinner-dot {
+  --rotation: 0deg;
+  width: 10px;
+  height: 10px;
+  background-color: #646cff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  animation: spinnerDot 1.5s infinite ease-in-out;
+}
+.spinner-dot:nth-child(1) { --rotation: 0deg; animation-delay: -1.25s; }
+.spinner-dot:nth-child(2) { --rotation: 45deg; animation-delay: -1s; }  

@@ -1,0 +1,194 @@
+/*
+ * DIVA — Shared primitive styles.
+ * Use these classes for small, genuinely shared primitives. Prefer the
+ * project's existing React component conventions where those already exist.
+ */
+
+.diva-container {
+  width: min(100% - (2 * var(--layout-margin-mobile)), var(--content-max));
+  margin-inline: auto;
+}
+
+.diva-reading-width {
+  width: min(100%, var(--content-reading-max));
+}
+
+.diva-eyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label);
+  line-height: var(--line-height-label);
+  text-transform: uppercase;
+}
+
+.diva-page-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-heading);
+}
+
+.diva-section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-h2);
+}
+
+.diva-button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25rem;
+  text-align: center;
+  transition:
+    background-color var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard),
+    color var(--duration-normal) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.diva-button:active {
+  transform: scale(0.995);
+}
+
+.diva-button--primary {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+.diva-button--primary:hover {
+  border-color: var(--color-primary-hover);
+  background: var(--color-primary-hover);
+}
+
+.diva-button--secondary {
+  border-color: var(--color-accent);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.diva-button--secondary:hover {
+  background: var(--color-surface-soft);
+}
+
+.diva-button--text {
+  min-height: auto;
+  border: 0;
+  border-radius: 0;
+  padding: 0.25rem 0;
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--font-size-label);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.diva-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-soft);
+}
+
+.diva-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.diva-field__label {
+  color: var(--color-text);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.diva-input,
+.diva-select,
+.diva-textarea {
+  width: 100%;
+  min-height: 2.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-default);
+  padding: 0.75rem 1rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  outline: none;
+  transition:
+    border-color var(--duration-normal) var(--ease-standard),
+    box-shadow var(--duration-normal) var(--ease-standard);
+}
+
+.diva-textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.diva-input::placeholder,
+.diva-textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.diva-input:focus,
+.diva-select:focus,
+.diva-textarea:focus {
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px rgb(197 155 118 / 18%);
+}
+
+.diva-divider {
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background: var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .diva-container {
+    width: min(100% - (2 * var(--layout-margin)), var(--content-max));
+  }
+}
+
+@media (min-width: 1440px) {
+  .diva-container {
+    width: min(100% - (2 * var(--layout-margin-wide)), var(--content-max));
+  }
+}
+
+@media (max-width: 767px) {
+  .diva-page-title {
+    font-size: var(--font-size-h1-mobile);
+    line-height: var(--line-height-h1-mobile);
+  }
+
+  .diva-section-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .diva-button {
+    min-height: 2.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diva-button,
+  .diva-input,
+  .diva-select,
+  .diva-textarea {
+    transition: none;
+  }
+}

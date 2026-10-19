@@ -1,0 +1,26 @@
+/*
+ * DIVA — Small custom utilities.
+ * Keep this file intentionally small; use Tailwind for one-off layout needs.
+ */
+
+.diva-surface {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.diva-surface-soft {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.diva-muted {
+  color: var(--color-text-muted);
+}
+
+.diva-text-balance {
+  text-wrap: balance;
+}
+
+.diva-text-pretty {
+  text-wrap: pretty;
+}

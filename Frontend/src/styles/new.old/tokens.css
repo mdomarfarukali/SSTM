@@ -1,0 +1,197 @@
+/*
+ * DIVA — Design Tokens
+ * Source: Google Stitch export "Quiet Luxury Editorial".
+ *
+ * IMPORTANT:
+ * The source export contains two competing values for some roles:
+ *   surface/background: #FCF9F4 vs #FAF7F2
+ *   primary:             #000000 vs #1C1917
+ *   secondary/accent:    #7A5737 vs #C59B76
+ * The role mappings below preserve both as named source values. The active
+ * semantic tokens use the detailed "Brand & Style" palette where that section
+ * explicitly defines the role. Review against approved Stitch screens before
+ * treating these as final brand decisions.
+ */
+
+:root {
+  /* --- Source-export palette: core color roles --- */
+  --color-surface-source: #fcf9f4;
+  --color-surface-dim: #dcdad5;
+  --color-surface-bright: #fcf9f4;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f3ee;
+  --color-surface-container: #f0ede9;
+  --color-surface-container-high: #ebe8e3;
+  --color-surface-container-highest: #e5e2dd;
+
+  --color-on-surface: #1c1c19;
+  --color-on-surface-variant: #4d4540;
+  --color-inverse-surface: #31302d;
+  --color-inverse-on-surface: #f3f0eb;
+  --color-outline: #7e7570;
+  --color-outline-variant: #d0c4be;
+  --color-surface-tint: #625d5b;
+
+  --color-primary-source: #000000;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1e1b19;
+  --color-on-primary-container: #888380;
+  --color-inverse-primary: #ccc5c2;
+
+  --color-secondary-source: #7a5737;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #fdcea6;
+  --color-on-secondary-container: #785636;
+
+  --color-tertiary-source: #000000;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #2a170a;
+  --color-on-tertiary-container: #9c7e6b;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-primary-fixed: #e9e1dd;
+  --color-primary-fixed-dim: #ccc5c2;
+  --color-on-primary-fixed: #1e1b19;
+  --color-on-primary-fixed-variant: #4a4643;
+  --color-secondary-fixed: #ffdcc0;
+  --color-secondary-fixed-dim: #ebbe97;
+  --color-on-secondary-fixed: #2d1600;
+  --color-on-secondary-fixed-variant: #5f4022;
+  --color-tertiary-fixed: #ffdcc7;
+  --color-tertiary-fixed-dim: #e2c0ab;
+  --color-on-tertiary-fixed: #2a170a;
+  --color-on-tertiary-fixed-variant: #5a4232;
+
+  /* --- Named brand colors from Stitch --- */
+  --color-cashmere: #f4efeb;
+  --color-sand: #ede6de;
+  --color-noir-soft: #292524;
+  --color-rose-gold: #d4a373;
+  --color-heritage-blush: #fbcfd0;
+  --color-stone-muted: #78716c;
+  --color-border-hairline: #e7dfd5;
+
+  /* --- Active semantic roles: provisional Brand & Style mapping --- */
+  --color-background: #faf7f2;
+  --color-surface: #faf7f2;
+  --color-surface-raised: #ffffff;
+  --color-surface-soft: #f4efeb;
+  --color-surface-muted: #ede6de;
+
+  --color-text: #1c1917;
+  --color-text-muted: #78716c;
+  --color-text-subtle: #4d4540;
+  --color-text-inverse: #ffffff;
+
+  --color-primary: #1c1917;
+  --color-primary-hover: #292524;
+  --color-primary-foreground: #ffffff;
+
+  --color-accent: #c59b76;
+  --color-accent-hover: #b58a65;
+  --color-accent-foreground: #1c1917;
+  --color-accent-soft: #e8c5b0;
+
+  --color-border: #e7dfd5;
+  --color-border-strong: #d0c4be;
+  --color-focus: #c59b76;
+
+  --color-success: #28704a;
+  --color-warning: #8a5a12;
+  --color-danger: #ba1a1a;
+  --color-info: #315b82;
+
+  /* --- Typography: source-defined font families --- */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", Arial, sans-serif;
+
+  /* Display / headings */
+  --font-size-display: 3.5rem;
+  --line-height-display: 4rem;
+  --font-size-display-mobile: 2.375rem;
+  --line-height-display-mobile: 2.875rem;
+
+  --font-size-h1: 2.5rem;
+  --line-height-h1: 3rem;
+  --font-size-h1-mobile: 1.75rem;
+  --line-height-h1-mobile: 2.25rem;
+
+  --font-size-h2: 1.75rem;
+  --line-height-h2: 2.25rem;
+  --font-size-h3: 1.375rem;
+  --line-height-h3: 1.875rem;
+  --font-size-editorial: 1.125rem;
+  --line-height-editorial: 1.625rem;
+
+  /* Body / labels */
+  --font-size-body-lg: 1.0625rem;
+  --line-height-body-lg: 1.75rem;
+  --font-size-body: 0.9375rem;
+  --line-height-body: 1.5rem;
+  --font-size-body-sm: 0.8125rem;
+  --line-height-body-sm: 1.25rem;
+  --font-size-label: 0.6875rem;
+  --line-height-label: 1rem;
+  --font-size-price: 1rem;
+  --line-height-price: 1.375rem;
+  --font-size-caption: 0.75rem;
+  --line-height-caption: 1rem;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --letter-spacing-display: -0.02em;
+  --letter-spacing-heading: -0.01em;
+  --letter-spacing-editorial: 0.01em;
+  --letter-spacing-label: 0.14em;
+  --letter-spacing-price: 0.02em;
+
+  /* --- Spacing: Stitch source values --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --layout-gutter: 1.5rem;
+  --layout-gutter-mobile: 1rem;
+  --layout-margin: 3rem;
+  --layout-margin-mobile: 1.25rem;
+  --layout-margin-wide: 5rem;
+
+  /* --- Shape: Stitch source values --- */
+  --radius-sm: 0.5rem;
+  --radius-default: 1rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+  --radius-pill: 9999px;
+
+  /* --- Elevation / motion --- */
+  --shadow-ambient: 0 20px 40px -15px rgb(28 25 23 / 5%);
+  --overlay-scrim: rgb(28 25 23 / 30%);
+  --surface-frosted: rgb(250 247 242 / 85%);
+  --blur-frosted: 16px;
+
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* --- Layout breakpoints as documentation tokens (CSS vars can't drive media queries) --- */
+  --content-max: 90rem;
+  --content-reading-max: 46rem;
+}
