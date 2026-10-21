@@ -277,7 +277,7 @@ function AtelierSection() {
 
   return (
     <section className="diva-atelier diva-section" id="atelier">
-      
+
       <div className="diva-atelier__visual">
         <img src={ASSETS.atelier} alt="A glimpse into the meticulous craft of the DIVA atelier" loading="lazy" />
         <div className="diva-atelier__image-caption">
@@ -286,7 +286,7 @@ function AtelierSection() {
         </div>
         <div className="diva-atelier__seal"><Diamond size={22} /><span>100%<br />RECYCLED GOLD</span></div>
       </div>
-      
+
       {/* <div className="diva-hero-product">
         <span className="diva-hero-product__kicker">Maison Signature</span>
         <strong>Solitaire &amp; South Sea Luminescence</strong>
@@ -334,103 +334,6 @@ function AtelierSection() {
     </section>
   );
 }
-
-// function ProductCard({ product, onAddToWishlist, isSaved }) {
-//   return (
-//     <article className="diva-product-card">
-//       <Link to={product.path} className="diva-product-card__image">
-//         <img src={product.image} alt={product.name} loading="lazy" />
-//         <span className="diva-product-card__badge">{product.badge}</span>
-//       </Link>
-//       <button
-//         className={`diva-product-card__wishlist${isSaved ? " is-saved" : ""}`}
-//         type="button"
-//         aria-label={isSaved ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
-//         aria-pressed={isSaved}
-//         onClick={() => onAddToWishlist(product.name)}
-//       >
-//         <Heart size={18} fill={isSaved ? "currentColor" : "none"} strokeWidth={1.5} />
-//       </button>
-//       <div className="diva-product-card__details">
-//         <Link to={product.path} className="diva-product-card__name">{product.name}</Link>
-//         <p>{product.detail}</p>
-//         <div className="diva-product-card__bottom">
-//           <strong>{product.price}</strong>
-//           <Link to={product.path} aria-label={`View ${product.name}`}><ArrowUpRight size={17} /></Link>
-//         </div>
-//       </div>
-//     </article>
-//   );
-// }
-
-// function FeaturedProductsSection() {
-//   const [category, setCategory] = useState("All Pieces");
-//   const [saved, setSaved] = useState([]);
-
-//   const filteredProducts = useMemo(() => {
-//     if (category === "All Pieces") return products;
-//     if (category === "Rings") return products.filter((product) => /ring|solitaire/i.test(product.name));
-//     if (category === "Necklaces") return products.filter((product) => /pendant/i.test(product.name));
-//     return products.filter((product) => /studs/i.test(product.name));
-//   }, [category]);
-
-//   const toggleWishlist = (name) => {
-//     setSaved((current) => current.includes(name)
-//       ? current.filter((item) => item !== name)
-//       : [...current, name]);
-//   };
-
-//   return (
-//     <section className="diva-featured diva-section" id="featured">
-//       <div className="diva-section-heading diva-section-heading--center">
-//         <div>
-//           <p className="diva-eyebrow">Haute Curations</p>
-//           <h2>Featured Icons <em>&amp; New Arrivals</em></h2>
-//         </div>
-//         <p>Considered forms. Exceptional materials. Treasures to be passed on.</p>
-//       </div>
-
-//       <div className="diva-product-toolbar">
-//         <div className="diva-product-tabs" role="group" aria-label="Filter featured products">
-//           {["All Pieces", "Rings", "Necklaces", "Earrings"].map((item) => (
-//             <button
-//               type="button"
-//               key={item}
-//               className={category === item ? "is-active" : ""}
-//               aria-pressed={category === item}
-//               onClick={() => setCategory(item)}
-//             >
-//               {item}
-//             </button>
-//           ))}
-//         </div>
-//         <Link className="diva-product-toolbar__all" to="/products">View all pieces <ArrowUpRight size={15} /></Link>
-//       </div>
-
-//       <div className="diva-product-grid">
-//         {filteredProducts.map((product) => (
-//           <ProductCard
-//             key={product.name}
-//             product={product}
-//             isSaved={saved.includes(product.name)}
-//             onAddToWishlist={toggleWishlist}
-//           />
-//         ))}
-//       </div>
-
-//       <div className="diva-featured__footer">
-//         <EditorialLink to="/products">Discover the complete 2026 collection (48 pieces)</EditorialLink>
-//       </div>
-//       {saved.length > 0 && (
-//         <p className="diva-saved-feedback" role="status">
-//           {saved.length} {saved.length === 1 ? "piece" : "pieces"} saved for this browsing session.
-//           Sign in to keep your wishlist across devices.
-//         </p>
-//       )}
-//     </section>
-//   );
-// }
-
 
 const FILTERS = ["All Pieces", "Rings", "Necklaces", "Earrings"];
 
@@ -538,26 +441,25 @@ function FeaturedProductsSection() {
   );
 }
 
-
-
-
-
 function BespokeSection() {
   const steps = [
     {
       number: "01 / CONCEPT",
       title: "Design Salon",
-      description: "One-on-one virtual or in-person consultation with a lead gemologist.",
+      description:
+        "One-on-one virtual or in-person consultation with a lead gemologist.",
     },
     {
       number: "02 / VISUALIZATION",
       title: "3D Wax Casting",
-      description: "Photorealistic 3D render preview followed by a precision hand mock-up.",
+      description:
+        "Photorealistic 3D render preview followed by a precision hand mock-up.",
     },
     {
       number: "03 / CREATION",
       title: "Master Forging",
-      description: "Artisanal hand-setting, micro-pavé detailing, and hallmarking.",
+      description:
+        "Artisanal hand-setting, micro-pavé detailing, and hallmarking.",
     },
   ];
 
@@ -565,25 +467,48 @@ function BespokeSection() {
     <section className="diva-bespoke diva-section" id="bespoke">
       <div className="diva-bespoke__panel">
         <p className="diva-eyebrow">Custom Commissions</p>
-        <h2>Your Narrative, Cast in<br />Timeless Gold.</h2>
+
+        <h2>
+          Your Narrative, Cast in
+          <br />
+          Timeless Gold.
+        </h2>
+
         <p className="diva-bespoke__intro">
-          Collaborate directly with our master jewellers to envision custom engagement rings,
-          anniversary talismans, or reincarnate heirloom gemstones into breathtaking contemporary silhouettes.
+          Collaborate directly with our master jewellers to envision custom
+          engagement rings, anniversary talismans, or reincarnate heirloom
+          gemstones into breathtaking contemporary silhouettes.
         </p>
+
         <div className="diva-bespoke-steps">
           {steps.map((step) => (
-            <article key={step.number}>
-              <span className="diva-bespoke-steps__eyebrow">{step.number}</span>
+            <article className="diva-bespoke-card" key={step.number}>
+              <span className="diva-bespoke-steps__eyebrow">
+                {step.number}
+              </span>
+
               <h3>{step.title}</h3>
+
               <p>{step.description}</p>
             </article>
           ))}
         </div>
+
         <div className="diva-bespoke__actions">
-          <Link className="diva-button diva-button--gold" to="/bespoke-consultations">
-            Begin your custom piece <ArrowUpRight size={16} />
-          </Link>
-          <p className="diva-bespoke__timeline"><Check size={14} /> Typical timeline: 3–4 weeks from sketch to delivery</p>
+          <div className="diva-button-preventflex">
+            <Link
+              className="diva-button diva-button--gold"
+              to="/bespoke-consultations"
+            >
+              Begin your custom piece
+              <ArrowUpRight size={16} />
+            </Link>
+          </div>
+
+          <p className="diva-bespoke__timeline">
+            <Check size={14} />
+            Typical timeline: 3–4 weeks from sketch to delivery
+          </p>
         </div>
       </div>
     </section>
