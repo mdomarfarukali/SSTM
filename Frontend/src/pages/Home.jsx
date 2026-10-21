@@ -10,18 +10,19 @@ import {
   ShieldCheck,
   Heart,
   ShoppingBag,
+  CalendarDays,
 } from "lucide-react";
 import "./Home.css";
 import ChatButton from "../components/common/ChatButton";
 
 const ASSETS = {
   logo: "https://lh3.googleusercontent.com/aida/AEtjO1XZ-sy9-20S3OHxJh_LDy_ZSX6m5RslLsBeWhQeEDuGm97rdW289ZzQQPcXYVC_ZxWLuaS7YZjxQvotWQ3JE8G3kX_SwyvzwIn4VWbtdw-JCSwXqzSvxqw5RPyDb-kGA--gphG8V3P8O3aMfBLQCsYk0hn1ebBpYfCh_yy4L_nQBdYXTeAMJCncw73D97qROSkDAI2fz2CLKfxmjh8oQWKjk8uFpnw_NUFfkx0-dHMVeXzV1rlcSEd6hsqK",
-  hero: "https://lh3.googleusercontent.com/aida-public/AB6AXuAf9k0MGVCzwOEvxTZdHuCFv5cOKzAISt0TiGfFPSY1pftgBtngG4FtLjiGJR3AH2QuQcTAR4jnIQ12zk4MaOZC-RJd2m6CP9VDYhotOclVhTzrB9lzwndg_SvlRbpLgi6AZR8LrsLSH0NtlVQPbqV-eHtyVfEOVP0sS0PzyUnl1_kzBn-95InetDlkIW2F7KWa3Bw_ZPOUTTmyJCLFl4lQZ0bYpQz3w0AmpyzdRjqNupPpe8XoRPGy5g",
-  rings: "https://lh3.googleusercontent.com/aida-public/AB6AXuDa7jTqnukqHgEM4o7AJ9oaJI9FUJMtNDxCArAPAw89doTkAOVsg87cCmgwSWKOjrCY3k_sp_t-bUKyKHg5AKNiL4MC-D9SCgrrZWvALoSNh8yXeApGSLrk2saCZi1iCUMQVdGuZBUxDG_NgAwzZyUWNigaFifDH5vaybqvcwQhy6QZomzZyA9yEkHIQzNB99rwWlXdaa4PBtP467_J2LWkT4dHUeLEK3Ran0ebBdrek0lbxl2OVhgKEg",
-  necklaces: "https://lh3.googleusercontent.com/aida-public/AB6AXuBRz0XcqR2846NO6KL2E7Y4gVFOxpHG6V5NAm0m08ot6-vzF-Osuf_Kicg7_sz4JjPR1uWyrs4RYcWaC-nQfiwCciSGXf8qQQstxM8TlZEQDUlox-4NAJgE0L37sFFmpMfPctW_UP4G3i2pXroVMoVOZp2P3Xt934vo4oeK2_FjoqfKy98AJ9xxA4VRXPTdNJwltVMbUxKY2eJtTb5UPTdmNXDUTxmmCO92157Y1Ri88WH29SJ84ViDnA",
-  earrings: "https://lh3.googleusercontent.com/aida-public/AB6AXuA0yNRykAn7ivRuF1KpKjuX7pXaKGgmZGUXcX4lxOlZGoBorZoMfcoBQpIZZXcD5ruAuimM7f38GZ2ByMH_CXlt8-sDlyalBT9VrW3I2pvKQe57LWMtYd0Ju4Gj5zoL5-f0hK_nWpIaIfp-IqU8wPcpzS6DqlS1MaKs_IjltqhP7w9qewEIpJM2utn3C3MMCZsjSlVLrCwo0NgsSAWamjHuH-YT8qcvysxaBPRs0ZmDWgHRpLTFrzHWYg",
-  favorites: "https://lh3.googleusercontent.com/aida-public/AB6AXuCdXevRZKxLfVSS2XZCS_J_cPlSXHsd15LS6EvvhEQkpVZ_8nIafha45IrOTqLtudxk0q9yO3QhLZnCwP5FDeaUCm83G1hNJ90eugVfyskJQ2Xh1es0gIrSKtNrfgybDxsnl6knNaBm4bd8ivXmnAxDjJ5sTWOOY4KdBYdkzZVMnzulrxwVO39ubcPQyTAuRTYJxg-ZOK-w214jbXKz6ln4HcxJeIuOP0n_rUlAwT42wtCaUL4Tr9p_Vw",
-  atelier: "https://lh3.googleusercontent.com/aida-public/AB6AXuDnqgQkfjI4XXYK6kAdFwkODoTU0I76M_jJRyqY-E81Cah_5zNHvtTqumRdH8De8YOCxt4jch0mNDgOfGpiAfCzQcf9_4ot7foMNKQJmJQICu20SifmT1HIej8oTKf5VkbMGzFWIW2ylvdYMAKK3jhF9Az9B8Oifmn6Yj6lIY4S06Iwj5fh9Rjf8ZQZwhBAOyqW03fDJvg1-BBvQlNThD8SsppdO-qyLqxK5U8LJ0t-gkaUCg_lcXvP2A",
+  hero: "Secondary/Greetings.2.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuAf9k0MGVCzwOEvxTZdHuCFv5cOKzAISt0TiGfFPSY1pftgBtngG4FtLjiGJR3AH2QuQcTAR4jnIQ12zk4MaOZC-RJd2m6CP9VDYhotOclVhTzrB9lzwndg_SvlRbpLgi6AZR8LrsLSH0NtlVQPbqV-eHtyVfEOVP0sS0PzyUnl1_kzBn-95InetDlkIW2F7KWa3Bw_ZPOUTTmyJCLFl4lQZ0bYpQz3w0AmpyzdRjqNupPpe8XoRPGy5g",
+  rings: "src/assets/Ring.2.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuDa7jTqnukqHgEM4o7AJ9oaJI9FUJMtNDxCArAPAw89doTkAOVsg87cCmgwSWKOjrCY3k_sp_t-bUKyKHg5AKNiL4MC-D9SCgrrZWvALoSNh8yXeApGSLrk2saCZi1iCUMQVdGuZBUxDG_NgAwzZyUWNigaFifDH5vaybqvcwQhy6QZomzZyA9yEkHIQzNB99rwWlXdaa4PBtP467_J2LWkT4dHUeLEK3Ran0ebBdrek0lbxl2OVhgKEg",
+  necklaces: "src/assets/Necklace.1.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuBRz0XcqR2846NO6KL2E7Y4gVFOxpHG6V5NAm0m08ot6-vzF-Osuf_Kicg7_sz4JjPR1uWyrs4RYcWaC-nQfiwCciSGXf8qQQstxM8TlZEQDUlox-4NAJgE0L37sFFmpMfPctW_UP4G3i2pXroVMoVOZp2P3Xt934vo4oeK2_FjoqfKy98AJ9xxA4VRXPTdNJwltVMbUxKY2eJtTb5UPTdmNXDUTxmmCO92157Y1Ri88WH29SJ84ViDnA",
+  earrings: "src/assets/Jhumka.1.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuA0yNRykAn7ivRuF1KpKjuX7pXaKGgmZGUXcX4lxOlZGoBorZoMfcoBQpIZZXcD5ruAuimM7f38GZ2ByMH_CXlt8-sDlyalBT9VrW3I2pvKQe57LWMtYd0Ju4Gj5zoL5-f0hK_nWpIaIfp-IqU8wPcpzS6DqlS1MaKs_IjltqhP7w9qewEIpJM2utn3C3MMCZsjSlVLrCwo0NgsSAWamjHuH-YT8qcvysxaBPRs0ZmDWgHRpLTFrzHWYg",
+  favorites: "src/assets/Necklace.2.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuCdXevRZKxLfVSS2XZCS_J_cPlSXHsd15LS6EvvhEQkpVZ_8nIafha45IrOTqLtudxk0q9yO3QhLZnCwP5FDeaUCm83G1hNJ90eugVfyskJQ2Xh1es0gIrSKtNrfgybDxsnl6knNaBm4bd8ivXmnAxDjJ5sTWOOY4KdBYdkzZVMnzulrxwVO39ubcPQyTAuRTYJxg-ZOK-w214jbXKz6ln4HcxJeIuOP0n_rUlAwT42wtCaUL4Tr9p_Vw",
+  atelier: "Secondary/Creation.4.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuDnqgQkfjI4XXYK6kAdFwkODoTU0I76M_jJRyqY-E81Cah_5zNHvtTqumRdH8De8YOCxt4jch0mNDgOfGpiAfCzQcf9_4ot7foMNKQJmJQICu20SifmT1HIej8oTKf5VkbMGzFWIW2ylvdYMAKK3jhF9Az9B8Oifmn6Yj6lIY4S06Iwj5fh9Rjf8ZQZwhBAOyqW03fDJvg1-BBvQlNThD8SsppdO-qyLqxK5U8LJ0t-gkaUCg_lcXvP2A",
   product1: "https://lh3.googleusercontent.com/aida-public/AB6AXuCVF55ITz8d5DWVqJo8pULo7QMlXbK4TkxfuNiSostniBKuCJWihhMn7EA4XltD8aJbLc8nxdjLFKFc571pA45dqJpKGlQpTlAFBTFcI6wuYK82fc98bk1RRFig-IdNOnIt0L3FE3FKmiQ4hTaTDeAET2U2LLEWRQ93cJbmY70MKuDpi3MDKkRRXShzM4JfTnSn0oQ4i8WmjQHsuBSv1lYM9o_e9Yb6wM52thYLgeH5RM8_WHp6CdaTYg",
   product2: "https://lh3.googleusercontent.com/aida-public/AB6AXuDCMJ9O3Xu_0H_gaJm_7CdIz6iK2VxnpjkV5V4rVkvTpKmLpLkoylnI3FoMn8t5BcnoK-ZWVjUMDYPk-diyUBnoX7PnP_gWdfkreeF1E6idVC7y66NgDkNwwwa4Gv_h4lBNl1f5nitb6GDvPKai4KAlm27uZQgpxtQpIRryvbRr2bBSr2BZ9qvJayUZIIkmdEucG5n03GMsSAhT034_f2uTt_Hu54Yzd8s7hAggBjZZGEugoXlMdtCxcQ",
   product3: "https://lh3.googleusercontent.com/aida-public/AB6AXuB8UIGoigmwnhg_nA8THKa6ZGNx7yYRJAqmru80IvRu8LvTXSDGEjXP_Qw0VnQbO9wm2j0Qwgtbpu-gyKyprmaMtO7RrI05cyWBqDwI0scIBXY1dGdzfpKTZGhBdgO7QfQFy0m12qbvzd35ks8YmKDhsZbV6O99rwJRo5luIfuzvw4MFVFxEsNFKLX1VBSHzLLERPyjJ-Tt4RhLm7AhfYNWFlRuUu9-gMnPEDf1OdOKU_QKu0bHvsF1fA",
@@ -138,7 +139,7 @@ function HeroSection() {
   return (
     <section className="diva-hero">
       <div className="diva-hero__copy">
-        <p className="diva-eyebrow">Maison de Haute Joaillerie · Paris &amp; New York</p>
+        <p className="diva-eyebrow">Maison de Haute Joaillerie · Paris &amp; Kolkata</p>
         <h1>Handcrafted Brilliance,<br /><em>Timeless Devotion.</em></h1>
         <p className="diva-hero__description">
           Discover exclusive, ethically-sourced jewelry designs. From classic solitaires to modern
@@ -146,10 +147,11 @@ function HeroSection() {
         </p>
         <div className="diva-hero__actions">
           <Link className="diva-button diva-button--primary" to="/products">
-            Explore the Collection <ArrowRight size={16} aria-hidden="true" />
+            EXPLORE THE COLLECTION <ArrowRight size={16} aria-hidden="true" />
           </Link>
           <Link className="diva-button diva-button--secondary" to="/bespoke-consultations">
-            Private Consultation <ArrowUpRight size={15} aria-hidden="true" />
+            <CalendarDays size={17} color="var(--diva-accent)" />
+            PRIVATE CONSULTATION <ArrowUpRight size={15} aria-hidden="true" />
           </Link>
         </div>
         {/* <div className="diva-hero__note">
@@ -192,11 +194,11 @@ function HeroSection() {
         </div>
         <div className="diva-hero-product">
           <span className="diva-hero-product__kicker">Maison Signature</span>
-          <strong>Solitaire &amp; South Sea Luminescence</strong>
-          <span>18K Recycled Rose Gold · Natural Diamond</span>
+          <strong>Sapphire &amp; Diamond Haute Joaillerie Set</strong>
+          <span>Blue Sapphire · Diamond · White Gold</span>
           <div className="diva-hero-product__bottom">
-            <span>$1,850</span>
-            <span className="diva-certified"><Check size={13} /> Ethical origin</span>
+            <span>$12,800</span>
+            <span className="diva-certified"><Check size={13} /> Ethically Sourced </span>
           </div>
         </div>
       </div>

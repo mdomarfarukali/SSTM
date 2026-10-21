@@ -633,7 +633,8 @@
 .diva-collection-card__number {
   position: absolute;
   top: 13px;
-  left: 13px;
+  /* left: 13px; */
+  right: 13px;
   padding: 7px 9px;
   background: rgb(252 249 244 / 90%);
   color: var(--diva-ink-soft);
@@ -641,11 +642,13 @@
   font-weight: 600;
   letter-spacing: 0.13em;
   backdrop-filter: blur(10px);
+  border-radius: 4px; /* Rounded corners */
 }
 
 .diva-round-arrow {
   position: absolute;
-  right: 13px;
+  left: 13px;
+  /* right: 13px; */
   bottom: 13px;
   width: 39px;
   height: 39px;
