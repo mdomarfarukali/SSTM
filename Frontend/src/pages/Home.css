@@ -100,7 +100,7 @@
   text-align: center;
   text-transform: uppercase;
 }
-
+/* 
 .diva-header {
   position: fixed;
   z-index: 50;
@@ -280,7 +280,7 @@
   border-bottom: 1px solid var(--diva-border);
   font-family: "Playfair Display", Georgia, serif;
   font-size: 22px;
-}
+} */
 
 .diva-section {
   padding: 88px clamp(20px, 5vw, 80px);
@@ -1384,7 +1384,8 @@
 } */
 
 .diva-press {
-  background: #f6f2ec;
+  background: var(--diva-bg-soft) !important;/* #f6f2ec; */
+  padding: 100px !important;
 }
 
 .diva-press__quotes {
@@ -1403,7 +1404,7 @@
   display: block;
   margin-bottom: 15px;
   font-family: Georgia, serif;
-  font-size: 16px;
+  font-size: 16px !important;
   font-weight: 700;
   letter-spacing: 0.13em;
 }
@@ -1413,28 +1414,28 @@
   margin: 0 auto;
   color: var(--diva-ink-soft);
   font-family: "Playfair Display", Georgia, serif;
-  font-size: 17px;
+  font-size: 17px !important;
   font-style: italic;
   line-height: 1.65;
 }
 
 .diva-testimonial {
-  max-width: 770px;
-  margin: 44px auto 0;
+  max-width: 970px !important;
+  margin: 44px auto 0 !important;
   text-align: center;
 }
 
 .diva-testimonial__stars {
-  margin-bottom: 17px;
+  margin-bottom: 17px !important;
   color: #b58a65;
-  font-size: 15px;
+  font-size: 15px !important;
   letter-spacing: 0.35em;
 }
 
 .diva-testimonial blockquote {
-  margin: 0 0 18px;
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(19px, 2vw, 25px);
+  margin: 0 0 18px !important;
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-size: clamp(19px, 2vw, 25px) !important;
   line-height: 1.6;
 }
 
@@ -1481,19 +1482,19 @@
 }
 
 .diva-gallery-card:nth-child(1) {
-  border-radius: 8px 28% 8px 8px;
+  border-radius: 15px 15px 15px 15px;
 }
 
 .diva-gallery-card:nth-child(2) {
-  border-radius: 28% 8px 8px 8px;
+  border-radius: 15px 15px 15px 15px;
 }
 
 .diva-gallery-card:nth-child(3) {
-  border-radius: 8px 8px 28% 8px;
+  border-radius: 15px 15px 15px 15px;
 }
 
 .diva-gallery-card:nth-child(4) {
-  border-radius: 8px 8px 8px 28%;
+  border-radius: 15px 15px 15px 15px;
 }
 
 .diva-gallery-card img {
@@ -1525,7 +1526,7 @@
 .diva-gallery-card:focus-visible>span {
   opacity: 1;
 }
-
+/* 
 .diva-footer {
   padding: 64px clamp(20px, 5vw, 80px) 0;
   border-top: 1px solid var(--diva-border);
@@ -1712,7 +1713,7 @@
 .diva-footer__bottom>div {
   display: flex;
   gap: 18px;
-}
+} */
 
 .diva-sr-only {
   position: absolute;
@@ -2958,11 +2959,16 @@
 }
 
 .diva-home .diva-testimonial__avatar {
-  width: 56px;
-  height: 56px;
+  width: 65px !important;
+  height: 65px !important;
+  min-width: 65px !important;
+  min-height: 65px !important;
+  max-width: 65px !important;
+  flex: 0 0 65px !important;
   border: 1px solid #e7dfd5;
   border-radius: 50%;
   object-fit: cover;
+  /* aspect-ratio: 1 / 1 !important; */
 }
 
 .diva-home .diva-testimonial__stars {
@@ -2974,16 +2980,16 @@
 }
 
 .diva-home .diva-testimonial blockquote {
-  margin: 0 0 7px;
+  margin: 0 0 8px !important;
   color: #39312c;
-  font-size: 14px;
+  font-size: 14px !important;
   line-height: 1.55;
 }
 
 .diva-home .diva-testimonial__content>p {
   margin: 0;
   color: #5c514a;
-  font-size: 9px;
+  font-size: 9px !important;
   font-weight: 500;
   letter-spacing: .08em;
   line-height: 1.5;
@@ -3048,8 +3054,8 @@
   }
 
   .diva-home .diva-testimonial__avatar {
-    width: 42px;
-    height: 42px;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   .diva-home .diva-testimonial blockquote {
@@ -3128,9 +3134,9 @@
 }
 
 /* ---------- Card ---------- */
-.diva-pcard {
+/* .diva-pcard {
   min-width: 0;
-}
+} */
 
 .diva-pcard__frame {
   padding: 10px;
@@ -3202,9 +3208,160 @@
 }
 
 /* Body */
+/* .diva-pcard__body {
+  padding-top: 20px;
+} */
+
+/* ---------- Card ---------- */
+.diva-pcard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+}
+
+/* ---------- Body ---------- */
 .diva-pcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
   padding-top: 20px;
 }
+
+/* Title: one line with ellipsis */
+.diva-pcard__body h3 {
+  display: block;
+  margin: 0 0 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--diva-ink, #1f1812);
+}
+
+/* Description: maximum two lines */
+.diva-pcard__body > p:not(.diva-pcard__material) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+
+  min-height: 3em;
+  margin: 0 0 12px;
+  line-height: 1.5em;
+}
+
+/* Material: consistent position */
+.diva-pcard__material {
+  margin-top: auto;
+  margin-bottom: 0;
+  padding-bottom: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  border-bottom: 1px solid rgb(42 33 26 / 10%);
+  font-size: 14px;
+  color: var(--diva-muted, #6b6259);
+}
+
+/* Price and Add button stay aligned */
+.diva-pcard__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.diva-pcard__product-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.diva-pcard__product-link:hover {
+  color: inherit;
+}
+
+
+/* Equal-height product cards */
+.diva-pgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.diva-pcard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+}
+
+/* Identical image frames */
+.diva-pcard__frame {
+  flex-shrink: 0;
+}
+
+.diva-pcard__image {
+  aspect-ratio: 1 / 1;
+}
+
+/* Consistent body layout */
+.diva-pcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Title: exactly one line */
+.diva-pcard__product-link h3,
+.diva-pcard__body > h3 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+/* Description: reserve exactly two lines */
+.diva-pcard__product-link > p,
+.diva-pcard__body > p:not(.diva-pcard__material) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  height: 3em;
+  min-height: 3em;
+  max-height: 3em;
+  margin: 0 0 12px;
+  line-height: 1.5em;
+}
+
+/* Keep material and divider aligned */
+.diva-pcard__material {
+  margin-top: auto;
+  min-height: calc(1.5em + 14px);
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Price and button aligned at the bottom */
+.diva-pcard__bottom {
+  margin-top: 14px;
+  flex-shrink: 0;
+}
+
 
 .diva-pcard__body h3 {
   margin: 0 0 6px;
@@ -3244,11 +3401,11 @@
   border: 0;
   border-radius: 999px;
   background: var(--diva-ink, #1f1812);
-  color: #fff;
+  color: #fff !important;
   font-family: "DM Sans", sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
   text-transform: uppercase;
   cursor: pointer;
   transition: background-color 200ms ease, transform 200ms ease;

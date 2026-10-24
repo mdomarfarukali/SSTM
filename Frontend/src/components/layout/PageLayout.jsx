@@ -11,7 +11,7 @@ export default function PageLayout({ children }) {
       {/* Main content */}
       <main 
         // className="flex-1"
-        className="flex-grow min-h-[calc(100vh-80px)] mt-16 md:mt-12"
+        className="flex-grow min-h-[calc(100vh-80px)] -mt-8"
       >
         {/* {children} */}
         <Outlet /> {/* 👈 This renders nested route content */}
