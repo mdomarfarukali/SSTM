@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -14,6 +15,8 @@ import {
 } from "lucide-react";
 import "./Home.css";
 import ChatButton from "../components/common/ChatButton";
+// import FeaturedProductsSection from "../components/layout/FeaturedProductsSection";
+import FeaturedProductsSection from "../components/layout/FeaturedProductsSection";
 
 const ASSETS = {
   logo: "https://lh3.googleusercontent.com/aida/AEtjO1XZ-sy9-20S3OHxJh_LDy_ZSX6m5RslLsBeWhQeEDuGm97rdW289ZzQQPcXYVC_ZxWLuaS7YZjxQvotWQ3JE8G3kX_SwyvzwIn4VWbtdw-JCSwXqzSvxqw5RPyDb-kGA--gphG8V3P8O3aMfBLQCsYk0hn1ebBpYfCh_yy4L_nQBdYXTeAMJCncw73D97qROSkDAI2fz2CLKfxmjh8oQWKjk8uFpnw_NUFfkx0-dHMVeXzV1rlcSEd6hsqK",
@@ -27,11 +30,11 @@ const ASSETS = {
   product2: "https://lh3.googleusercontent.com/aida-public/AB6AXuDCMJ9O3Xu_0H_gaJm_7CdIz6iK2VxnpjkV5V4rVkvTpKmLpLkoylnI3FoMn8t5BcnoK-ZWVjUMDYPk-diyUBnoX7PnP_gWdfkreeF1E6idVC7y66NgDkNwwwa4Gv_h4lBNl1f5nitb6GDvPKai4KAlm27uZQgpxtQpIRryvbRr2bBSr2BZ9qvJayUZIIkmdEucG5n03GMsSAhT034_f2uTt_Hu54Yzd8s7hAggBjZZGEugoXlMdtCxcQ",
   product3: "https://lh3.googleusercontent.com/aida-public/AB6AXuB8UIGoigmwnhg_nA8THKa6ZGNx7yYRJAqmru80IvRu8LvTXSDGEjXP_Qw0VnQbO9wm2j0Qwgtbpu-gyKyprmaMtO7RrI05cyWBqDwI0scIBXY1dGdzfpKTZGhBdgO7QfQFy0m12qbvzd35ks8YmKDhsZbV6O99rwJRo5luIfuzvw4MFVFxEsNFKLX1VBSHzLLERPyjJ-Tt4RhLm7AhfYNWFlRuUu9-gMnPEDf1OdOKU_QKu0bHvsF1fA",
   product4: "https://lh3.googleusercontent.com/aida-public/AB6AXuB2oZaJ8M5WBxLQ9jEFNAxybePIFo2vC20PzwiH95Ph1ydz9nCD8MO9XLsdRvIitUggEK78bI0t2zx1lPMRDhY5X9gfWtNcz0XYb1ocT9l8HwR8sI6rUHSAfBOXr9CpgFlIsFilY9S9hUsraKwwrgMSEW-ohGdwYqvTXpEAXk7yr7W16p1WKYLz_XjGx8AfeOkw4ql-QBgIGMlPpoAS91vHImF8gRbDwLJagRAi6eUp6mYs2s29R0QmPw",
-  testimonial: "https://lh3.googleusercontent.com/aida-public/AB6AXuA3NCRAuUWYblWcgFDHzmo-pRtHCiD7uR3ALr3gjsF67gWJdLaC2op9NSfUCkzfyiowNf7fTBc8VMm18jqEDUK_bVqFy5zo1jJKQmcDZ3d6SjrPPtH5pfEYztBa4RGtBQdPmFnglNyUpr0cd67sSxe-BxTdeekvubaZudIp2qMMgVN3ZHsUCbor09t4um7rKnQL4cHVxg3yKNgqC68rUzQRsj5zbhu8yo-lJqUO34wZavX7Pm8PW4f8gQ",
-  gallery1: "https://lh3.googleusercontent.com/aida-public/AB6AXuAZp42J38M15ZVY_yJUi7LTGFCP_5wimegpZwMCIZhvRW1heY7_YzvUc9g2YIik6gmxFp92AQXmUquvcbOmA68ZVnJ-YbmUM9mUKC3ik_gQzUleDzZ5q-kH9K3-OklKUdprxaIvCg8aOOMLTvP1uepkAgrIlWI31_xPAUcxCTIzWav5rQ7ADDGhMdhJE2-f548TG4TMXpc4q0Z4ACWZnXMIh1IRYOZztdxpaLdUkWvDkmqr2XNIgZ-M_w",
-  gallery2: "https://lh3.googleusercontent.com/aida-public/AB6AXuClxummn7VnqQ4-cX71XXazvWSGO_kP0-zs2b4SSk2W2HD1ezamGq37BOJZf_qywEVW9eXzXjbhjqEctDzLYxBcN2pPlALVmo1Oh7vpaJWNfcDKiIMpQIXNwA63dPrfmxVmpM1dWOQNgpgftNnT0jJkM-g_fwLUmZbLr29J-1xm7zplimJE3-ekIaE-j7Ut-i9fcxnXQllPKcYT8SJMWUq7-kvU4Wz9RNU1TrBo3nX09edyPixv-a5m2w",
-  gallery3: "https://lh3.googleusercontent.com/aida-public/AB6AXuCaubzgXS6Cb3A7ZMT7FdaL0zU1YhKuJ6J2yszX1tZp16fGQ06REe1AGmIbLIDL3bVWFT_rpisvAkTQJlBvPEk9TdGyXu5g7c1FQ1xdpg8PGF-gvl2rTxVv2si1fCiXvP9jHr_0tPAxx4qcUo-4bZ3vvUq66-rBLL0-ZlT-rs4A0SR3e4iBRmp8Cil37mfKpIKabW79vMx01Ng7Z9u8w6t7VA2SR-x218tPRrW1SQvrCBoetWtS--cuUw",
-  gallery4: "https://lh3.googleusercontent.com/aida-public/AB6AXuCy--q5nKepmR3Vqmhy5P_viT67wGd-e-nKYlAP8i3gDy6p09B8oeWg5R8tCUUl31ZNgXyHywa6tq6sj04vYLwpVZZ9WQgl_73ceSlmScNo53a7jZmJXErp1OfUKU6x_QNTaTH0YfVwbWlXmzHjZhNspg3vSPE2T-_AMmJLamvrRqVSlSars6WpYeAphQNHLB17_7Uo5RkXR3KEKPgCWCjd8IOCiVF2lGwhdtDHl7H6DGbAFoQ1S6fcBA",
+  testimonial: "src/assets/User.2.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuA3NCRAuUWYblWcgFDHzmo-pRtHCiD7uR3ALr3gjsF67gWJdLaC2op9NSfUCkzfyiowNf7fTBc8VMm18jqEDUK_bVqFy5zo1jJKQmcDZ3d6SjrPPtH5pfEYztBa4RGtBQdPmFnglNyUpr0cd67sSxe-BxTdeekvubaZudIp2qMMgVN3ZHsUCbor09t4um7rKnQL4cHVxg3yKNgqC68rUzQRsj5zbhu8yo-lJqUO34wZavX7Pm8PW4f8gQ",
+  gallery1: "src/assets/Gallery.1.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuAZp42J38M15ZVY_yJUi7LTGFCP_5wimegpZwMCIZhvRW1heY7_YzvUc9g2YIik6gmxFp92AQXmUquvcbOmA68ZVnJ-YbmUM9mUKC3ik_gQzUleDzZ5q-kH9K3-OklKUdprxaIvCg8aOOMLTvP1uepkAgrIlWI31_xPAUcxCTIzWav5rQ7ADDGhMdhJE2-f548TG4TMXpc4q0Z4ACWZnXMIh1IRYOZztdxpaLdUkWvDkmqr2XNIgZ-M_w",
+  gallery2: "src/assets/Gallery.2.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuClxummn7VnqQ4-cX71XXazvWSGO_kP0-zs2b4SSk2W2HD1ezamGq37BOJZf_qywEVW9eXzXjbhjqEctDzLYxBcN2pPlALVmo1Oh7vpaJWNfcDKiIMpQIXNwA63dPrfmxVmpM1dWOQNgpgftNnT0jJkM-g_fwLUmZbLr29J-1xm7zplimJE3-ekIaE-j7Ut-i9fcxnXQllPKcYT8SJMWUq7-kvU4Wz9RNU1TrBo3nX09edyPixv-a5m2w",
+  gallery3: "src/assets/Gallery.3.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuCaubzgXS6Cb3A7ZMT7FdaL0zU1YhKuJ6J2yszX1tZp16fGQ06REe1AGmIbLIDL3bVWFT_rpisvAkTQJlBvPEk9TdGyXu5g7c1FQ1xdpg8PGF-gvl2rTxVv2si1fCiXvP9jHr_0tPAxx4qcUo-4bZ3vvUq66-rBLL0-ZlT-rs4A0SR3e4iBRmp8Cil37mfKpIKabW79vMx01Ng7Z9u8w6t7VA2SR-x218tPRrW1SQvrCBoetWtS--cuUw",
+  gallery4: "src/assets/Gallery.4.png", //"https://lh3.googleusercontent.com/aida-public/AB6AXuCy--q5nKepmR3Vqmhy5P_viT67wGd-e-nKYlAP8i3gDy6p09B8oeWg5R8tCUUl31ZNgXyHywa6tq6sj04vYLwpVZZ9WQgl_73ceSlmScNo53a7jZmJXErp1OfUKU6x_QNTaTH0YfVwbWlXmzHjZhNspg3vSPE2T-_AMmJLamvrRqVSlSars6WpYeAphQNHLB17_7Uo5RkXR3KEKPgCWCjd8IOCiVF2lGwhdtDHl7H6DGbAFoQ1S6fcBA",
 };
 
 const collections = [
@@ -335,38 +338,174 @@ function AtelierSection() {
   );
 }
 
-const FILTERS = ["All Pieces", "Rings", "Necklaces", "Earrings"];
+// const FILTERS = ["All Pieces", "Rings", "Necklaces", "Earrings"];
+
+// function ProductCard({ product, isSaved, onAddToWishlist, onAddToCart }) {
+//   return (
+//     <article className="diva-pcard">
+//       <div className="diva-pcard__frame">
+//         <div className="diva-pcard__image">
+//           <img src={product.image} alt={product.name} loading="lazy" />
+
+//           <button
+//             type="button"
+//             className={`diva-pcard__heart ${isSaved ? "is-saved" : ""}`}
+//             aria-pressed={isSaved}
+//             aria-label={isSaved ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
+//             onClick={() => onAddToWishlist(product.name)}
+//           >
+//             <Heart size={17} fill={isSaved ? "currentColor" : "none"} />
+//           </button>
+
+//           {product.badge && <span className="diva-pcard__tag">{product.badge}</span>}
+//         </div>
+//       </div>
+
+//       <div className="diva-pcard__body">
+//         <h3>{product.name}</h3>
+//         <p>{product.detail}</p>
+//         <p className="diva-pcard__material">{product.material}</p>
+
+//         <div className="diva-pcard__bottom">
+//           <span className="diva-pcard__price">₹ {product.price}</span>
+//           <button type="button" className="diva-pcard__add text-white" onClick={() => onAddToCart?.(product)}>
+//             <ShoppingBag size={14} aria-hidden="true" className="text-white" /> <span className="text-white"> Add </span>
+//           </button>
+//         </div>
+//       </div>
+//     </article>
+//   );
+// }
+
+// function FeaturedProductsSection() {
+//   const [category, setCategory] = useState("All Pieces");
+//   const [saved, setSaved] = useState([]);
+
+//   const filteredProducts = useMemo(() => {
+//     if (category === "All Pieces") return products;
+//     if (category === "Rings") return products.filter((p) => /ring|solitaire/i.test(p.name));
+//     if (category === "Necklaces") return products.filter((p) => /pendant/i.test(p.name));
+//     return products.filter((p) => /studs/i.test(p.name));
+//   }, [category]);
+
+//   const toggleWishlist = (name) => {
+//     setSaved((current) =>
+//       current.includes(name) ? current.filter((i) => i !== name) : [...current, name]
+//     );
+//   };
+
+//   return (
+//     <section className="diva-featured diva-section" id="featured">
+//       <div className="diva-featured__head">
+//         <div>
+//           <p className="diva-eyebrow">Haute Curations</p>
+//           <h2>Featured Icons &amp; New Arrivals</h2>
+//         </div>
+
+//         <div className="diva-pills" role="group" aria-label="Filter featured products">
+//           {FILTERS.map((item) => (
+//             <button
+//               type="button"
+//               key={item}
+//               className={category === item ? "is-active" : ""}
+//               aria-pressed={category === item}
+//               onClick={() => setCategory(item)}
+//             >
+//               {item}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+
+//       <div className="diva-pgrid">
+//         {filteredProducts.map((product) => (
+//           <ProductCard
+//             key={product.name}
+//             product={product}
+//             isSaved={saved.includes(product.name)}
+//             onAddToWishlist={toggleWishlist}
+//           />
+//         ))}
+//       </div>
+
+//       <div className="diva-featured__footer">
+//         <Link className="diva-outline-cta" to="/products">
+//           Discover complete 2026 collection (48 pieces) <ArrowRight size={15} aria-hidden="true" />
+//         </Link>
+//       </div>
+
+//       {saved.length > 0 && (
+//         <p className="diva-saved-feedback" role="status">
+//           {saved.length} {saved.length === 1 ? "piece" : "pieces"} saved for this browsing session.
+//           Sign in to keep your wishlist across devices.
+//         </p>
+//       )}
+//     </section>
+//   );
+// }
+
 
 function ProductCard({ product, isSaved, onAddToWishlist, onAddToCart }) {
+  const productPath = `/product/${product._id}`;
+
   return (
     <article className="diva-pcard">
       <div className="diva-pcard__frame">
         <div className="diva-pcard__image">
-          <img src={product.image} alt={product.name} loading="lazy" />
+          <Link
+            to={productPath}
+            aria-label={`View ${product.name}`}
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              loading="lazy"
+            />
+          </Link>
 
           <button
             type="button"
             className={`diva-pcard__heart ${isSaved ? "is-saved" : ""}`}
             aria-pressed={isSaved}
-            aria-label={isSaved ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
+            aria-label={
+              isSaved
+                ? `Remove ${product.name} from wishlist`
+                : `Save ${product.name} to wishlist`
+            }
             onClick={() => onAddToWishlist(product.name)}
           >
             <Heart size={17} fill={isSaved ? "currentColor" : "none"} />
           </button>
 
-          {product.badge && <span className="diva-pcard__tag">{product.badge}</span>}
+          {product.badge && (
+            <span className="diva-pcard__tag">{product.badge}</span>
+          )}
         </div>
       </div>
 
       <div className="diva-pcard__body">
-        <h3>{product.name}</h3>
-        <p>{product.detail}</p>
+        <Link
+          to={productPath}
+          className="diva-pcard__product-link"
+        >
+          <h3>{product.name}</h3>
+          <p>{product.detail}</p>
+        </Link>
+
         <p className="diva-pcard__material">{product.material}</p>
 
         <div className="diva-pcard__bottom">
-          <span className="diva-pcard__price">{product.price}</span>
-          <button type="button" className="diva-pcard__add text-white" onClick={() => onAddToCart?.(product)}>
-            <ShoppingBag size={14} aria-hidden="true" className="text-white" /> <span className="text-white"> Add </span>
+          <span className="diva-pcard__price">
+            ₹ {product.price}
+          </span>
+
+          <button
+            type="button"
+            className="diva-pcard__add text-white"
+            onClick={() => onAddToCart?.(product)}
+          >
+            <ShoppingBag size={14} aria-hidden="true" />
+            <span>Add</span>
           </button>
         </div>
       </div>
@@ -374,72 +513,200 @@ function ProductCard({ product, isSaved, onAddToWishlist, onAddToCart }) {
   );
 }
 
-function FeaturedProductsSection() {
-  const [category, setCategory] = useState("All Pieces");
-  const [saved, setSaved] = useState([]);
 
-  const filteredProducts = useMemo(() => {
-    if (category === "All Pieces") return products;
-    if (category === "Rings") return products.filter((p) => /ring|solitaire/i.test(p.name));
-    if (category === "Necklaces") return products.filter((p) => /pendant/i.test(p.name));
-    return products.filter((p) => /studs/i.test(p.name));
-  }, [category]);
+// function FeaturedProductsSection() {
+//   const [category, setCategory] = useState("All Pieces");
+//   const [saved, setSaved] = useState([]);
+//   const [products, setProducts] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
 
-  const toggleWishlist = (name) => {
-    setSaved((current) =>
-      current.includes(name) ? current.filter((i) => i !== name) : [...current, name]
-    );
-  };
+//   // useEffect(() => {
+//   //   const fetchProducts = async () => {
+//   //     try {
+//   //       setLoading(true);
+//   //       setError("");
 
-  return (
-    <section className="diva-featured diva-section" id="featured">
-      <div className="diva-featured__head">
-        <div>
-          <p className="diva-eyebrow">Haute Curations</p>
-          <h2>Featured Icons &amp; New Arrivals</h2>
-        </div>
+//   //       // Fetch every page; the API returns 10 products per page.
+//   //       const firstResponse = await axios.get("/API/products?page=1&limit=100");
+//   //       console.log("firstResponse", firstResponse);
+//   //       // const firstResponse = await fetch("/API/products?page=1&limit=10");
+//   //       if (!firstResponse.ok) {
+//   //         throw new Error("Could not load products.");
+//   //       }
 
-        <div className="diva-pills" role="group" aria-label="Filter featured products">
-          {FILTERS.map((item) => (
-            <button
-              type="button"
-              key={item}
-              className={category === item ? "is-active" : ""}
-              aria-pressed={category === item}
-              onClick={() => setCategory(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </div>
+//   //       const firstData = await firstResponse.data; //await firstResponse.json();
+//   //       const firstProducts = firstData.products ?? [];
+//   //       const totalPages =
+//   //         firstData.pagination?.pages ??
+//   //         firstData.pages ??
+//   //         firstData.totalPages ??
+//   //         1;
 
-      <div className="diva-pgrid">
-        {filteredProducts.map((product) => (
-          <ProductCard
-            key={product.name}
-            product={product}
-            isSaved={saved.includes(product.name)}
-            onAddToWishlist={toggleWishlist}
-          />
-        ))}
-      </div>
+//   //       const remainingPages = await Promise.all(
+//   //         Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) =>
+//   //           fetch(`/api/products?page=${index + 2}&limit=10`).then((response) => {
+//   //             if (!response.ok) throw new Error("Could not load all products.");
+//   //             return response.json();
+//   //           })
+//   //         )
+//   //       );
 
-      <div className="diva-featured__footer">
-        <Link className="diva-outline-cta" to="/products">
-          Discover complete 2026 collection (48 pieces) <ArrowRight size={15} aria-hidden="true" />
-        </Link>
-      </div>
+//   //       const allProducts = [
+//   //         ...firstProducts,
+//   //         ...remainingPages.flatMap((data) => data.products ?? []),
+//   //       ];
 
-      {saved.length > 0 && (
-        <p className="diva-saved-feedback" role="status">
-          {saved.length} {saved.length === 1 ? "piece" : "pieces"} saved for this browsing session.
-          Sign in to keep your wishlist across devices.
-        </p>
-      )}
-    </section>
-  );
-}
+//   //       // Shuffle on each fresh page load.
+//   //       for (let i = allProducts.length - 1; i > 0; i--) {
+//   //         const j = Math.floor(Math.random() * (i + 1));
+//   //         [allProducts[i], allProducts[j]] = [allProducts[j], allProducts[i]];
+//   //       }
+
+//   //       setProducts(allProducts);
+//   //     } catch (err) {
+//   //       setError(err.message || "Unable to load products.");
+//   //     } finally {
+//   //       setLoading(false);
+//   //     }
+//   //   };
+
+//   //   fetchProducts();
+//   // }, []);
+
+
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       try {
+//         setLoading(true);
+//         setError("");
+
+//         const { data } = await axios.get(
+//           "/API/products?page=1&limit=100"
+//         );
+
+//         const allProducts = [...(data.products ?? [])];
+
+//         // Shuffle products on each page load.
+//         for (let i = allProducts.length - 1; i > 0; i--) {
+//           const j = Math.floor(Math.random() * (i + 1));
+//           [allProducts[i], allProducts[j]] = [
+//             allProducts[j],
+//             allProducts[i],
+//           ];
+//         }
+
+//         setProducts(allProducts);
+//       } catch (err) {
+//         console.error("Error fetching products:", err);
+//         setError(
+//           err.response?.data?.message ||
+//           err.message ||
+//           "Unable to load products."
+//         );
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchProducts();
+//   }, []);
+
+//   const filteredProducts = useMemo(() => {
+//     if (category === "All Pieces") return products;
+//     if (category === "Rings") {
+//       return products.filter((p) => /ring|solitaire/i.test(`${p.name} ${p.category ?? ""}`));
+//     }
+//     if (category === "Necklaces") {
+//       return products.filter((p) => /necklace|pendant/i.test(`${p.name} ${p.category ?? ""}`));
+//     }
+//     return products.filter((p) => /earring|stud|jhumka/i.test(`${p.name} ${p.category ?? ""}`));
+//   }, [category, products]);
+
+//   const toggleWishlist = (productId) => {
+//     setSaved((current) =>
+//       current.includes(productId)
+//         ? current.filter((id) => id !== productId)
+//         : [...current, productId]
+//     );
+//   };
+
+//   return (
+//     <section className="diva-featured diva-section" id="featured">
+//       <div className="diva-featured__head">
+//         <div>
+//           <p className="diva-eyebrow">Haute Curations</p>
+//           <h2>Featured Icons &amp; New Arrivals</h2>
+//         </div>
+
+//         <div className="diva-pills" role="group" aria-label="Filter featured products">
+//           {FILTERS.map((item) => (
+//             <button
+//               type="button"
+//               key={item}
+//               className={category === item ? "is-active" : ""}
+//               aria-pressed={category === item}
+//               onClick={() => setCategory(item)}
+//             >
+//               {item}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+
+//       {loading ? (
+//         <p className="diva-product-status" role="status">Discovering your pieces…</p>
+//       ) : error ? (
+//         <p className="diva-product-status" role="alert">{error}</p>
+//       ) : filteredProducts.length === 0 ? (
+//         <p className="diva-product-status">No pieces found in this category yet.</p>
+//       ) : (
+//         <div className="diva-pgrid">
+//           {filteredProducts.slice(0, 4).map((product) => (
+//             <ProductCard
+//               key={product._id}
+//               product={{
+//                 ...product,
+//                 detail: product.description ?? product.material ?? "",
+//                 material: product.material ?? "",
+//                 price: product.finalPrice ?? product.price,
+//                 image:
+//                   product.thumbnail ??
+//                   (Array.isArray(product.images)
+//                     ? product.images[0]
+//                     : product.images) ??
+//                   "",
+//                 path: `/products/${product.slug ?? product._id}`,
+//                 badge: product.isNewArrival
+//                   ? "New Arrival"
+//                   : product.isBestSeller
+//                     ? "Best Seller"
+//                     : "",
+//               }}
+//               isSaved={saved.includes(product._id ?? product.id ?? product.slug)}
+//               onAddToWishlist={() =>
+//                 toggleWishlist(product._id ?? product.id ?? product.slug)
+//               }
+//             />
+//           ))}
+//         </div>
+//       )}
+
+//       <div className="diva-featured__footer">
+//         <Link className="diva-outline-cta" to="/products">
+//           Discover complete collection <ArrowRight size={15} aria-hidden="true" />
+//         </Link>
+//       </div>
+
+//       {saved.length > 0 && (
+//         <p className="diva-saved-feedback" role="status">
+//           {saved.length} {saved.length === 1 ? "piece" : "pieces"} saved for this browsing session.
+//           Sign in to keep your wishlist across devices.
+//         </p>
+//       )}
+//     </section>
+//   );
+// }
 
 function BespokeSection() {
   const steps = [

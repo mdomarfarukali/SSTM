@@ -223,6 +223,8 @@ export default function Footer() {
           </div>
           <div className="diva-footer-locale" aria-label="Regional preferences">
             <span>India (INR ₹)</span>
+            /
+            <span>France (EUR €)</span>
             <span className="diva-footer-locale-divider" aria-hidden="true" />
             <span>English</span>
           </div>
