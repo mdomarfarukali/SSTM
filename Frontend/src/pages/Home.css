@@ -655,6 +655,7 @@
   top: 13px;
   /* left: 13px; */
   right: 13px;
+  text-align: right;
   padding: 7px 9px;
   background: rgb(252 249 244 / 90%);
   color: var(--diva-ink-soft);
@@ -665,6 +666,12 @@
   border-radius: 4px;
   /* Rounded corners */
 }
+
+/* @media (min-width: 380px) {
+  .diva-collection-card__number {
+    left: 60px;
+  }
+} */
 
 .diva-round-arrow {
   position: absolute;
