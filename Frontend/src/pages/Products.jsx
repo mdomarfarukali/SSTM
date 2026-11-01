@@ -1,47 +1,128 @@
-// src/pages/Products.jsx
-import React, { useState, useEffect, useMemo } from "react";
+
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import {
+    ChevronDown,
+    ChevronLeft,
+    ChevronRight,
+    Grid3X3,
+    Columns3,
+    Diamond,
+    RotateCcw,
+    Check,
+    ShieldCheck,
+    Truck,
+    Infinity as InfinityIcon,
+    Gem,
+} from "lucide-react";
+
 import ProductCard from "../components/ProductCard";
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
+import "./Products.css";
 
-// Helper to extract unique filter options
-const getUniqueOptions = (products, key) => {
-    const options = new Set();
-    products.forEach((product) => {
-        const value = product[key];
-        if (Array.isArray(value)) value.forEach((v) => options.add(v));
-        else if (value) options.add(value);
-    });
-    return Array.from(options).sort();
+const PAGE_SIZE = 12;
+
+const METAL_PATTERN =
+    /gold|platinum|silver|titanium|steel|metal|palladium/i;
+
+const splitMaterial = (value) => {
+    if (Array.isArray(value)) {
+        return value.flatMap(splitMaterial);
+    }
+
+    if (!value || typeof value !== "string") return [];
+
+    return value
+        .split(/[•,|/]/)
+        .map((item) => item.trim())
+        .filter(Boolean);
 };
 
-// Define filter categories (match your DB fields)
-const FILTER_OPTIONS = {
-    category: { label: "Jewelry Type", key: "category" },
-    material: { label: "Material/Stone", key: "material" },
-    collection: { label: "Collection", key: "collection" },
+const getProductMaterial = (product) => {
+    return splitMaterial(product.material);
+};
+
+const getProductMetals = (product) => {
+    return getProductMaterial(product).filter((item) =>
+        METAL_PATTERN.test(item)
+    );
+};
+
+const getProductGemstones = (product) => {
+    const explicitStone =
+        product.gemstone ||
+        product.gemstones ||
+        product.stone;
+
+    const stones = [
+        ...splitMaterial(explicitStone),
+        ...getProductMaterial(product).filter(
+            (item) => !METAL_PATTERN.test(item)
+        ),
+    ];
+
+    return [...new Set(stones)];
+};
+
+const getPrice = (product) =>
+    Number(product.finalPrice ?? product.price ?? 0);
+
+const formatPrice = (price) =>
+    new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0,
+    }).format(price);
+
+const getUniqueValues = (products, getter) => {
+    return [
+        ...new Set(
+            products.flatMap((product) => getter(product))
+        ),
+    ].sort((a, b) => a.localeCompare(b));
 };
 
 const Products = () => {
-    const [activeFilters, setActiveFilters] = useState({
-        category: [],
-        material: [],
-        collection: [],
-    });
-
     const [products, setProducts] = useState([]);
-    const [openFilter, setOpenFilter] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    // Fetch products
+    const [activeCategory, setActiveCategory] = useState("all");
+    const [selectedMetals, setSelectedMetals] = useState([]);
+    const [selectedGemstones, setSelectedGemstones] = useState([]);
+    const [inStockOnly, setInStockOnly] = useState(false);
+
+    const [priceCeiling, setPriceCeiling] = useState(null);
+    const [openFilter, setOpenFilter] = useState(null);
+
+    const [sortBy, setSortBy] = useState("featured");
+    const [gridColumns, setGridColumns] = useState(4);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [showAll, setShowAll] = useState(false);
+
+    // Fetch products from your existing backend.
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const { data } = await axios.get("/API/products?page=1&limit=100");
-                // The products are inside data.products
-                setProducts(data.products || []);
-            } catch (error) {
-                console.error("Error fetching products:", error);
+                setLoading(true);
+                setError("");
+
+                const { data } = await axios.get(
+                    "/API/products?page=1&limit=100"
+                );
+
+                setProducts(
+                    Array.isArray(data.products)
+                        ? data.products
+                        : []
+                );
+            } catch (err) {
+                console.error("Error fetching products:", err);
+                setError(
+                    err.response?.data?.message ||
+                    "We couldn't load the collection. Please try again."
+                );
             } finally {
                 setLoading(false);
             }
@@ -50,178 +131,797 @@ const Products = () => {
         fetchProducts();
     }, []);
 
-
-    // 🔹 Toggle filter dropdown
-    const toggleFilter = (key) => {
-        setOpenFilter(openFilter === key ? null : key);
-    };
-
-    // 🔹 Update filters when user selects options
-    const handleFilterChange = (key, value) => {
-        setActiveFilters((prev) => {
-            const current = prev[key];
-            return current.includes(value)
-                ? { ...prev, [key]: current.filter((v) => v !== value) }
-                : { ...prev, [key]: [...current, value] };
-        });
-    };
-
-    // 🔹 Compute available filter options (depends on products)
-    const availableOptions = useMemo(
-        () => ({
-            category: getUniqueOptions(products, "category"),
-            material: getUniqueOptions(products, "material"),
-            collection: getUniqueOptions(products, "collection"),
-        }),
+    // Dynamic category, metal and gemstone options.
+    const categories = useMemo(
+        () =>
+            getUniqueValues(products, (product) =>
+                product.category ? [product.category] : []
+            ),
         [products]
     );
 
-    // 🔹 Filter products based on selected filters
-    const filteredProducts = useMemo(() => {
-        const filters = activeFilters;
-        const isFilterActive = Object.values(filters).some((arr) => arr.length > 0);
-        if (!isFilterActive) return products;
-
-        return products.filter((product) => {
-            const categoryMatch =
-                filters.category.length === 0 ||
-                filters.category.includes(product.category);
-            const materialMatch =
-                filters.material.length === 0 ||
-                filters.material.includes(product.material);
-            const collectionMatch =
-                filters.collection.length === 0 ||
-                filters.collection.includes(product.collection);
-            return categoryMatch && materialMatch && collectionMatch;
-        });
-    }, [activeFilters, products]);
-
-    // 🔹 Clear all filters
-    const clearFilters = () => {
-        setActiveFilters({ category: [], material: [], collection: [] });
-    };
-
-    // 🔹 Filter Sidebar Component
-    const FilterSidebar = () => (
-        <aside className="w-full lg:w-1/4">
-            <div className="p-8 rounded-2xl bg-brand-dark sticky top-24">
-                <h3 className="text-3xl font-serif font-bold text-gray-800 mb-8 pb-4 border-b border-gray-200">
-                    Refine Your Search{" "}
-                    <span className="text-gray-500 text-base ml-2">
-                        ({filteredProducts.length})
-                    </span>
-                </h3>
-
-                {Object.keys(FILTER_OPTIONS).map((key) => (
-                    <div key={key} className="mb-6 border-b border-gray-100">
-                        <button
-                            onClick={() => toggleFilter(key)}
-                            className="w-full flex justify-between items-center py-3 text-xl font-semibold text-gray-700 hover:text-pink-600 transition"
-                        >
-                            <span>{FILTER_OPTIONS[key].label}</span>
-                            <span
-                                className={`transform transition-transform ${openFilter === key ? "rotate-180" : "rotate-0"
-                                    }`}
-                            >
-                                ▼
-                            </span>
-                        </button>
-
-                        <div
-                            className={`overflow-hidden transition-all duration-300 ${openFilter === key ? "max-h-96 py-3" : "max-h-0"
-                                }`}
-                        >
-                            {availableOptions[key]?.map((option) => (
-                                <label key={option} className="flex items-center cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        checked={activeFilters[key].includes(option)}
-                                        onChange={() => handleFilterChange(key, option)}
-                                        className="hidden peer"
-                                    />
-                                    <div
-                                        className="w-5 h-5 border-2 border-brand-muted rounded-md flex items-center justify-center
-                    peer-checked:bg-pink-500 peer-checked:border-pink-500 transition"
-                                    >
-                                        {activeFilters[key].includes(option) && (
-                                            <svg
-                                                className="w-3 h-3 text-white"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                strokeWidth="3"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M5 13l4 4L19 7"
-                                                />
-                                            </svg>
-                                        )}
-                                    </div>
-                                    <span className="ml-3 text-base text-gray-700">{option}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-
-                <button
-                    onClick={clearFilters}
-                    className="w-full mt-8 py-3 text-lg font-semibold text-white bg-gradient-to-r from-red-500 to-red-600 rounded-lg"
-                >
-                    Clear All Filters
-                </button>
-            </div>
-        </aside>
+    const metals = useMemo(
+        () => getUniqueValues(products, getProductMetals),
+        [products]
     );
 
+    const gemstones = useMemo(
+        () => getUniqueValues(products, getProductGemstones),
+        [products]
+    );
+
+    const priceBounds = useMemo(() => {
+        const prices = products.map(getPrice).filter((price) => price > 0);
+
+        return {
+            min: prices.length ? Math.min(...prices) : 0,
+            max: prices.length ? Math.max(...prices) : 0,
+        };
+    }, [products]);
+
+    useEffect(() => {
+        if (priceBounds.max > 0) {
+            setPriceCeiling(priceBounds.max);
+        }
+    }, [priceBounds.max]);
+
+    const categoryCounts = useMemo(() => {
+        const counts = {};
+
+        products.forEach((product) => {
+            const category = product.category;
+            if (category) {
+                counts[category] = (counts[category] || 0) + 1;
+            }
+        });
+
+        return counts;
+    }, [products]);
+
+    // Toggle multi-select filters.
+    const toggleSelection = (value, setter) => {
+        setter((previous) =>
+            previous.includes(value)
+                ? previous.filter((item) => item !== value)
+                : [...previous, value]
+        );
+
+        setCurrentPage(1);
+        setShowAll(false);
+    };
+
+    // Apply all filters.
+    const filteredProducts = useMemo(() => {
+        let result = products.filter((product) => {
+            const categoryMatch =
+                activeCategory === "all" ||
+                product.category === activeCategory;
+
+            const productMetals = getProductMetals(product);
+            const metalMatch =
+                selectedMetals.length === 0 ||
+                selectedMetals.some((metal) =>
+                    productMetals.includes(metal)
+                );
+
+            const productGemstones = getProductGemstones(product);
+            const gemstoneMatch =
+                selectedGemstones.length === 0 ||
+                selectedGemstones.some((stone) =>
+                    productGemstones.includes(stone)
+                );
+
+            const price = getPrice(product);
+            const priceMatch =
+                priceCeiling === null ||
+                price <= priceCeiling;
+
+            const stockMatch =
+                !inStockOnly || product.inStock === true;
+
+            return (
+                categoryMatch &&
+                metalMatch &&
+                gemstoneMatch &&
+                priceMatch &&
+                stockMatch
+            );
+        });
+
+        // Sorting.
+        switch (sortBy) {
+            case "newest":
+                result = [...result].sort(
+                    (a, b) =>
+                        new Date(b.createdAt || 0) -
+                        new Date(a.createdAt || 0)
+                );
+                break;
+
+            case "price-low":
+                result = [...result].sort(
+                    (a, b) => getPrice(a) - getPrice(b)
+                );
+                break;
+
+            case "price-high":
+                result = [...result].sort(
+                    (a, b) => getPrice(b) - getPrice(a)
+                );
+                break;
+
+            case "name":
+                result = [...result].sort((a, b) =>
+                    (a.name || "").localeCompare(b.name || "")
+                );
+                break;
+
+            default:
+                result = [...result].sort((a, b) => {
+                    const score = (product) =>
+                        Number(product.isFeatured) * 4 +
+                        Number(product.isBestSeller) * 2 +
+                        Number(product.isNewArrival);
+
+                    return score(b) - score(a);
+                });
+        }
+
+        return result;
+    }, [
+        products,
+        activeCategory,
+        selectedMetals,
+        selectedGemstones,
+        priceCeiling,
+        inStockOnly,
+        sortBy,
+    ]);
+
+    // Reset pagination whenever filters change.
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [
+        activeCategory,
+        selectedMetals,
+        selectedGemstones,
+        priceCeiling,
+        inStockOnly,
+        sortBy,
+    ]);
+
+    const totalPages = Math.max(
+        1,
+        Math.ceil(filteredProducts.length / PAGE_SIZE)
+    );
+
+    const visibleCount = showAll
+        ? filteredProducts.length
+        : Math.min(currentPage * PAGE_SIZE, filteredProducts.length);
+
+    const displayedProducts = showAll
+        ? filteredProducts
+        : filteredProducts.slice(
+            (currentPage - 1) * PAGE_SIZE,
+            currentPage * PAGE_SIZE
+        );
+
+    const pageProducts = showAll
+        ? displayedProducts
+        : displayedProducts;
+
+    const hasActiveFilters =
+        activeCategory !== "all" ||
+        selectedMetals.length > 0 ||
+        selectedGemstones.length > 0 ||
+        inStockOnly ||
+        (priceCeiling !== null &&
+            priceBounds.max > 0 &&
+            priceCeiling < priceBounds.max);
+
+    const clearFilters = () => {
+        setActiveCategory("all");
+        setSelectedMetals([]);
+        setSelectedGemstones([]);
+        setInStockOnly(false);
+        setPriceCeiling(priceBounds.max || null);
+        setSortBy("featured");
+        setCurrentPage(1);
+        setShowAll(false);
+        setOpenFilter(null);
+    };
+
+    const toggleFilter = (filter) => {
+        setOpenFilter((previous) =>
+            previous === filter ? null : filter
+        );
+    };
+
+    const goToPage = (page) => {
+        setCurrentPage(Math.min(Math.max(page, 1), totalPages));
+        setShowAll(false);
+
+        document
+            .getElementById("products-grid")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
     if (loading) {
+        return <LoadingSpinner />;
+    }
+
+    if (error) {
         return (
-            <LoadingSpinner />
+            <main className="diva-products-page">
+                <div className="diva-products-error">
+                    <Diamond size={32} />
+                    <h2>Our collection is taking a moment.</h2>
+                    <p>{error}</p>
+                    <button onClick={() => window.location.reload()}>
+                        Try Again
+                    </button>
+                </div>
+            </main>
         );
     }
-    // 🔹 Render
+
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center mb-16 pt-8">
-                    <h1 className="text-6xl font-serif font-bold text-gray-400 mb-4">
-                        Our Exclusive Collection
-                    </h1>
-                    <p className="text-gray-600 text-xl max-w-2xl mx-auto">
-                        Discover handcrafted jewelry made with love and precision.
-                    </p>
+        <main className="diva-products-page">
+            {/* COLLECTION INTRODUCTION */}
+            <section className="diva-collection-intro">
+                <nav className="diva-breadcrumb" aria-label="Breadcrumb">
+                    <a href="/">Maison</a>
+                    <span>/</span>
+                    <span>Collections</span>
+                    <span>/</span>
+                    <strong>Fine Jewellery</strong>
+                </nav>
+
+                <div className="diva-collection-heading">
+                    <div className="diva-collection-copy">
+                        <div className="diva-eyebrow">
+                            <span />
+                            Haute Joaillerie Atelier
+                        </div>
+
+                        <h1>Fine Jewellery Creations</h1>
+
+                        <p>
+                            Meticulously handcrafted in precious metals
+                            and exceptional gemstones. Discover timeless
+                            creations designed for effortless brilliance
+                            and heirloom endurance.
+                        </p>
+                    </div>
+
+                    <div className="diva-curation-index">
+                        <div className="diva-index-icon">
+                            <Diamond size={21} />
+                        </div>
+
+                        <div>
+                            <span>Curation Index</span>
+                            <strong>
+                                {filteredProducts.length} Masterworks
+                            </strong>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-10">
-                    <FilterSidebar />
+                {/* CATEGORY PILLS */}
+                <div className="diva-category-pills">
+                    <button
+                        className={
+                            activeCategory === "all" ? "active" : ""
+                        }
+                        onClick={() => setActiveCategory("all")}
+                    >
+                        All Pieces ({products.length})
+                    </button>
 
-                    <main className="w-full lg:w-3/4">
-                        {filteredProducts.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
-                                {filteredProducts.map((product, index) => (
-                                    <ProductCard key={product._id} product={product} index={index} />
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="text-center py-20 bg-white rounded-xl shadow-lg border border-gray-100">
-                                <p className="text-3xl text-gray-600 font-serif mb-6">
-                                    😔 No products match your current selections.
-                                </p>
+                    {categories.map((category) => (
+                        <button
+                            key={category}
+                            className={
+                                activeCategory === category ? "active" : ""
+                            }
+                            onClick={() => setActiveCategory(category)}
+                        >
+                            {category} ({categoryCounts[category]})
+                        </button>
+                    ))}
+                </div>
+            </section>
+
+            {/* FILTER AND SORT CONTROLS */}
+            <section className="diva-filter-section">
+                <div className="diva-filter-panel">
+                    <div className="diva-filter-top">
+                        <div className="diva-filter-controls">
+
+                            {/* METAL FILTER */}
+                            {/* <div className="diva-filter-wrap"> */}
+                            <div
+                                className="diva-filter-wrap"
+                                // onMouseEnter={() => setOpenFilter("metal")}
+                                // onMouseLeave={() => setOpenFilter(null)}
+                                onPointerEnter={(event) => {
+                                    if (event.pointerType === "mouse") {
+                                        setOpenFilter("metal");
+                                    }
+                                }}
+                                onPointerLeave={(event) => {
+                                    if (event.pointerType === "mouse") {
+                                        setOpenFilter(null);
+                                    }
+                                }}
+                            >
                                 <button
-                                    onClick={clearFilters}
-                                    className="mt-6 py-3 px-8 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg"
+                                    className="diva-filter-pill"
+                                    onClick={() => toggleFilter("metal")}
+                                    aria-expanded={openFilter === "metal"}
                                 >
-                                    Show All Products
+                                    Metal
+                                    <span className="diva-filter-selection">
+                                        {selectedMetals.length
+                                            ? `${selectedMetals.length} selected`
+                                            : "All Metals"}
+                                    </span>
+                                    <ChevronDown size={15} />
+                                </button>
+
+                                {openFilter === "metal" && (
+                                    <div className="diva-filter-dropdown">
+                                        <p className="diva-dropdown-title">
+                                            Select Metal
+                                        </p>
+
+                                        {metals.length ? (
+                                            metals.map((metal) => (
+                                                <label key={metal}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedMetals.includes(metal)}
+                                                        onChange={() =>
+                                                            toggleSelection(
+                                                                metal,
+                                                                setSelectedMetals
+                                                            )
+                                                        }
+                                                    />
+                                                    <span className="diva-checkmark">
+                                                        {selectedMetals.includes(metal) && (
+                                                            <Check size={12} />
+                                                        )}
+                                                    </span>
+                                                    {metal}
+                                                </label>
+                                            ))
+                                        ) : (
+                                            <p className="diva-empty-filter">
+                                                No metal data available.
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* GEMSTONE FILTER */}
+                            {/* <div className="diva-filter-wrap"> */}
+                            <div
+                                className="diva-filter-wrap"
+                                // onMouseEnter={() => setOpenFilter("gemstone")}
+                                // onMouseLeave={() => setOpenFilter(null)}
+                                onPointerEnter={(event) => {
+                                    if (event.pointerType === "mouse") {
+                                        setOpenFilter("gemstone");
+                                    }
+                                }}
+                                onPointerLeave={(event) => {
+                                    if (event.pointerType === "mouse") {
+                                        setOpenFilter(null);
+                                    }
+                                }}
+                            >
+                                <button
+                                    className="diva-filter-pill"
+                                    onClick={() => toggleFilter("gemstone")}
+                                    aria-expanded={openFilter === "gemstone"}
+                                >
+                                    Gemstone
+                                    <ChevronDown size={15} />
+                                </button>
+
+                                {openFilter === "gemstone" && (
+                                    <div className="diva-filter-dropdown">
+                                        <p className="diva-dropdown-title">
+                                            Select Gemstone
+                                        </p>
+
+                                        {gemstones.length ? (
+                                            gemstones.map((stone) => (
+                                                <label key={stone}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedGemstones.includes(stone)}
+                                                        onChange={() =>
+                                                            toggleSelection(
+                                                                stone,
+                                                                setSelectedGemstones
+                                                            )
+                                                        }
+                                                    />
+                                                    <span className="diva-checkmark">
+                                                        {selectedGemstones.includes(stone) && (
+                                                            <Check size={12} />
+                                                        )}
+                                                    </span>
+                                                    {stone}
+                                                </label>
+                                            ))
+                                        ) : (
+                                            <p className="diva-empty-filter">
+                                                No gemstone data available.
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* PRICE FILTER */}
+                            {/* <div className="diva-filter-wrap"> */}
+                            <div
+                                className="diva-filter-wrap"
+                                // onMouseEnter={() => setOpenFilter("price")}
+                                // onMouseLeave={() => setOpenFilter(null)}
+                                onPointerEnter={(event) => {
+                                    if (event.pointerType === "mouse") {
+                                        setOpenFilter("price");
+                                    }
+                                }}
+                                onPointerLeave={(event) => {
+                                    if (event.pointerType === "mouse") {
+                                        setOpenFilter(null);
+                                    }
+                                }}
+                            >
+                                <button
+                                    className="diva-filter-pill"
+                                    onClick={() => toggleFilter("price")}
+                                    aria-expanded={openFilter === "price"}
+                                >
+                                    Price Range
+                                    <ChevronDown size={15} />
+                                </button>
+
+                                {openFilter === "price" && (
+                                    <div className="diva-filter-dropdown diva-price-dropdown">
+                                        <p className="diva-dropdown-title">
+                                            Maximum Price
+                                        </p>
+
+                                        <strong>
+                                            {formatPrice(priceCeiling ?? priceBounds.max)}
+                                        </strong>
+
+                                        <input
+                                            type="range"
+                                            min={priceBounds.min}
+                                            max={priceBounds.max || 1}
+                                            step={Math.max(
+                                                1,
+                                                Math.round(
+                                                    (priceBounds.max - priceBounds.min) / 100
+                                                )
+                                            )}
+                                            value={priceCeiling ?? priceBounds.max}
+                                            onChange={(event) => {
+                                                setPriceCeiling(Number(event.target.value));
+                                                setCurrentPage(1);
+                                                setShowAll(false);
+                                            }}
+                                        />
+
+                                        <div className="diva-price-range-labels">
+                                            <span>{formatPrice(priceBounds.min)}</span>
+                                            <span>{formatPrice(priceBounds.max)}</span>
+                                        </div>
+
+                                        <button
+                                            className="diva-dropdown-reset"
+                                            onClick={() => {
+                                                setPriceCeiling(priceBounds.max);
+                                                setOpenFilter(null);
+                                            }}
+                                        >
+                                            Reset Price
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* STOCK FILTER */}
+                            <button
+                                className={`diva-filter-pill diva-stock-pill ${inStockOnly ? "selected" : ""
+                                    }`}
+                                onClick={() => setInStockOnly((previous) => !previous)}
+                                aria-pressed={inStockOnly}
+                            >
+                                In Atelier Today
+                                <span className="diva-stock-dot" />
+                            </button>
+                        </div>
+
+                        {/* GRID DENSITY AND SORT */}
+                        <div className="diva-sort-controls">
+                            <div className="diva-grid-switch">
+                                <button
+                                    aria-label="Four column grid"
+                                    className={gridColumns === 4 ? "active" : ""}
+                                    onClick={() => setGridColumns(4)}
+                                >
+                                    <Grid3X3 size={17} />
+                                </button>
+
+                                <button
+                                    aria-label="Three column grid"
+                                    className={gridColumns === 3 ? "active" : ""}
+                                    onClick={() => setGridColumns(3)}
+                                >
+                                    <Columns3 size={17} />
                                 </button>
                             </div>
+
+                            <label className="diva-sort-select">
+                                <span>Sort:</span>
+                                <select
+                                    value={sortBy}
+                                    onChange={(event) => setSortBy(event.target.value)}
+                                >
+                                    <option value="featured">Featured &amp; Curated</option>
+                                    <option value="newest">Newest Creations</option>
+                                    <option value="price-low">Price: Low to High</option>
+                                    <option value="price-high">Price: High to Low</option>
+                                    <option value="name">Name: A to Z</option>
+                                </select>
+                                <ChevronDown size={14} />
+                            </label>
+                        </div>
+                    </div>
+
+                    {/* ACTIVE FILTER RIBBON */}
+                    <div className="diva-active-filters">
+                        <span className="diva-active-label">Active View:</span>
+
+                        <span className="diva-active-chip">
+                            Collection: {activeCategory === "all" ? "All Masterworks" : activeCategory}
+                        </span>
+
+                        {inStockOnly && (
+                            <span className="diva-active-chip">
+                                In Stock &amp; Atelier Ready
+                            </span>
                         )}
-                    </main>
+
+                        {selectedMetals.map((metal) => (
+                            <button
+                                key={metal}
+                                className="diva-active-chip removable"
+                                onClick={() => toggleSelection(metal, setSelectedMetals)}
+                            >
+                                {metal} ×
+                            </button>
+                        ))}
+
+                        {selectedGemstones.map((stone) => (
+                            <button
+                                key={stone}
+                                className="diva-active-chip removable"
+                                onClick={() => toggleSelection(stone, setSelectedGemstones)}
+                            >
+                                {stone} ×
+                            </button>
+                        ))}
+
+                        {hasActiveFilters && (
+                            <button
+                                className="diva-reset-filters"
+                                onClick={clearFilters}
+                            >
+                                <RotateCcw size={12} />
+                                Reset Filters
+                            </button>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            {/* PRODUCT COLLECTION */}
+            <section
+                className="diva-product-section"
+                id="products-grid"
+            >
+                {pageProducts.length > 0 ? (
+                    <div
+                        className={`diva-product-grid columns-${gridColumns}`}
+                    >
+                        {pageProducts.map((product, index) => (
+                            <React.Fragment key={product._id || product.id}>
+                                {index === 8 && currentPage === 1 && !showAll && (
+                                    <div className="diva-atelier-banner">
+                                        <div className="diva-atelier-emblem">
+                                            <Gem size={34} />
+                                            <span>DIVA</span>
+                                            <small>Maison</small>
+                                        </div>
+
+                                        <div className="diva-atelier-copy">
+                                            <div className="diva-eyebrow">
+                                                The Private Salon
+                                                <span />
+                                                Bespoke Orders
+                                            </div>
+
+                                            <h2>
+                                                Bespoke Commissions &amp; Custom Sizing
+                                            </h2>
+
+                                            <p>
+                                                Every love story and milestone is
+                                                singular. Explore personalized
+                                                creations and discover the art of
+                                                jewellery crafted around you.
+                                            </p>
+                                        </div>
+
+                                        <div className="diva-atelier-actions">
+                                            <a href="/contact">
+                                                Consult Our Atelier
+                                            </a>
+                                            <a href="/collections">
+                                                Explore Collections
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <ProductCard
+                                    product={product}
+                                    index={index}
+                                />
+                            </React.Fragment>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="diva-empty-state">
+                        <Diamond size={35} />
+                        <h2>No creations found</h2>
+                        <p>
+                            We couldn't find pieces matching your current
+                            selections.
+                        </p>
+                        <button onClick={clearFilters}>
+                            Explore All Creations
+                        </button>
+                    </div>
+                )}
+            </section>
+
+            {/* PAGINATION */}
+            {filteredProducts.length > PAGE_SIZE && !showAll && (
+                <section className="diva-pagination-section">
+                    <div className="diva-progress">
+                        <div className="diva-progress-labels">
+                            <span>
+                                Displaying {visibleCount} of {filteredProducts.length} Curated Creations
+                            </span>
+                            <strong>
+                                {Math.round(
+                                    (visibleCount / filteredProducts.length) * 100
+                                )}%
+                            </strong>
+                        </div>
+
+                        <div className="diva-progress-track">
+                            <div
+                                style={{
+                                    width: `${(visibleCount / filteredProducts.length) * 100
+                                        }%`,
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="diva-pagination">
+                        <button
+                            aria-label="Previous page"
+                            disabled={currentPage === 1}
+                            onClick={() => goToPage(currentPage - 1)}
+                        >
+                            <ChevronLeft size={18} />
+                        </button>
+
+                        {Array.from(
+                            { length: totalPages },
+                            (_, index) => index + 1
+                        ).map((page) => (
+                            <button
+                                key={page}
+                                className={currentPage === page ? "active" : ""}
+                                onClick={() => goToPage(page)}
+                            >
+                                {page}
+                            </button>
+                        ))}
+
+                        <button
+                            aria-label="Next page"
+                            disabled={currentPage === totalPages}
+                            onClick={() => goToPage(currentPage + 1)}
+                        >
+                            <ChevronRight size={18} />
+                        </button>
+                    </div>
+
+                    <button
+                        className="diva-load-all"
+                        onClick={() => setShowAll(true)}
+                    >
+                        Load All {filteredProducts.length} Creations
+                    </button>
+                </section>
+            )}
+
+            {showAll && filteredProducts.length > PAGE_SIZE && (
+                <div className="diva-show-less">
+                    <button
+                        onClick={() => {
+                            setShowAll(false);
+                            setCurrentPage(1);
+                        }}
+                    >
+                        Show Paginated Collection
+                    </button>
+                </div>
+            )}
+
+            {/* ATELIER ASSURANCES */}
+            <section className="diva-assurances">
+                <div className="diva-assurance-item">
+                    <span><ShieldCheck size={23} /></span>
+                    <div>
+                        <h3>Certified Natural Gems</h3>
+                        <p>Carefully selected gemstones and materials.</p>
+                    </div>
+                </div>
+
+                <div className="diva-assurance-item">
+                    <span><Gem size={23} /></span>
+                    <div>
+                        <h3>Considered Craftsmanship</h3>
+                        <p>Thoughtfully crafted jewellery, made to endure.</p>
+                    </div>
+                </div>
+
+                <div className="diva-assurance-item">
+                    <span><Truck size={23} /></span>
+                    <div>
+                        <h3>Insured Delivery</h3>
+                        <p>Secure handling from our atelier to your door.</p>
+                    </div>
+                </div>
+
+                <div className="diva-assurance-item">
+                    <span><InfinityIcon size={23} /></span>
+                    <div>
+                        <h3>Timeless Care</h3>
+                        <p>Support to help your pieces last a lifetime.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
     );
 };
 
 export default Products;
+
