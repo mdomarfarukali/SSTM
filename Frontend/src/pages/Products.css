@@ -573,7 +573,8 @@ button.diva-active-chip {
     flex-shrink: 0;
     overflow: hidden;
     aspect-ratio: 1 / 1;
-    border-radius: 2.4rem 2.4rem 2.4rem 2.4rem;
+    border-radius: 12px !important;
+    /* border-radius: 2.4rem 2.4rem 2.4rem 2.4rem; */
     background: #e7dfd5;
 }
 

@@ -5,6 +5,7 @@ import { Heart, ShoppingBag } from "lucide-react";
 
 import { useWishlistContext } from "../context/WishListContext.jsx";
 import { useCartContext } from "../context/CartContext";
+// import "./ProductCard.css";
 
 const formatPrice = (price) =>
     new Intl.NumberFormat("en-IN", {

@@ -1,0 +1,467 @@
+
+/* =========================================
+   DIVA PRODUCT CARD
+   Quiet Luxury Editorial Design
+========================================= */
+
+.diva-product-card {
+    --card-bg: #f0ede9;
+    --card-ink: #1c1917;
+    --card-muted: #78716c;
+    --card-border: #e7dfd5;
+
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    padding: 14px;
+
+    border: 1px solid rgba(231, 223, 213, .65);
+    border-radius: 20px;
+
+    background: var(--card-bg);
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease;
+
+    animation: diva-card-enter .45s ease both;
+    animation-delay: calc(var(--card-index, 0) * 35ms);
+}
+
+@keyframes diva-card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.diva-product-card:hover {
+    transform: translateY(-4px);
+    border-color: #dfd2c4;
+    background: #f3efea;
+}
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.diva-card-image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+
+    overflow: hidden;
+    border-radius: 12px !important;
+
+    background: #e7dfd5;
+    isolation: isolate;
+}
+
+.diva-card-image-link {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.diva-card-image-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: inherit;
+
+    transition: transform 650ms cubic-bezier(.2, 0, 0, 1);
+}
+
+.diva-product-card:hover .diva-card-image-wrap img {
+    transform: scale(1.045);
+}
+
+/* =========================================
+   PRODUCT BADGE
+========================================= */
+
+.diva-product-badge {
+    position: absolute;
+    top: 11px;
+    left: 10px;
+    z-index: 2;
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+    background: rgba(252, 249, 244, .92);
+
+    color: var(--card-ink);
+
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+
+    backdrop-filter: blur(10px);
+}
+
+.diva-product-badge.bestseller {
+    background: rgba(253, 206, 166, .94);
+    color: #5f4022;
+}
+
+/* =========================================
+   WISHLIST BUTTON
+========================================= */
+
+.diva-wishlist-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3;
+
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+
+    border: 1px solid rgba(231, 223, 213, .8);
+    border-radius: 50%;
+
+    background: rgba(252, 249, 244, .9);
+    color: #81776f;
+
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+
+    transition:
+        color .2s ease,
+        background .2s ease,
+        transform .2s ease;
+}
+
+.diva-wishlist-button:hover {
+    transform: scale(1.08);
+    color: #b98264;
+}
+
+.diva-wishlist-button.is-saved {
+    color: #b75d5d;
+}
+
+.diva-wishlist-button:active {
+    transform: scale(.92);
+}
+
+/* =========================================
+   DESKTOP HOVER ADD TO BAG
+========================================= */
+
+.diva-card-hover-action {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    z-index: 2;
+
+    opacity: 0;
+    transform: translateY(7px);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+.diva-product-card:hover .diva-card-hover-action,
+.diva-card-hover-action:focus-within {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.diva-card-hover-action button {
+    display: flex;
+    width: 100%;
+    min-height: 42px;
+
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: var(--card-ink);
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+
+    transition: background .2s ease;
+}
+
+.diva-card-hover-action button:hover {
+    background: #292524;
+}
+
+.diva-card-hover-action button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+/* =========================================
+   PRODUCT DETAILS
+========================================= */
+
+.diva-card-content {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+
+    padding-top: 17px;
+}
+
+.diva-card-description {
+    min-width: 0;
+}
+
+.diva-card-material {
+    display: -webkit-box;
+    overflow: hidden;
+
+    margin: 0 0 7px;
+
+    color: var(--card-muted);
+
+    font-size: 9px;
+    line-height: 1.5;
+    letter-spacing: .08em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.diva-card-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.diva-card-title-link h2 {
+    display: -webkit-box;
+    overflow: hidden;
+
+    min-height: 2.6em;
+    margin: 0;
+
+    color: var(--card-ink);
+
+    font-family: "Playfair Display", serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    transition: color .2s ease;
+}
+
+.diva-card-title-link:hover h2 {
+    color: #7a5737;
+}
+
+/* =========================================
+   PRICE AND STOCK
+========================================= */
+
+.diva-card-price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+
+    margin-top: auto;
+    padding-top: 14px;
+
+    border-top: 1px solid rgba(231, 223, 213, .9);
+}
+
+.diva-card-price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.diva-card-price > span {
+    color: var(--card-ink);
+
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.diva-card-price del {
+    color: var(--card-muted);
+    font-size: 10px;
+}
+
+.diva-card-stock {
+    overflow: hidden;
+
+    color: var(--card-muted);
+
+    font-size: 10px;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================
+   MOBILE ADD TO BAG
+========================================= */
+
+.diva-mobile-add {
+    display: none;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1050px) {
+    .diva-card-title-link h2 {
+        font-size: 16px;
+    }
+
+    .diva-card-image-wrap {
+        border-radius: 29px;
+    }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 760px) {
+    .diva-product-card {
+        padding: 9px;
+        border-radius: 16px;
+    }
+
+    .diva-card-image-wrap {
+        border-radius: 26px;
+    }
+
+    .diva-card-content {
+        padding-top: 11px;
+    }
+
+    .diva-card-material {
+        font-size: 8px;
+    }
+
+    .diva-card-title-link h2 {
+        min-height: 2.6em;
+        font-size: 14px;
+    }
+
+    .diva-card-price-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+        padding-top: 10px;
+    }
+
+    .diva-card-price > span {
+        font-size: 14px;
+    }
+
+    .diva-card-stock {
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .diva-card-hover-action {
+        display: none;
+    }
+
+    .diva-mobile-add {
+        display: flex;
+        width: 100%;
+        min-height: 36px;
+
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+
+        margin-top: 11px;
+        padding: 8px 5px;
+
+        border: 0;
+        border-radius: 999px;
+
+        background: var(--card-ink);
+        color: white;
+
+        cursor: pointer;
+
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    .diva-mobile-add:disabled {
+        opacity: .6;
+        cursor: wait;
+    }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 390px) {
+    .diva-product-card {
+        padding: 7px;
+    }
+
+    .diva-card-image-wrap {
+        border-radius: 22px;
+    }
+
+    .diva-card-title-link h2 {
+        font-size: 13px;
+    }
+
+    .diva-card-price > span {
+        font-size: 13px;
+    }
+
+    .diva-wishlist-button {
+        width: 32px;
+        height: 32px;
+    }
+}
+

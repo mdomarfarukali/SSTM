@@ -750,7 +750,13 @@ const Products = () => {
                                 {index === 8 && currentPage === 1 && !showAll && (
                                     <div className="diva-atelier-banner">
                                         <div className="diva-atelier-emblem">
-                                            <Gem size={34} />
+                                            {/* <Gem size={34} /> */}
+                                            <img
+                                                className="diva-footer-emblem"
+                                                src="/DIVA_LightCut-removebg-preview.png"
+                                                alt=""
+                                                aria-hidden="true"
+                                            />
                                             <span>DIVA</span>
                                             <small>Maison</small>
                                         </div>
