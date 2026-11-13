@@ -1,0 +1,518 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap');
+
+/* =========================================
+   DIVA LUXURY LOADING SCREEN
+========================================= */
+
+/* .diva-loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    overflow: hidden;
+
+    background: #FAF8F3;
+    color: #26221F;
+
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    user-select: none;
+} */
+ 
+.diva-loading-screen {
+    position: fixed;
+
+    /* Start immediately below the navbar */
+    top: var(--navbar-height, 90px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 40;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 0;
+
+    overflow: hidden;
+    background: #FAF8F3;
+    color: #26221F;
+
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+}
+
+.diva-loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: 24px;
+}
+
+/* =========================================
+   EMBLEM AND ORBIT
+========================================= */
+
+.diva-emblem-wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 220px;
+    height: 220px;
+
+    flex-shrink: 0;
+}
+
+/* Ambient champagne aura */
+
+.diva-ambient-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 208px;
+    height: 208px;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(233, 215, 193, 0.5) 0%,
+        rgba(206, 175, 145, 0.18) 55%,
+        rgba(250, 248, 243, 0) 75%
+    );
+
+    pointer-events: none;
+
+    animation: divaAmbientPulse 3.5s ease-in-out infinite;
+}
+
+@keyframes divaAmbientPulse {
+    0%, 100% {
+        opacity: .35;
+        transform: translate(-50%, -50%) scale(.96);
+    }
+
+    50% {
+        opacity: .65;
+        transform: translate(-50%, -50%) scale(1.04);
+    }
+}
+
+/* Stationary circular tracks */
+
+.diva-orbit-tracks,
+.diva-orbit-animation {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: visible;
+    pointer-events: none;
+}
+
+.diva-orbit-tracks {
+    z-index: 1;
+}
+
+.diva-orbit-animation {
+    z-index: 3;
+}
+
+/* =========================================
+   360 DEGREE TRAVELING LIGHT
+========================================= */
+
+.diva-tracer-arm {
+    transform-origin: 110px 110px;
+
+    animation: divaOrbitTraveler 3.5s cubic-bezier(.4, 0, .2, 1) infinite;
+
+    will-change: transform, opacity;
+}
+
+@keyframes divaOrbitTraveler {
+    0%, 8.57% {
+        transform: rotate(0deg);
+        opacity: 0;
+    }
+
+    9.5% {
+        opacity: 1;
+    }
+
+    70.5% {
+        opacity: 1;
+    }
+
+    71.43% {
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   LOGO MEDALLION
+========================================= */
+
+.diva-logo-medallion {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 160px;
+    height: 160px;
+
+    overflow: hidden;
+    border-radius: 50%;
+
+    animation: divaLogoBloom 3.5s ease-out infinite;
+}
+
+.diva-logo-medallion img {
+    display: block;
+
+    width: 160px;
+    height: 160px;
+
+    object-fit: contain;
+    object-position: center;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Logo glow */
+
+@keyframes divaLogoBloom {
+    0%, 71.4% {
+        filter: drop-shadow(0 4px 16px rgba(38, 34, 31, .06));
+    }
+
+    73.5% {
+        filter:
+            drop-shadow(0 0 20px rgba(212, 175, 125, .45))
+            drop-shadow(0 4px 16px rgba(38, 34, 31, .08));
+    }
+
+    78.57%, 100% {
+        filter: drop-shadow(0 4px 16px rgba(38, 34, 31, .06));
+    }
+}
+
+/* Logo sheen */
+
+.diva-logo-sheen {
+    position: absolute;
+    top: 25%;
+    left: -60%;
+
+    width: 220%;
+    height: 56px;
+
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255, 255, 255, .55),
+        transparent
+    );
+
+    pointer-events: none;
+
+    animation: divaEmblemSheen 3.5s cubic-bezier(.16, 1, .3, 1) infinite;
+}
+
+@keyframes divaEmblemSheen {
+    0%, 71.4% {
+        opacity: 0;
+        transform: rotate(-35deg) translateY(160%);
+    }
+
+    73.2% {
+        opacity: .55;
+        transform: rotate(-35deg) translateY(0%);
+    }
+
+    76.5% {
+        opacity: .3;
+        transform: rotate(-35deg) translateY(-80%);
+    }
+
+    79%, 100% {
+        opacity: 0;
+        transform: rotate(-35deg) translateY(-160%);
+    }
+}
+
+/* =========================================
+   APEX DIAMOND SPARKLE
+========================================= */
+
+.diva-apex-sparkle {
+    position: absolute;
+    top: 30px;
+    left: 110px;
+
+    z-index: 5;
+
+    width: 56px;
+    height: 56px;
+
+    pointer-events: none;
+
+    animation: divaApexFlash 3.5s cubic-bezier(.16, 1, .3, 1) infinite;
+}
+
+.diva-apex-sparkle svg {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    transform: translate(-50%, -50%);
+}
+
+@keyframes divaApexFlash {
+    0%, 71.42% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.2) rotate(0deg);
+        filter: blur(1px);
+    }
+
+    72.8% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.25) rotate(45deg);
+        filter:
+            drop-shadow(0 0 12px rgba(255, 252, 240, 1))
+            drop-shadow(0 0 24px rgba(214, 168, 118, .85));
+    }
+
+    75% {
+        opacity: .9;
+        transform: translate(-50%, -50%) scale(1.05) rotate(90deg);
+    }
+
+    78.57% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.4) rotate(135deg);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.2) rotate(180deg);
+    }
+}
+
+/* =========================================
+   BRANDING
+========================================= */
+
+.diva-loading-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 32px;
+
+    text-align: center;
+}
+
+.diva-loading-brand h1 {
+    margin: 0 0 12px;
+    padding-left: .38em;
+
+    color: #26221F;
+
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1;
+
+    letter-spacing: .38em;
+}
+
+.diva-brand-subtitle {
+    margin: 0 0 20px;
+    padding-left: .24em;
+
+    color: #817970;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    letter-spacing: .24em;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   DECORATIVE DIVIDER
+========================================= */
+
+.diva-loading-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 192px;
+    margin-bottom: 26px;
+}
+
+.diva-loading-divider span {
+    flex: 1;
+    height: .75px;
+}
+
+.diva-loading-divider span:first-child {
+    background: linear-gradient(
+        to right,
+        transparent,
+        #D5C9BD,
+        #B3937C
+    );
+}
+
+.diva-loading-divider span:last-child {
+    background: linear-gradient(
+        to left,
+        transparent,
+        #D5C9BD,
+        #B3937C
+    );
+}
+
+.diva-loading-divider svg {
+    width: 10px;
+    height: 10px;
+
+    margin: 0 14px;
+
+    fill: #B3937C;
+}
+
+/* =========================================
+   LOADING STATUS
+========================================= */
+
+.diva-loading-status {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 320px;
+    height: 24px;
+
+    overflow: hidden;
+}
+
+.diva-loading-status span {
+    display: block;
+
+    color: #817970;
+
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 400;
+
+    letter-spacing: .06em;
+
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(3px);
+
+    transition:
+        opacity .7s ease,
+        transform .7s ease,
+        filter .7s ease;
+}
+
+.diva-loading-status span.visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+========================================= */
+
+@media (max-width: 480px) {
+    .diva-emblem-wrapper {
+        transform: scale(.9);
+    }
+
+    .diva-loading-brand {
+        margin-top: 22px;
+    }
+
+    .diva-loading-brand h1 {
+        font-size: 26px;
+    }
+
+    .diva-brand-subtitle {
+        font-size: 8px;
+        letter-spacing: .2em;
+    }
+
+    .diva-loading-status {
+        width: 290px;
+    }
+
+    .diva-loading-status span {
+        font-size: 14px;
+    }
+}
+
+/* =========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .diva-tracer-arm,
+    .diva-apex-sparkle,
+    .diva-logo-sheen,
+    .diva-ambient-glow,
+    .diva-logo-medallion {
+        animation: none !important;
+    }
+
+    .diva-loading-status span {
+        transition: none;
+    }
+}
+
