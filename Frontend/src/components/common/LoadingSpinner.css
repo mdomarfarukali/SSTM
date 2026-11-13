@@ -516,3 +516,268 @@
     }
 }
 
+
+
+/* +++++++++++++++++++++++++++ */
+
+
+
+/* =========================================
+   FINAL DIAMOND BRILLIANCE EFFECT
+========================================= */
+
+.jewel-flare {
+    position: absolute;
+    top: 30px;
+    left: 110px;
+
+    z-index: 20;
+
+    width: 48px;
+    height: 48px;
+
+    pointer-events: none;
+
+    transform: translate(-50%, -50%);
+
+    animation: jewelBrilliance 3.5s ease-out infinite;
+
+    will-change: transform, opacity, filter;
+}
+
+.jewel-flare svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/* Final diamond flash */
+
+/* @keyframes jewelBrilliance {
+    0%, 93% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+        filter: none;
+    }
+
+    96% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.15) rotate(45deg);
+
+        filter:
+            drop-shadow(0 0 10px rgba(255, 248, 233, 0.95))
+            drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+    }
+
+    99% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1) rotate(90deg);
+
+        filter:
+            drop-shadow(0 0 8px rgba(255, 248, 233, 0.9))
+            drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.4) rotate(120deg);
+        filter: none;
+    }
+} */
+
+/* 
+@keyframes jewelBrilliance {
+  0%, 10% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+    filter: none;
+  }
+
+  35% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15) rotate(45deg);
+    filter:
+      drop-shadow(0 0 10px rgba(255, 248, 233, 0.95))
+      drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1) rotate(90deg);
+    filter:
+      drop-shadow(0 0 8px rgba(255, 248, 233, 0.9))
+      drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+  }
+
+  65%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4) rotate(120deg);
+    filter: none;
+  }
+} */
+
+
+
+/* Ambient pulsation */
+@keyframes ambientBreath {
+  0%, 100% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+.ambient-aurora {
+  animation: ambientBreath 4.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 360-degree orbital sweep */
+@keyframes orbitSweep {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  2.5% {
+    opacity: 1;
+  }
+  63% {
+    opacity: 1;
+  }
+  64.7% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.tracer-orbit {
+  animation: orbitSweep 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 110px 110px;
+  will-change: transform, opacity;
+}
+
+/* Diamond brilliance */
+@keyframes jewelBrilliance {
+  0%, 93% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+  }
+  96% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15) rotate(45deg);
+    filter:
+      drop-shadow(0 0 10px rgba(255, 248, 233, 0.95))
+      drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+  }
+  99% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1) rotate(90deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4) rotate(120deg);
+  }
+}
+
+.jewel-flare {
+  animation: jewelBrilliance 3.5s ease-out infinite;
+  will-change: transform, opacity, filter;
+}
+
+/* Medallion sheen */
+@keyframes medallionGleam {
+  0%, 94% {
+    opacity: 0;
+    transform: rotate(-30deg) translateY(120%);
+  }
+  96.5% {
+    opacity: 0.35;
+    transform: rotate(-30deg) translateY(-20%);
+  }
+  99%, 100% {
+    opacity: 0;
+    transform: rotate(-30deg) translateY(-140%);
+  }
+}
+
+.medallion-sheen {
+  animation: medallionGleam 4.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Status text crossfade */
+@keyframes messageCycle {
+  0%, 20% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  22%, 25% {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(3px);
+  }
+  26% {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(3px);
+  }
+  29%, 45% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  47%, 50% {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(3px);
+  }
+  51% {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(3px);
+  }
+  54%, 70% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  72%, 75% {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(3px);
+  }
+  76% {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(3px);
+  }
+  79%, 96% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  98%, 100% {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(3px);
+  }
+}
+
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    .jewel-flare {
+        animation: none;
+        opacity: 0;
+    }
+}

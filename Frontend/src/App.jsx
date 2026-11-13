@@ -11,7 +11,6 @@ import ForgetPassword from './pages/auth/ForgotPassword.jsx';
 import ResetPassword from './pages/auth/ResetPassword.jsx';
 
 import Products from "./pages/Products";
-// import ProductDetail from "./pages/_ProductDetail";
 import ProductDetail from "./pages/ProductDetails/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -33,14 +32,9 @@ import HelpCenter from "./pages/HelpCenter";
 
 // --- NEW USER ACCOUNT PAGES (Needed for Nested Routing) ---
 import UserDashboard from "./pages/UserDashboard"; // The main account layout/sidebar
-// import OrderHistory from "./pages/OrderHistory"; // The list of orders
-// import OrderDetails from "./pages/OrderDetails"; // Details for a single order
-// import UserAddress from "./pages/user/UserAddress";
-// import UserProfile from "./pages/user/UserProfile";
 
 // --- ADMIN PAGES ---
 import AdminRoutes from "./pages/admin/AdminRoutes";
-// import AdminDashboard from "./pages/admin/AdminRoutes";
 
 // Login protection for user account routes
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -48,7 +42,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import UploadImage from "./components/UploadImage.jsx";
 
 import ScrollToTop from "./components/common/ScrollToTop.jsx";
-// import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
+import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -108,6 +102,7 @@ function App() {
 
                 {/* Home, Products, Product Detail (Direct Routes) */}
                 <Route element={<PageLayout />}>
+                    <Route path="/loading" element={<LoadingSpinner />} />
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Register />} />
